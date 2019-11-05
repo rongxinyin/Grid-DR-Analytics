@@ -44,6 +44,13 @@ for item in model_params:
         shutil.copyfile(idf_output, idf_file)
     else:
         print('''in.idf doesn't exist.''')
+    # Copy the in.osm to the eplus output folder
+    osm_output = file_path + '/osw_output/run/in.osm'
+    osm_file = file_path + '/osw_output/eplus/{}.osm'.format(item['BaseModelId'])
+    if os.path.exists(osm_output):
+        shutil.copyfile(osm_output, osm_file)
+    else:
+        print('''in.osm doesn't exist.''')
     print('Done.')
 
 
