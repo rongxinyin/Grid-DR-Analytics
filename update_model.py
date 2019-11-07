@@ -10,6 +10,12 @@ def create_prototype_measure(params):
     output['arguments']['climate_zone'] = params.get('climate_zone')
     return output
 
+def create_timestep_measure(params):
+    output = dict()
+    output.update({'measure_dir_name': 'SetTimestep'})
+    output['arguments']={}
+    output['arguments']['timestep'] = params.get('time_step')
+    return output
 
 def create_rvalue_measure(params):
     output = dict()

@@ -12,7 +12,7 @@ with open("config.ini", 'r') as f:
 file_path = os.getcwd()
 
 # Dump model parameters to json file
-fieldnames = ("BaseModelId", "bldg_type", "bldg_vintage", "climate_zone")
+fieldnames = ("BaseModelId", "bldg_type", "bldg_vintage", "climate_zone", "time_step")
 with open('medium_office.csv', 'r') as f:
     reader = csv.DictReader(f, fieldnames)
     next(reader)
@@ -30,6 +30,7 @@ with open('model_paras.json', 'r') as f:
 for item in model_params:
     new_osw = copy.deepcopy(model_template)
     new_osw['steps'].append(create_prototype_measure(item))
+    new_osw['steps'].append(create_timestep_measure(item))
     with open('osw_output/{}.osw'.format(item['BaseModelId']), 'w') as f:
         f.write(json.dumps(new_osw))
 
