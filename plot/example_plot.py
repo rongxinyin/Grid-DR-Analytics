@@ -17,32 +17,36 @@ hvac_tstat = [70,71,72,73,74,75,76]
 # DF measure parameters for GTA and lighting
 event_start = list(range(6,22)) # 6am to 10pm
 event_hours = [2,4,6]
-precool_hours = [4,6]
-precool_degF = [0,2]
+precool_hours = [2,4,6]
+precool_degF = [0,2,4]
 reset_degF = [0,2,4,6]
 
 # a = itertools.product(*[BldgType, BldgVint])
 # print(list(a))
-
-# with open('df_model_list.csv', 'w') as csvfile:
-#     writer = csv.writer(csvfile, delimiter=',')
-#     writer.writerow(['model_Id','hvac_tstat','event_start','event_hours','precool_hours','precool_degF','reset_degF'])
-#     for tstat in hvac_tstat:
-#         for eventStart in event_start:
-#             for eventHours in event_hours:
-#                 if (eventStart + eventHours) <= 22:
-#                     for precoolHours in precool_hours:
-#                         for precool in precool_degF:
-#                             for reset in reset_degF:
-#                                 if (tstat + reset) <= 80:
-#                                     measureID = 'DF_{}_{}_{}_{}_{}_{}'.format(tstat, eventStart, eventHours,
-#                                                                               precool_hours, precool, reset)
-#                                     writer.writerow([measureID,tstat, eventStart, eventHours, precoolHours,
-#                                                      precool, reset])
-#                                 else:
-#                                     pass
-#                 else:
-#                     pass
+#
+with open('df_model_list.csv', 'w') as csvfile:
+    writer = csv.writer(csvfile, delimiter=',')
+    writer.writerow(
+        ['model_Id', 'hvac_tstat', 'event_start', 'event_hours', 'precool_hours', 'precool_degF', 'reset_degF'])
+    for tstat in hvac_tstat:
+        for eventStart in event_start:
+            for eventHours in event_hours:
+                if (eventStart + eventHours) <= 22:
+                    for precoolHours in precool_hours:
+                        for precool in precool_degF:
+                            if (tstat - precool) >= 70:
+                                for reset in reset_degF:
+                                    if (tstat + reset) <= 80:
+                                        measureID = 'DF_{}_{}_{}_{}_{}_{}'.format(tstat, eventStart, eventHours,
+                                                                                  precool_hours, precool, reset)
+                                        writer.writerow([measureID, tstat, eventStart, eventHours, precoolHours,
+                                                         precool, reset])
+                                    else:
+                                        pass
+                            else:
+                                pass
+                else:
+                    pass
 
 # with open('df_model_list.csv', 'w') as csvfile:
 #     writer = csv.writer(csvfile, delimiter=',')
@@ -53,18 +57,18 @@ reset_degF = [0,2,4,6]
 #                 model_Id = 'model_{}_{}_{}'.format(bldg, vint, loc)
 #                 writer.writerow([model_Id, bldg, vint, loc])
 #
-# def bldg_type_to_number(argument):
-#     switcher = {'SmallOffice':1,'MediumOffice':2,'LargeOffice':3,'SmallRetail':4,'MediumRetail':5}
-#     return switcher.get(argument, "nothing")
-#
-# def bldg_vintage_to_number(argument):
-#     switcher = {'pre1980':1,'post1980':2,'2004':3,'2010':4,'2016':5}
-#     return switcher.get(argument, "nothing")
-#
-# def climate_to_number(argument):
-#     switcher = {'2A':1,'2B':2,'3A':3,'3B':4,'4A':5}
-#     return switcher.get(argument, "nothing")
-#
+def bldg_type_to_number(argument):
+    switcher = {'SmallOffice':1,'MediumOffice':2,'LargeOffice':3,'SmallRetail':4,'MediumRetail':5}
+    return switcher.get(argument, "nothing")
+
+def bldg_vintage_to_number(argument):
+    switcher = {'pre1980':1,'post1980':2,'2004':3,'2010':4,'2016':5}
+    return switcher.get(argument, "nothing")
+
+def climate_to_number(argument):
+    switcher = {'2A':1,'2B':2,'3A':3,'3B':4,'4A':5}
+    return switcher.get(argument, "nothing")
+
 def tstat_to_number(argument):
     switcher = {
         70: 1,
@@ -142,15 +146,15 @@ def reset_deg_to_number(argument):
 #         dict(range=[1, 5],
 #              # constraintrange = [1,2], # change this range by dragging the pink line
 #              tickvals=[1, 2, 3, 4, 5],
-#              label='Building Type', values=df['bldg_type'],
+#              label='Building Type ( X 5)', values=df['bldg_type'],
 #              ticktext=['Small Office', 'Medium Office', 'Large Office','Small Retail', 'Medium-Large Retail']),
 #         dict(range=[1, 5],
 #              tickvals=[1, 2, 3, 4, 5],
-#              label='Building Vintage', values=df['bldg_vintage'],
+#              label='Building Vintage ( X 5)', values=df['bldg_vintage'],
 #              ticktext=['Pre-1980', '1980-2004', '90.1-2004', '90.1-2010', '90.1-2016']),
 #         dict(range=[1, 5],
 #              tickvals=[1, 2, 3, 4, 5],
-#              label='Climate Zone', values=df['climate'],
+#              label='Climate Zone ( X 5)', values=df['climate'],
 #              ticktext=['2A (Hot-Humid)', '2B (Hot-Dry)', '3A (Warm-Humid)', '3B (Warm-Dry)', '4A (Mixed–Humid)'])
 #     ])
 # )
@@ -159,7 +163,7 @@ def reset_deg_to_number(argument):
 #     autosize=False,
 #     width=1000,
 #     height=600,
-#     title="Prototype building model types, vintages, and climates",
+#     # title="Prototype building model types, vintages, and climates",
 #     font=dict(
 #         size=16,
 #         color="#7f7f7f",
@@ -197,39 +201,45 @@ def reset_deg_to_number(argument):
 # plotly.offline.plot(data, image_filename='test', image='png',image_height=300, image_width=400)
 # fig.show()
 df = pd.read_csv("df_model_list.csv")
+print(len(df))
 # fig = go.Figure(data=
 # go.Parcoords(
 #     line=dict(color = df['hvac_tstat'],
 #               colorscale = [[1,'lightgray'],[0.5,'blue'],[0.5,'red']]),
 #     dimensions=list([
+#
 #         dict(range=[0, 23],
 #              # constraintrange = [1,2], # change this range by dragging the pink line
 #              tickvals=list(range(0,24)),
-#              label='Event Start', values=df['event_start'],
+#              label='Event Start (x16)', values=df['event_start'],
 #              ticktext=['0','1','2','3','4','5','6','7','8','9','10','11','12',
 #                        '13','14','15','16','17','18','19','20','21','22','23']),
 #         dict(range=[2,6],
 #              tickvals=[2,4,6],
-#              label='Event Hours', values=df['event_hours'],
+#              label='Event Hours (x3)', values=df['event_hours'],
 #              ticktext=['2','4','6']),
-#         dict(range=[4, 6],
-#              tickvals=[4,6],
-#              label='Precooling Hours', values=df['precool_hours'],
-#              ticktext=['4', '6']),
-#         dict(range=[0, 2],
-#              tickvals=[0,2],
-#              label='Precooling Degrees', values=df['precool_degF'],
-#              ticktext=['0', '-2F']),
+#         dict(range=[2,6],
+#              tickvals=[2,4,6],
+#              label='Precooling Hours (x3)', values=df['precool_hours'],
+#              ticktext=['2','4', '6']),
+#         dict(range=[0,4],
+#              tickvals=[0,2,4],
+#              label='Precooling Degrees (x3)', values=df['precool_degF'],
+#              ticktext=['0', '-2F','-4F']),
+#         dict(range=[68,80],
+#              tickvals=[70,71,72,73,74,75,76],
+#              label='Cooling T-Stat (x3)', values=df['hvac_tstat'],
+#              ticktext=['70','71','72','73','74','75','76']),
 #         dict(range=[0, 6],
 #              tickvals=[0,2,4,6],
-#              label='Reset Degrees', values=df['reset_degF'],
+#              label='Reset Degrees (x4)', values=df['reset_degF'],
 #              ticktext=['0F', '2F','4F','6F'])
 #     ])
 # )
 # )
 # fig.update_layout(
 #     autosize=False,
-#     width=1000,
+#     width=1200,
 #     height=600,
 #     font=dict(
 #         size=16,
@@ -245,4 +255,4 @@ df = pd.read_csv("df_model_list.csv")
 #     # paper_bgcolor="LightSteelBlue",
 # )
 # fig.show()
-print(len(df))
+# print(len(df))
