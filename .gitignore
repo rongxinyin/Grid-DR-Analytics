@@ -1,0 +1,23 @@
+*~
+*.pyc
+.DS_Store
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+.cache/
+.pytest_cache
+
+# Sphinx documentation
+docs/_build/
+
+# Miscellaneous
+.vscode/
+SyncToy*.dat
+
+# Testing outputs
+model_paras.json
+osw_output/*
+!osw_output/measures
+generate_baseline_model_local.py
+parametric_analysis/osw
+parametric_analysis/osm
