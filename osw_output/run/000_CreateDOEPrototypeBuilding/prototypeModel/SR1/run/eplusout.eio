@@ -1,0 +1,477 @@
+Program Version,EnergyPlus, Version 9.1.0-08d2e308bb, YMD=2019.11.20 10:32
+! <Version>, Version ID
+ Version, 9.1
+! <Timesteps per Hour>, #TimeSteps, Minutes per TimeStep {minutes}
+ Timesteps per Hour,  6, 10
+! <System Convergence Limits>, Minimum System TimeStep {minutes}, Max HVAC Iterations, Minimum Plant Iterations, Maximum Plant Iterations
+ System Convergence Limits, 2, 25, 2, 8
+! <Simulation Control>, Do Zone Sizing, Do System Sizing, Do Plant Sizing, Do Design Days, Do Weather Simulation, Do HVAC Sizing Simulation
+ Simulation Control, Yes, Yes, Yes, Yes, No, No
+! <Output Reporting Tolerances>, Tolerance for Time Heating Setpoint Not Met, Tolerance for Zone Cooling Setpoint Not Met Time
+ Output Reporting Tolerances, 0.200, 0.200, 
+! <Site:GroundTemperature:BuildingSurface>,Jan{C},Feb{C},Mar{C},Apr{C},May{C},Jun{C},Jul{C},Aug{C},Sep{C},Oct{C},Nov{C},Dec{C}
+ Site:GroundTemperature:BuildingSurface,  20.62,  20.61,  20.70,  20.75,  20.89,  23.14,  23.54,  23.59,  23.58,  21.32,  20.90,  20.72
+! <Site:GroundTemperature:FCfactorMethod>,Jan{C},Feb{C},Mar{C},Apr{C},May{C},Jun{C},Jul{C},Aug{C},Sep{C},Oct{C},Nov{C},Dec{C}
+ Site:GroundTemperature:FCfactorMethod,  12.55,   9.29,   8.40,   9.17,  13.57,  18.50,  23.14,  26.49,  27.47,  25.90,  22.10,  17.31
+! <Site:GroundTemperature:Shallow>,Jan{C},Feb{C},Mar{C},Apr{C},May{C},Jun{C},Jul{C},Aug{C},Sep{C},Oct{C},Nov{C},Dec{C}
+ Site:GroundTemperature:Shallow,  13.00,  13.00,  13.00,  13.00,  13.00,  13.00,  13.00,  13.00,  13.00,  13.00,  13.00,  13.00
+! <Site:GroundTemperature:Deep>,Jan{C},Feb{C},Mar{C},Apr{C},May{C},Jun{C},Jul{C},Aug{C},Sep{C},Oct{C},Nov{C},Dec{C}
+ Site:GroundTemperature:Deep,  16.00,  16.00,  16.00,  16.00,  16.00,  16.00,  16.00,  16.00,  16.00,  16.00,  16.00,  16.00
+! <Site:GroundReflectance>,Jan{dimensionless},Feb{dimensionless},Mar{dimensionless},Apr{dimensionless},May{dimensionless},Jun{dimensionless},Jul{dimensionless},Aug{dimensionless},Sep{dimensionless},Oct{dimensionless},Nov{dimensionless},Dec{dimensionless}
+ Site:GroundReflectance,  0.20,  0.20,  0.20,  0.20,  0.20,  0.20,  0.20,  0.20,  0.20,  0.20,  0.20,  0.20
+! <Site:GroundReflectance:SnowModifier>, Normal, Daylighting {dimensionless}
+ Site:GroundReflectance:SnowModifier,   1.000,   1.000
+! <Site:GroundReflectance:Snow>,Jan{dimensionless},Feb{dimensionless},Mar{dimensionless},Apr{dimensionless},May{dimensionless},Jun{dimensionless},Jul{dimensionless},Aug{dimensionless},Sep{dimensionless},Oct{dimensionless},Nov{dimensionless},Dec{dimensionless}
+ Site:GroundReflectance:Snow,  0.20,  0.20,  0.20,  0.20,  0.20,  0.20,  0.20,  0.20,  0.20,  0.20,  0.20,  0.20
+! <Site:GroundReflectance:Snow:Daylighting>,Jan{dimensionless},Feb{dimensionless},Mar{dimensionless},Apr{dimensionless},May{dimensionless},Jun{dimensionless},Jul{dimensionless},Aug{dimensionless},Sep{dimensionless},Oct{dimensionless},Nov{dimensionless},Dec{dimensionless}
+ Site:GroundReflectance:Snow:Daylighting,  0.20,  0.20,  0.20,  0.20,  0.20,  0.20,  0.20,  0.20,  0.20,  0.20,  0.20,  0.20
+! <Environment:Weather Station>,Wind Sensor Height Above Ground {m},Wind Speed Profile Exponent {},Wind Speed Profile Boundary Layer Thickness {m},Air Temperature Sensor Height Above Ground {m},Wind Speed Modifier Coefficient-Internal,Temperature Modifier Coefficient-Internal
+Environment:Weather Station,10.000,0.140,270.000,1.500,1.586,9.750E-003
+! <Site:Location>, Location Name, Latitude {N+/S- Deg}, Longitude {E+/W- Deg},  Time Zone Number {GMT+/-}, Elevation {m},  Standard Pressure at Elevation {Pa}, Standard RhoAir at Elevation
+Site:Location,El Paso International Ap  Ut TX USA TMY3 WMO#=722700,31.77,-106.50,-7.00,1186.00,87865,1.0443
+! <Site Water Mains Temperature Information>,Calculation Method{},Water Mains Temperature Schedule Name{},Annual Average Outdoor Air Temperature{C},Maximum Difference In Monthly Average Outdoor Air Temperatures{deltaC},Fixed Default Water Mains Temperature{C}
+Site Water Mains Temperature Information,Correlation,NA,17.94,21.10,NA
+! <Building Information>, Building Name,North Axis {deg},Terrain,  Loads Convergence Tolerance Value,Temperature Convergence Tolerance Value,  Solar Distribution,Maximum Number of Warmup Days,Minimum Number of Warmup Days
+ Building Information,-MediumOffice-ASHRAE 169-2006-3B created: 2019-11-20 10:32:23 -0800,0.000,City,4.00000E-002,0.20000,FullInteriorAndExterior,25,6
+! <Inside Convection Algorithm>, Algorithm {Simple | TARP | CeilingDiffuser | AdaptiveConvectionAlgorithm}
+Inside Convection Algorithm,TARP
+! <Outside Convection Algorithm>, Algorithm {SimpleCombined | TARP | MoWitt | DOE-2 | AdaptiveConvectionAlgorithm}
+Outside Convection Algorithm,TARP
+! <Sky Radiance Distribution>, Value {Anisotropic}
+Sky Radiance Distribution,Anisotropic
+! <Zone Air Solution Algorithm>, Value {ThirdOrderBackwardDifference | AnalyticalSolution | EulerMethod}
+ Zone Air Solution Algorithm, ThirdOrderBackwardDifference
+! <Zone Air Carbon Dioxide Balance Simulation>, Simulation {Yes/No}, Carbon Dioxide Concentration
+ Zone Air Carbon Dioxide Balance Simulation, No,N/A
+! <Zone Air Generic Contaminant Balance Simulation>, Simulation {Yes/No}, Generic Contaminant Concentration
+ Zone Air Generic Contaminant Balance Simulation, No,N/A
+! <Zone Air Mass Flow Balance Simulation>, Enforce Mass Balance, Adjust Zone Mixing, Adjust Zone Infiltration {AddInfiltration | AdjustInfiltration | None}, Infiltration Zones {MixingSourceZonesOnly | AllZones}
+ Zone Air Mass Flow Balance Simulation, No,N/A,N/A,N/A
+! <HVACSystemRootFindingAlgorithm>, Value {RegulaFalsi | Bisection | BisectionThenRegulaFalsi | RegulaFalsiThenBisection}
+ HVACSystemRootFindingAlgorithm, RegulaFalsi
+! <Environment:Site Atmospheric Variation>,Wind Speed Profile Exponent {},Wind Speed Profile Boundary Layer Thickness {m},Air Temperature Gradient Coefficient {K/m}
+Environment:Site Atmospheric Variation,0.330,460.000,6.500000E-003
+! <Surface Geometry>,Starting Corner,Vertex Input Direction,Coordinate System,Daylight Reference Point Coordinate System,Rectangular (Simple) Surface Coordinate System
+ Surface Geometry,UpperLeftCorner,Counterclockwise,RelativeCoordinateSystem,RelativeCoordinateSystem,RelativeToZoneOrigin
+! <Surface Heat Transfer Algorithm>, Value {CTF - ConductionTransferFunction | EMPD - MoisturePenetrationDepthConductionTransferFunction | CondFD - ConductionFiniteDifference | HAMT - CombinedHeatAndMoistureFiniteElement} - Description,Inside Surface Max Temperature Limit{C}, Surface Convection Coefficient Lower Limit {W/m2-K}, Surface Convection Coefficient Upper Limit {W/m2-K}
+Surface Heat Transfer Algorithm, CTF - ConductionTransferFunction,200,0.10,1000.0
+! <Shading Summary>, Number of Fixed Detached Shades, Number of Building Detached Shades, Number of Attached Shades
+ Shading Summary,0,0,0
+! <Zone Summary>, Number of Zones, Number of Zone Surfaces, Number of SubSurfaces
+ Zone Summary,18,158,12
+! <Zone Information>,Zone Name,North Axis {deg},Origin X-Coordinate {m},Origin Y-Coordinate {m},Origin Z-Coordinate {m},Centroid X-Coordinate {m},Centroid Y-Coordinate {m},Centroid Z-Coordinate {m},Type,Zone Multiplier,Zone List Multiplier,Minimum X {m},Maximum X {m},Minimum Y {m},Maximum Y {m},Minimum Z {m},Maximum Z {m},Ceiling Height {m},Volume {m3},Zone Inside Convection Algorithm {Simple-Detailed-CeilingDiffuser-TrombeWall},Zone Outside Convection Algorithm {Simple-Detailed-Tarp-MoWitt-DOE-2-BLAST}, Floor Area {m2},Exterior Gross Wall Area {m2},Exterior Net Wall Area {m2},Exterior Window Area {m2}, Number of Surfaces, Number of SubSurfaces, Number of Shading SubSurfaces,  Part of Total Building Area
+ Zone Information, CORE_BOTTOM ZN,0.0,0.00,0.00,0.00,24.96,16.64,1.37,1,1,1,4.57,45.34,4.57,28.70,0.00,2.74,2.74,2698.04,TARP,TARP,983.54,0.00,0.00,0.00,6,0,0,Yes
+ Zone Information, CORE_MID ZN,0.0,0.00,0.00,0.00,24.96,16.64,5.33,1,1,1,4.57,45.34,4.57,28.70,3.96,6.71,2.74,2698.04,TARP,TARP,983.54,0.00,0.00,0.00,6,0,0,Yes
+ Zone Information, CORE_TOP ZN,0.0,0.00,0.00,0.00,24.96,16.64,9.30,1,1,1,4.57,45.34,4.57,28.70,7.92,10.67,2.74,2698.04,TARP,TARP,983.54,0.00,0.00,0.00,6,0,0,Yes
+ Zone Information, FIRSTFLOOR_PLENUM ZN,0.0,0.00,0.00,0.00,24.96,16.64,3.35,1,1,1,0.00,49.91,0.00,33.27,2.74,3.96,1.22,2024.76,TARP,TARP,1660.73,202.84,202.84,0.00,14,0,0,No
+ Zone Information, MIDFLOOR_PLENUM ZN,0.0,0.00,0.00,0.00,24.96,16.64,7.32,1,1,1,0.00,49.91,0.00,33.27,6.71,7.92,1.22,2024.76,TARP,TARP,1660.73,202.84,202.84,0.00,14,0,0,No
+ Zone Information, PERIMETER_BOT_ZN_1 ZN,0.0,0.00,0.00,0.00,24.96,2.16,1.37,1,1,1,0.00,49.91,0.00,4.57,0.00,2.74,2.74,568.77,TARP,TARP,207.34,136.92,71.63,65.28,6,1,0,Yes
+ Zone Information, PERIMETER_BOT_ZN_2 ZN,0.0,0.00,0.00,0.00,47.82,16.64,1.37,1,1,1,45.34,49.91,0.00,33.27,0.00,2.74,2.74,360.08,TARP,TARP,131.26,91.28,47.75,43.52,6,1,0,Yes
+ Zone Information, PERIMETER_BOT_ZN_3 ZN,0.0,0.00,0.00,0.00,24.96,31.11,1.37,1,1,1,0.00,49.91,28.70,33.27,0.00,2.74,2.74,568.77,TARP,TARP,207.34,136.92,71.63,65.28,6,1,0,Yes
+ Zone Information, PERIMETER_BOT_ZN_4 ZN,0.0,0.00,0.00,0.00,2.09,16.64,1.37,1,1,1,0.00,4.57,0.00,33.27,0.00,2.74,2.74,360.05,TARP,TARP,131.25,91.28,47.75,43.52,6,1,0,Yes
+ Zone Information, PERIMETER_MID_ZN_1 ZN,0.0,0.00,0.00,0.00,24.96,2.16,5.33,1,1,1,0.00,49.91,0.00,4.57,3.96,6.71,2.74,568.77,TARP,TARP,207.34,136.92,71.63,65.28,6,1,0,Yes
+ Zone Information, PERIMETER_MID_ZN_2 ZN,0.0,0.00,0.00,0.00,47.82,16.64,5.33,1,1,1,45.34,49.91,0.00,33.27,3.96,6.71,2.74,360.08,TARP,TARP,131.26,91.28,47.75,43.52,6,1,0,Yes
+ Zone Information, PERIMETER_MID_ZN_3 ZN,0.0,0.00,0.00,0.00,24.96,31.11,5.33,1,1,1,0.00,49.91,28.70,33.27,3.96,6.71,2.74,568.77,TARP,TARP,207.34,136.92,71.63,65.28,6,1,0,Yes
+ Zone Information, PERIMETER_MID_ZN_4 ZN,0.0,0.00,0.00,0.00,2.09,16.64,5.33,1,1,1,0.00,4.57,0.00,33.27,3.96,6.71,2.74,360.05,TARP,TARP,131.25,91.28,47.75,43.52,6,1,0,Yes
+ Zone Information, PERIMETER_TOP_ZN_1 ZN,0.0,0.00,0.00,0.00,24.96,2.16,9.30,1,1,1,0.00,49.91,0.00,4.57,7.92,10.67,2.74,568.77,TARP,TARP,207.34,136.92,71.63,65.28,6,1,0,Yes
+ Zone Information, PERIMETER_TOP_ZN_2 ZN,0.0,0.00,0.00,0.00,47.82,16.64,9.30,1,1,1,45.34,49.91,0.00,33.27,7.92,10.67,2.74,360.08,TARP,TARP,131.26,91.28,47.75,43.52,6,1,0,Yes
+ Zone Information, PERIMETER_TOP_ZN_3 ZN,0.0,0.00,0.00,0.00,24.96,31.11,9.30,1,1,1,0.00,49.91,28.70,33.27,7.92,10.67,2.74,568.77,TARP,TARP,207.34,136.92,71.63,65.28,6,1,0,Yes
+ Zone Information, PERIMETER_TOP_ZN_4 ZN,0.0,0.00,0.00,0.00,2.09,16.64,9.30,1,1,1,0.00,4.57,0.00,33.27,7.92,10.67,2.74,360.05,TARP,TARP,131.25,91.28,47.75,43.52,6,1,0,Yes
+ Zone Information, TOPFLOOR_PLENUM ZN,0.0,0.00,0.00,0.00,24.96,16.64,11.28,1,1,1,0.00,49.91,0.00,33.27,10.67,11.89,1.22,2024.76,TARP,TARP,1660.73,202.84,202.84,0.00,10,0,0,No
+! <Zone Internal Gains Nominal>,Zone Name, Floor Area {m2},# Occupants,Area per Occupant {m2/person},Occupant per Area {person/m2},Interior Lighting {W/m2},Electric Load {W/m2},Gas Load {W/m2},Other Load {W/m2},Hot Water Eq {W/m2},Steam Equipment {W/m2},Sum Loads per Area {W/m2},Outdoor Controlled Baseboard Heat
+ Zone Internal Gains Nominal, CORE_BOTTOM ZN,983.54,52.9,18.581,5.382E-002,9.688,40.938,0.000,0.000,0.000,0.000,50.626,No
+ Zone Internal Gains Nominal, CORE_MID ZN,983.54,52.9,18.581,5.382E-002,9.688,8.073,0.000,0.000,0.000,0.000,17.760,No
+ Zone Internal Gains Nominal, CORE_TOP ZN,983.54,52.9,18.581,5.382E-002,9.688,8.073,0.000,0.000,0.000,0.000,17.760,No
+ Zone Internal Gains Nominal, FIRSTFLOOR_PLENUM ZN,1660.73,0.0,N/A,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,No
+ Zone Internal Gains Nominal, MIDFLOOR_PLENUM ZN,1660.73,0.0,N/A,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,No
+ Zone Internal Gains Nominal, PERIMETER_BOT_ZN_1 ZN,207.34,11.2,18.581,5.382E-002,9.688,8.073,0.000,0.000,0.000,0.000,17.760,No
+ Zone Internal Gains Nominal, PERIMETER_BOT_ZN_2 ZN,131.26,7.1,18.581,5.382E-002,9.688,8.073,0.000,0.000,0.000,0.000,17.760,No
+ Zone Internal Gains Nominal, PERIMETER_BOT_ZN_3 ZN,207.34,11.2,18.581,5.382E-002,9.688,8.073,0.000,0.000,0.000,0.000,17.760,No
+ Zone Internal Gains Nominal, PERIMETER_BOT_ZN_4 ZN,131.25,7.1,18.581,5.382E-002,9.688,8.073,0.000,0.000,0.000,0.000,17.760,No
+ Zone Internal Gains Nominal, PERIMETER_MID_ZN_1 ZN,207.34,11.2,18.581,5.382E-002,9.688,8.073,0.000,0.000,0.000,0.000,17.760,No
+ Zone Internal Gains Nominal, PERIMETER_MID_ZN_2 ZN,131.26,7.1,18.581,5.382E-002,9.688,8.073,0.000,0.000,0.000,0.000,17.760,No
+ Zone Internal Gains Nominal, PERIMETER_MID_ZN_3 ZN,207.34,11.2,18.581,5.382E-002,9.688,8.073,0.000,0.000,0.000,0.000,17.760,No
+ Zone Internal Gains Nominal, PERIMETER_MID_ZN_4 ZN,131.25,7.1,18.581,5.382E-002,9.688,8.073,0.000,0.000,0.000,0.000,17.760,No
+ Zone Internal Gains Nominal, PERIMETER_TOP_ZN_1 ZN,207.34,11.2,18.581,5.382E-002,9.688,8.073,0.000,0.000,0.000,0.000,17.760,No
+ Zone Internal Gains Nominal, PERIMETER_TOP_ZN_2 ZN,131.26,7.1,18.581,5.382E-002,9.688,8.073,0.000,0.000,0.000,0.000,17.760,No
+ Zone Internal Gains Nominal, PERIMETER_TOP_ZN_3 ZN,207.34,11.2,18.581,5.382E-002,9.688,8.073,0.000,0.000,0.000,0.000,17.760,No
+ Zone Internal Gains Nominal, PERIMETER_TOP_ZN_4 ZN,131.25,7.1,18.581,5.382E-002,9.688,8.073,0.000,0.000,0.000,0.000,17.760,No
+ Zone Internal Gains Nominal, TOPFLOOR_PLENUM ZN,1660.73,0.0,N/A,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,No
+! <People Internal Gains Nominal>,Name,Schedule Name,Zone Name,Zone Floor Area {m2},# Zone Occupants,Number of People {},People/Floor Area {person/m2},Floor Area per person {m2/person},Fraction Radiant,Fraction Convected,Sensible Fraction Calculation,Activity level,ASHRAE 55 Warnings,Carbon Dioxide Generation Rate,Nominal Minimum Number of People,Nominal Maximum Number of People
+ People Internal Gains Nominal, CORE_BOTTOM ZN OFFICE WHOLEBUILDING - MD OFFICE PEOPLE,OFFICEMEDIUM BLDG_OCC_SCH,CORE_BOTTOM ZN,983.54,52.9,52.9,5.382E-002,18.581,0.300,0.700,AutoCalculate,OFFICEMEDIUM ACTIVITY_SCH,No,3.8200E-008,0,53
+ People Internal Gains Nominal, CORE_MID ZN OFFICE WHOLEBUILDING - MD OFFICE PEOPLE,OFFICEMEDIUM BLDG_OCC_SCH,CORE_MID ZN,983.54,52.9,52.9,5.382E-002,18.581,0.300,0.700,AutoCalculate,OFFICEMEDIUM ACTIVITY_SCH,No,3.8200E-008,0,53
+ People Internal Gains Nominal, CORE_TOP ZN OFFICE WHOLEBUILDING - MD OFFICE PEOPLE,OFFICEMEDIUM BLDG_OCC_SCH,CORE_TOP ZN,983.54,52.9,52.9,5.382E-002,18.581,0.300,0.700,AutoCalculate,OFFICEMEDIUM ACTIVITY_SCH,No,3.8200E-008,0,53
+ People Internal Gains Nominal, PERIMETER_BOT_ZN_1 ZN OFFICE WHOLEBUILDING - MD OFFICE PEOPLE,OFFICEMEDIUM BLDG_OCC_SCH,PERIMETER_BOT_ZN_1 ZN,207.34,11.2,11.2,5.382E-002,18.581,0.300,0.700,AutoCalculate,OFFICEMEDIUM ACTIVITY_SCH,No,3.8200E-008,0,11
+ People Internal Gains Nominal, PERIMETER_BOT_ZN_2 ZN OFFICE WHOLEBUILDING - MD OFFICE PEOPLE,OFFICEMEDIUM BLDG_OCC_SCH,PERIMETER_BOT_ZN_2 ZN,131.26,7.1,7.1,5.382E-002,18.581,0.300,0.700,AutoCalculate,OFFICEMEDIUM ACTIVITY_SCH,No,3.8200E-008,0,7
+ People Internal Gains Nominal, PERIMETER_BOT_ZN_3 ZN OFFICE WHOLEBUILDING - MD OFFICE PEOPLE,OFFICEMEDIUM BLDG_OCC_SCH,PERIMETER_BOT_ZN_3 ZN,207.34,11.2,11.2,5.382E-002,18.581,0.300,0.700,AutoCalculate,OFFICEMEDIUM ACTIVITY_SCH,No,3.8200E-008,0,11
+ People Internal Gains Nominal, PERIMETER_BOT_ZN_4 ZN OFFICE WHOLEBUILDING - MD OFFICE PEOPLE,OFFICEMEDIUM BLDG_OCC_SCH,PERIMETER_BOT_ZN_4 ZN,131.25,7.1,7.1,5.382E-002,18.581,0.300,0.700,AutoCalculate,OFFICEMEDIUM ACTIVITY_SCH,No,3.8200E-008,0,7
+ People Internal Gains Nominal, PERIMETER_MID_ZN_1 ZN OFFICE WHOLEBUILDING - MD OFFICE PEOPLE,OFFICEMEDIUM BLDG_OCC_SCH,PERIMETER_MID_ZN_1 ZN,207.34,11.2,11.2,5.382E-002,18.581,0.300,0.700,AutoCalculate,OFFICEMEDIUM ACTIVITY_SCH,No,3.8200E-008,0,11
+ People Internal Gains Nominal, PERIMETER_MID_ZN_2 ZN OFFICE WHOLEBUILDING - MD OFFICE PEOPLE,OFFICEMEDIUM BLDG_OCC_SCH,PERIMETER_MID_ZN_2 ZN,131.26,7.1,7.1,5.382E-002,18.581,0.300,0.700,AutoCalculate,OFFICEMEDIUM ACTIVITY_SCH,No,3.8200E-008,0,7
+ People Internal Gains Nominal, PERIMETER_MID_ZN_3 ZN OFFICE WHOLEBUILDING - MD OFFICE PEOPLE,OFFICEMEDIUM BLDG_OCC_SCH,PERIMETER_MID_ZN_3 ZN,207.34,11.2,11.2,5.382E-002,18.581,0.300,0.700,AutoCalculate,OFFICEMEDIUM ACTIVITY_SCH,No,3.8200E-008,0,11
+ People Internal Gains Nominal, PERIMETER_MID_ZN_4 ZN OFFICE WHOLEBUILDING - MD OFFICE PEOPLE,OFFICEMEDIUM BLDG_OCC_SCH,PERIMETER_MID_ZN_4 ZN,131.25,7.1,7.1,5.382E-002,18.581,0.300,0.700,AutoCalculate,OFFICEMEDIUM ACTIVITY_SCH,No,3.8200E-008,0,7
+ People Internal Gains Nominal, PERIMETER_TOP_ZN_1 ZN OFFICE WHOLEBUILDING - MD OFFICE PEOPLE,OFFICEMEDIUM BLDG_OCC_SCH,PERIMETER_TOP_ZN_1 ZN,207.34,11.2,11.2,5.382E-002,18.581,0.300,0.700,AutoCalculate,OFFICEMEDIUM ACTIVITY_SCH,No,3.8200E-008,0,11
+ People Internal Gains Nominal, PERIMETER_TOP_ZN_2 ZN OFFICE WHOLEBUILDING - MD OFFICE PEOPLE,OFFICEMEDIUM BLDG_OCC_SCH,PERIMETER_TOP_ZN_2 ZN,131.26,7.1,7.1,5.382E-002,18.581,0.300,0.700,AutoCalculate,OFFICEMEDIUM ACTIVITY_SCH,No,3.8200E-008,0,7
+ People Internal Gains Nominal, PERIMETER_TOP_ZN_3 ZN OFFICE WHOLEBUILDING - MD OFFICE PEOPLE,OFFICEMEDIUM BLDG_OCC_SCH,PERIMETER_TOP_ZN_3 ZN,207.34,11.2,11.2,5.382E-002,18.581,0.300,0.700,AutoCalculate,OFFICEMEDIUM ACTIVITY_SCH,No,3.8200E-008,0,11
+ People Internal Gains Nominal, PERIMETER_TOP_ZN_4 ZN OFFICE WHOLEBUILDING - MD OFFICE PEOPLE,OFFICEMEDIUM BLDG_OCC_SCH,PERIMETER_TOP_ZN_4 ZN,131.25,7.1,7.1,5.382E-002,18.581,0.300,0.700,AutoCalculate,OFFICEMEDIUM ACTIVITY_SCH,No,3.8200E-008,0,7
+! <Lights Internal Gains Nominal>,Name,Schedule Name,Zone Name,Zone Floor Area {m2},# Zone Occupants,Lighting Level {W},Lights/Floor Area {W/m2},Lights per person {W/person},Fraction Return Air,Fraction Radiant,Fraction Short Wave,Fraction Convected,Fraction Replaceable,End-Use Category,Nominal Minimum Lighting Level {W},Nominal Maximum Lighting Level {W}
+ Lights Internal Gains Nominal, CORE_BOTTOM ZN OFFICE WHOLEBUILDING - MD OFFICE LIGHTS,OFFICEMEDIUM BLDG_LIGHT_SCH_2010,CORE_BOTTOM ZN,983.54,52.9,9528.030,9.688,180.000,0.000,0.700,0.200,0.100,1.000,General,0.000,9528.030
+ Lights Internal Gains Nominal, CORE_MID ZN OFFICE WHOLEBUILDING - MD OFFICE LIGHTS,OFFICEMEDIUM BLDG_LIGHT_SCH_2010,CORE_MID ZN,983.54,52.9,9528.030,9.688,180.000,0.000,0.700,0.200,0.100,1.000,General,0.000,9528.030
+ Lights Internal Gains Nominal, CORE_TOP ZN OFFICE WHOLEBUILDING - MD OFFICE LIGHTS,OFFICEMEDIUM BLDG_LIGHT_SCH_2010,CORE_TOP ZN,983.54,52.9,9528.030,9.688,180.000,0.000,0.700,0.200,0.100,1.000,General,0.000,9528.030
+ Lights Internal Gains Nominal, PERIMETER_BOT_ZN_1 ZN OFFICE WHOLEBUILDING - MD OFFICE LIGHTS,OFFICEMEDIUM BLDG_LIGHT_SCH_2010,PERIMETER_BOT_ZN_1 ZN,207.34,11.2,2008.592,9.688,180.000,0.000,0.700,0.200,0.100,1.000,General,0.000,2008.592
+ Lights Internal Gains Nominal, PERIMETER_BOT_ZN_2 ZN OFFICE WHOLEBUILDING - MD OFFICE LIGHTS,OFFICEMEDIUM BLDG_LIGHT_SCH_2010,PERIMETER_BOT_ZN_2 ZN,131.26,7.1,1271.605,9.688,180.000,0.000,0.700,0.200,0.100,1.000,General,0.000,1271.605
+ Lights Internal Gains Nominal, PERIMETER_BOT_ZN_3 ZN OFFICE WHOLEBUILDING - MD OFFICE LIGHTS,OFFICEMEDIUM BLDG_LIGHT_SCH_2010,PERIMETER_BOT_ZN_3 ZN,207.34,11.2,2008.592,9.688,180.000,0.000,0.700,0.200,0.100,1.000,General,0.000,2008.592
+ Lights Internal Gains Nominal, PERIMETER_BOT_ZN_4 ZN OFFICE WHOLEBUILDING - MD OFFICE LIGHTS,OFFICEMEDIUM BLDG_LIGHT_SCH_2010,PERIMETER_BOT_ZN_4 ZN,131.25,7.1,1271.522,9.688,180.000,0.000,0.700,0.200,0.100,1.000,General,0.000,1271.522
+ Lights Internal Gains Nominal, PERIMETER_MID_ZN_1 ZN OFFICE WHOLEBUILDING - MD OFFICE LIGHTS,OFFICEMEDIUM BLDG_LIGHT_SCH_2010,PERIMETER_MID_ZN_1 ZN,207.34,11.2,2008.592,9.688,180.000,0.000,0.700,0.200,0.100,1.000,General,0.000,2008.592
+ Lights Internal Gains Nominal, PERIMETER_MID_ZN_2 ZN OFFICE WHOLEBUILDING - MD OFFICE LIGHTS,OFFICEMEDIUM BLDG_LIGHT_SCH_2010,PERIMETER_MID_ZN_2 ZN,131.26,7.1,1271.605,9.688,180.000,0.000,0.700,0.200,0.100,1.000,General,0.000,1271.605
+ Lights Internal Gains Nominal, PERIMETER_MID_ZN_3 ZN OFFICE WHOLEBUILDING - MD OFFICE LIGHTS,OFFICEMEDIUM BLDG_LIGHT_SCH_2010,PERIMETER_MID_ZN_3 ZN,207.34,11.2,2008.592,9.688,180.000,0.000,0.700,0.200,0.100,1.000,General,0.000,2008.592
+ Lights Internal Gains Nominal, PERIMETER_MID_ZN_4 ZN OFFICE WHOLEBUILDING - MD OFFICE LIGHTS,OFFICEMEDIUM BLDG_LIGHT_SCH_2010,PERIMETER_MID_ZN_4 ZN,131.25,7.1,1271.522,9.688,180.000,0.000,0.700,0.200,0.100,1.000,General,0.000,1271.522
+ Lights Internal Gains Nominal, PERIMETER_TOP_ZN_1 ZN OFFICE WHOLEBUILDING - MD OFFICE LIGHTS,OFFICEMEDIUM BLDG_LIGHT_SCH_2010,PERIMETER_TOP_ZN_1 ZN,207.34,11.2,2008.592,9.688,180.000,0.000,0.700,0.200,0.100,1.000,General,0.000,2008.592
+ Lights Internal Gains Nominal, PERIMETER_TOP_ZN_2 ZN OFFICE WHOLEBUILDING - MD OFFICE LIGHTS,OFFICEMEDIUM BLDG_LIGHT_SCH_2010,PERIMETER_TOP_ZN_2 ZN,131.26,7.1,1271.605,9.688,180.000,0.000,0.700,0.200,0.100,1.000,General,0.000,1271.605
+ Lights Internal Gains Nominal, PERIMETER_TOP_ZN_3 ZN OFFICE WHOLEBUILDING - MD OFFICE LIGHTS,OFFICEMEDIUM BLDG_LIGHT_SCH_2010,PERIMETER_TOP_ZN_3 ZN,207.34,11.2,2008.592,9.688,180.000,0.000,0.700,0.200,0.100,1.000,General,0.000,2008.592
+ Lights Internal Gains Nominal, PERIMETER_TOP_ZN_4 ZN OFFICE WHOLEBUILDING - MD OFFICE LIGHTS,OFFICEMEDIUM BLDG_LIGHT_SCH_2010,PERIMETER_TOP_ZN_4 ZN,131.25,7.1,1271.522,9.688,180.000,0.000,0.700,0.200,0.100,1.000,General,0.000,1271.522
+! <ElectricEquipment Internal Gains Nominal>,Name,Schedule Name,Zone Name,Zone Floor Area {m2},# Zone Occupants,Equipment Level {W},Equipment/Floor Area {W/m2},Equipment per person {W/person},Fraction Latent,Fraction Radiant,Fraction Lost,Fraction Convected,End-Use SubCategory,Nominal Minimum Equipment Level {W},Nominal Maximum Equipment Level {W}
+ ElectricEquipment Internal Gains Nominal, 2 ELEVATOR FANS,OFFICEMEDIUM ELEV_LIGHT_FAN_SCH_ADD_DF,CORE_BOTTOM ZN,983.54,52.9,149.450,0.152,2.823,0.000,0.500,0.000,0.500,Elevators,0.000,103.121
+ ElectricEquipment Internal Gains Nominal, 2 ELEVATOR LIFT MOTORS,OFFICEMEDIUM BLDG_ELEVATORS,CORE_BOTTOM ZN,983.54,52.9,32110.000,32.647,606.610,0.000,0.500,0.000,0.500,Elevators,0.000,22155.900
+ ElectricEquipment Internal Gains Nominal, 2 ELEVATOR LIGHTS,OFFICEMEDIUM ELEV_LIGHT_FAN_SCH_ADD_DF,CORE_BOTTOM ZN,983.54,52.9,64.697,6.578E-002,1.222,0.000,0.500,0.000,0.500,Elevators,0.000,44.641
+ ElectricEquipment Internal Gains Nominal, CORE_BOTTOM ZN OFFICE WHOLEBUILDING - MD OFFICE ELEC EQUIP,OFFICEMEDIUM BLDG_EQUIP_SCH_2010,CORE_BOTTOM ZN,983.54,52.9,7940.025,8.073,150.000,0.000,0.500,0.000,0.500,General,0.000,7940.025
+ ElectricEquipment Internal Gains Nominal, CORE_MID ZN OFFICE WHOLEBUILDING - MD OFFICE ELEC EQUIP,OFFICEMEDIUM BLDG_EQUIP_SCH_2010,CORE_MID ZN,983.54,52.9,7940.025,8.073,150.000,0.000,0.500,0.000,0.500,General,0.000,7940.025
+ ElectricEquipment Internal Gains Nominal, CORE_TOP ZN OFFICE WHOLEBUILDING - MD OFFICE ELEC EQUIP,OFFICEMEDIUM BLDG_EQUIP_SCH_2010,CORE_TOP ZN,983.54,52.9,7940.025,8.073,150.000,0.000,0.500,0.000,0.500,General,0.000,7940.025
+ ElectricEquipment Internal Gains Nominal, PERIMETER_BOT_ZN_1 ZN OFFICE WHOLEBUILDING - MD OFFICE ELEC EQUIP,OFFICEMEDIUM BLDG_EQUIP_SCH_2010,PERIMETER_BOT_ZN_1 ZN,207.34,11.2,1673.827,8.073,150.000,0.000,0.500,0.000,0.500,General,0.000,1673.827
+ ElectricEquipment Internal Gains Nominal, PERIMETER_BOT_ZN_2 ZN OFFICE WHOLEBUILDING - MD OFFICE ELEC EQUIP,OFFICEMEDIUM BLDG_EQUIP_SCH_2010,PERIMETER_BOT_ZN_2 ZN,131.26,7.1,1059.671,8.073,150.000,0.000,0.500,0.000,0.500,General,0.000,1059.671
+ ElectricEquipment Internal Gains Nominal, PERIMETER_BOT_ZN_3 ZN OFFICE WHOLEBUILDING - MD OFFICE ELEC EQUIP,OFFICEMEDIUM BLDG_EQUIP_SCH_2010,PERIMETER_BOT_ZN_3 ZN,207.34,11.2,1673.827,8.073,150.000,0.000,0.500,0.000,0.500,General,0.000,1673.827
+ ElectricEquipment Internal Gains Nominal, PERIMETER_BOT_ZN_4 ZN OFFICE WHOLEBUILDING - MD OFFICE ELEC EQUIP,OFFICEMEDIUM BLDG_EQUIP_SCH_2010,PERIMETER_BOT_ZN_4 ZN,131.25,7.1,1059.601,8.073,150.000,0.000,0.500,0.000,0.500,General,0.000,1059.601
+ ElectricEquipment Internal Gains Nominal, PERIMETER_MID_ZN_1 ZN OFFICE WHOLEBUILDING - MD OFFICE ELEC EQUIP,OFFICEMEDIUM BLDG_EQUIP_SCH_2010,PERIMETER_MID_ZN_1 ZN,207.34,11.2,1673.827,8.073,150.000,0.000,0.500,0.000,0.500,General,0.000,1673.827
+ ElectricEquipment Internal Gains Nominal, PERIMETER_MID_ZN_2 ZN OFFICE WHOLEBUILDING - MD OFFICE ELEC EQUIP,OFFICEMEDIUM BLDG_EQUIP_SCH_2010,PERIMETER_MID_ZN_2 ZN,131.26,7.1,1059.671,8.073,150.000,0.000,0.500,0.000,0.500,General,0.000,1059.671
+ ElectricEquipment Internal Gains Nominal, PERIMETER_MID_ZN_3 ZN OFFICE WHOLEBUILDING - MD OFFICE ELEC EQUIP,OFFICEMEDIUM BLDG_EQUIP_SCH_2010,PERIMETER_MID_ZN_3 ZN,207.34,11.2,1673.827,8.073,150.000,0.000,0.500,0.000,0.500,General,0.000,1673.827
+ ElectricEquipment Internal Gains Nominal, PERIMETER_MID_ZN_4 ZN OFFICE WHOLEBUILDING - MD OFFICE ELEC EQUIP,OFFICEMEDIUM BLDG_EQUIP_SCH_2010,PERIMETER_MID_ZN_4 ZN,131.25,7.1,1059.601,8.073,150.000,0.000,0.500,0.000,0.500,General,0.000,1059.601
+ ElectricEquipment Internal Gains Nominal, PERIMETER_TOP_ZN_1 ZN OFFICE WHOLEBUILDING - MD OFFICE ELEC EQUIP,OFFICEMEDIUM BLDG_EQUIP_SCH_2010,PERIMETER_TOP_ZN_1 ZN,207.34,11.2,1673.827,8.073,150.000,0.000,0.500,0.000,0.500,General,0.000,1673.827
+ ElectricEquipment Internal Gains Nominal, PERIMETER_TOP_ZN_2 ZN OFFICE WHOLEBUILDING - MD OFFICE ELEC EQUIP,OFFICEMEDIUM BLDG_EQUIP_SCH_2010,PERIMETER_TOP_ZN_2 ZN,131.26,7.1,1059.671,8.073,150.000,0.000,0.500,0.000,0.500,General,0.000,1059.671
+ ElectricEquipment Internal Gains Nominal, PERIMETER_TOP_ZN_3 ZN OFFICE WHOLEBUILDING - MD OFFICE ELEC EQUIP,OFFICEMEDIUM BLDG_EQUIP_SCH_2010,PERIMETER_TOP_ZN_3 ZN,207.34,11.2,1673.827,8.073,150.000,0.000,0.500,0.000,0.500,General,0.000,1673.827
+ ElectricEquipment Internal Gains Nominal, PERIMETER_TOP_ZN_4 ZN OFFICE WHOLEBUILDING - MD OFFICE ELEC EQUIP,OFFICEMEDIUM BLDG_EQUIP_SCH_2010,PERIMETER_TOP_ZN_4 ZN,131.25,7.1,1059.601,8.073,150.000,0.000,0.500,0.000,0.500,General,0.000,1059.601
+! <Shadowing/Sun Position Calculations Annual Simulations>, Calculation Method, Value {days}, Allowable Number Figures in Shadow Overlap {}, Polygon Clipping Algorithm, Sky Diffuse Modeling Algorithm, External Shading Calculation Method, Output External Shading Calculation Results, Disable Self-Shading Within Shading Zone Groups, Disable Self-Shading From Shading Zone Groups to Other Zones
+Shadowing/Sun Position Calculations Annual Simulations,AverageOverDaysInFrequency,7,15000,SutherlandHodgman,SimpleSkyDiffuseModeling,InternalCalculation,No,No,No
+! <Water Heater Information>,Type,Name,Volume {m3},Maximum Capacity {W},Standard Rated Recovery Efficiency, Standard Rated Energy Factor
+! <ZoneInfiltration Airflow Stats Nominal>,Name,Schedule Name,Zone Name, Zone Floor Area {m2}, # Zone Occupants,Design Volume Flow Rate {m3/s},Volume Flow Rate/Floor Area {m3/s-m2},Volume Flow Rate/Exterior Surface Area {m3/s-m2},ACH - Air Changes per Hour,Equation A - Constant Term Coefficient {},Equation B - Temperature Term Coefficient {1/C},Equation C - Velocity Term Coefficient {s/m}, Equation D - Velocity Squared Term Coefficient {s2/m2}
+ ZoneInfiltration Airflow Stats Nominal, FIRSTFLOOR_PLENUM INFILTRATION,OFFICEMEDIUM INFIL_SCH_PNNL,FIRSTFLOOR_PLENUM ZN,1660.73,0.0,0.116,6.957E-005,5.696E-004,0.205,0.000,0.000,0.224,0.000
+ ZoneInfiltration Airflow Stats Nominal, MIDFLOOR_PLENUM INFILTRATION,OFFICEMEDIUM INFIL_SCH_PNNL,MIDFLOOR_PLENUM ZN,1660.73,0.0,0.116,6.957E-005,5.696E-004,0.205,0.000,0.000,0.224,0.000
+ ZoneInfiltration Airflow Stats Nominal, ENTRY DOOR INFILTRATION,OFFICEMEDIUM INFIL_DOOR_OPENING_SCH,PERIMETER_BOT_ZN_1 ZN,207.34,11.2,0.679,3.273E-003,4.957E-003,4.296,1.000,0.000,0.000,0.000
+ ZoneInfiltration Airflow Stats Nominal, PERIMETER_BOT_ZN_1 INFILTRATION,OFFICEMEDIUM INFIL_SCH_PNNL,PERIMETER_BOT_ZN_1 ZN,207.34,11.2,7.798E-002,3.761E-004,5.696E-004,0.494,0.000,0.000,0.224,0.000
+ ZoneInfiltration Airflow Stats Nominal, PERIMETER_BOT_ZN_2 INFILTRATION,OFFICEMEDIUM INFIL_SCH_PNNL,PERIMETER_BOT_ZN_2 ZN,131.26,7.1,5.199E-002,3.961E-004,5.696E-004,0.520,0.000,0.000,0.224,0.000
+ ZoneInfiltration Airflow Stats Nominal, PERIMETER_BOT_ZN_3 INFILTRATION,OFFICEMEDIUM INFIL_SCH_PNNL,PERIMETER_BOT_ZN_3 ZN,207.34,11.2,7.798E-002,3.761E-004,5.696E-004,0.494,0.000,0.000,0.224,0.000
+ ZoneInfiltration Airflow Stats Nominal, PERIMETER_BOT_ZN_4 INFILTRATION,OFFICEMEDIUM INFIL_SCH_PNNL,PERIMETER_BOT_ZN_4 ZN,131.25,7.1,5.199E-002,3.961E-004,5.696E-004,0.520,0.000,0.000,0.224,0.000
+ ZoneInfiltration Airflow Stats Nominal, PERIMETER_MID_ZN_1 INFILTRATION,OFFICEMEDIUM INFIL_SCH_PNNL,PERIMETER_MID_ZN_1 ZN,207.34,11.2,7.798E-002,3.761E-004,5.696E-004,0.494,0.000,0.000,0.224,0.000
+ ZoneInfiltration Airflow Stats Nominal, PERIMETER_MID_ZN_2 INFILTRATION,OFFICEMEDIUM INFIL_SCH_PNNL,PERIMETER_MID_ZN_2 ZN,131.26,7.1,5.199E-002,3.961E-004,5.696E-004,0.520,0.000,0.000,0.224,0.000
+ ZoneInfiltration Airflow Stats Nominal, PERIMETER_MID_ZN_3 INFILTRATION,OFFICEMEDIUM INFIL_SCH_PNNL,PERIMETER_MID_ZN_3 ZN,207.34,11.2,7.798E-002,3.761E-004,5.696E-004,0.494,0.000,0.000,0.224,0.000
+ ZoneInfiltration Airflow Stats Nominal, PERIMETER_MID_ZN_4 INFILTRATION,OFFICEMEDIUM INFIL_SCH_PNNL,PERIMETER_MID_ZN_4 ZN,131.25,7.1,5.199E-002,3.961E-004,5.696E-004,0.520,0.000,0.000,0.224,0.000
+ ZoneInfiltration Airflow Stats Nominal, PERIMETER_TOP_ZN_1 INFILTRATION,OFFICEMEDIUM INFIL_SCH_PNNL,PERIMETER_TOP_ZN_1 ZN,207.34,11.2,7.798E-002,3.761E-004,5.696E-004,0.494,0.000,0.000,0.224,0.000
+ ZoneInfiltration Airflow Stats Nominal, PERIMETER_TOP_ZN_2 INFILTRATION,OFFICEMEDIUM INFIL_SCH_PNNL,PERIMETER_TOP_ZN_2 ZN,131.26,7.1,5.199E-002,3.961E-004,5.696E-004,0.520,0.000,0.000,0.224,0.000
+ ZoneInfiltration Airflow Stats Nominal, PERIMETER_TOP_ZN_3 INFILTRATION,OFFICEMEDIUM INFIL_SCH_PNNL,PERIMETER_TOP_ZN_3 ZN,207.34,11.2,7.798E-002,3.761E-004,5.696E-004,0.494,0.000,0.000,0.224,0.000
+ ZoneInfiltration Airflow Stats Nominal, PERIMETER_TOP_ZN_4 INFILTRATION,OFFICEMEDIUM INFIL_SCH_PNNL,PERIMETER_TOP_ZN_4 ZN,131.25,7.1,5.199E-002,3.961E-004,5.696E-004,0.520,0.000,0.000,0.224,0.000
+ ZoneInfiltration Airflow Stats Nominal, TOPFLOOR_PLENUM INFILTRATION,OFFICEMEDIUM INFIL_SCH_PNNL,TOPFLOOR_PLENUM ZN,1660.73,0.0,0.116,6.957E-005,6.199E-005,0.205,0.000,0.000,0.224,0.000
+! <AirFlow Model>, Simple
+ AirFlow Model, Simple
+! <RoomAir Model>, Zone Name, Mixing/Mundt/UCSDDV/UCSDCV/UCSDUFI/UCSDUFE/User Defined
+RoomAir Model,CORE_BOTTOM ZN,Mixing/Well-Stirred
+RoomAir Model,CORE_MID ZN,Mixing/Well-Stirred
+RoomAir Model,CORE_TOP ZN,Mixing/Well-Stirred
+RoomAir Model,FIRSTFLOOR_PLENUM ZN,Mixing/Well-Stirred
+RoomAir Model,MIDFLOOR_PLENUM ZN,Mixing/Well-Stirred
+RoomAir Model,PERIMETER_BOT_ZN_1 ZN,Mixing/Well-Stirred
+RoomAir Model,PERIMETER_BOT_ZN_2 ZN,Mixing/Well-Stirred
+RoomAir Model,PERIMETER_BOT_ZN_3 ZN,Mixing/Well-Stirred
+RoomAir Model,PERIMETER_BOT_ZN_4 ZN,Mixing/Well-Stirred
+RoomAir Model,PERIMETER_MID_ZN_1 ZN,Mixing/Well-Stirred
+RoomAir Model,PERIMETER_MID_ZN_2 ZN,Mixing/Well-Stirred
+RoomAir Model,PERIMETER_MID_ZN_3 ZN,Mixing/Well-Stirred
+RoomAir Model,PERIMETER_MID_ZN_4 ZN,Mixing/Well-Stirred
+RoomAir Model,PERIMETER_TOP_ZN_1 ZN,Mixing/Well-Stirred
+RoomAir Model,PERIMETER_TOP_ZN_2 ZN,Mixing/Well-Stirred
+RoomAir Model,PERIMETER_TOP_ZN_3 ZN,Mixing/Well-Stirred
+RoomAir Model,PERIMETER_TOP_ZN_4 ZN,Mixing/Well-Stirred
+RoomAir Model,TOPFLOOR_PLENUM ZN,Mixing/Well-Stirred
+! <AirflowNetwork Model:Control>, No Multizone or Distribution/Multizone with Distribution/Multizone without Distribution/Multizone with Distribution only during Fan Operation
+AirflowNetwork Model:Control,NoMultizoneOrDistribution
+! <Zone Volume Capacitance Multiplier>, Sensible Heat Capacity Multiplier, Moisture Capacity Multiplier, Carbon Dioxide Capacity Multiplier, Generic Contaminant Capacity Multiplier
+Zone Volume Capacitance Multiplier,   1.000 ,   1.000,   1.000,   1.000
+! <Load Timesteps in Zone Design Calculation Averaging Window>, Value
+ Load Timesteps in Zone Design Calculation Averaging Window,    6
+! <Heating Sizing Factor Information>, Sizing Factor ID, Value
+ Heating Sizing Factor Information, Global,   1.0000    
+! <Cooling Sizing Factor Information>, Sizing Factor ID, Value
+ Cooling Sizing Factor Information, Global,   1.0000    
+! <Zone Sizing Information>, Zone Name, Load Type, Calc Des Load {W}, User Des Load {W}, Calc Des Air Flow Rate {m3/s}, User Des Air Flow Rate {m3/s}, Design Day Name, Date/Time of Peak, Temperature at Peak {C}, Humidity Ratio at Peak {kgWater/kgDryAir}, Floor Area {m2}, # Occupants, Calc Outdoor Air Flow Rate {m3/s}, Calc DOAS Heat Addition Rate {W}
+ Zone Sizing Information, CORE_BOTTOM ZN, Cooling, 42053.72957, 42053.72957, 3.48829, 3.48829, EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB, 7/21 08:00:00, 28.48000, 6.82375E-003, 983.53657, 52.93350, 0.42469, 0.00000
+ Zone Sizing Information, CORE_BOTTOM ZN, Heating, 5843.91925, 5843.91925, 0.18647, 0.42469, EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB, 12/21 08:00:00, -5.20000, 2.80840E-003, 983.53657, 52.93350, 0.42469, 0.00000
+ Zone Sizing Information, CORE_MID ZN, Cooling, 30634.97227, 30634.97227, 2.53894, 2.53894, EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB, 7/21 08:00:00, 28.48000, 6.82375E-003, 983.53657, 52.93350, 0.42469, 0.00000
+ Zone Sizing Information, CORE_MID ZN, Heating, 11036.97542, 11036.97542, 0.35391, 0.42469, EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB, 12/21 08:00:00, -5.20000, 2.80840E-003, 983.53657, 52.93350, 0.42469, 0.00000
+ Zone Sizing Information, CORE_TOP ZN, Cooling, 31524.93629, 31524.93629, 2.61295, 2.61295, EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB, 7/21 08:00:00, 28.48000, 6.82375E-003, 983.53657, 52.93350, 0.42469, 0.00000
+ Zone Sizing Information, CORE_TOP ZN, Heating, 21534.73917, 21534.73917, 0.69331, 0.69331, EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB, 12/21 08:00:00, -5.20000, 2.80840E-003, 983.53657, 52.93350, 0.42469, 0.00000
+ Zone Sizing Information, PERIMETER_BOT_ZN_1 ZN, Cooling, 9770.61045, 9770.61045, 0.81691, 0.81691, EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB, 7/21 13:30:00, 37.77500, 6.82375E-003, 207.33814, 11.15885, 8.95286E-002, 0.00000
+ Zone Sizing Information, PERIMETER_BOT_ZN_1 ZN, Heating, 6013.57028, 6013.57028, 0.19379, 0.19379, EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB, 12/21 08:00:00, -5.20000, 2.80840E-003, 207.33814, 11.15885, 8.95286E-002, 0.00000
+ Zone Sizing Information, PERIMETER_BOT_ZN_2 ZN, Cooling, 9511.43877, 9511.43877, 0.79524, 0.79524, EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB, 7/21 09:40:00, 32.42333, 6.82375E-003, 131.26219, 7.06447, 5.66790E-002, 0.00000
+ Zone Sizing Information, PERIMETER_BOT_ZN_2 ZN, Heating, 4041.30317, 4041.30317, 0.13025, 0.13025, EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB, 12/21 08:00:00, -5.20000, 2.80840E-003, 131.26219, 7.06447, 5.66790E-002, 0.00000
+ Zone Sizing Information, PERIMETER_BOT_ZN_3 ZN, Cooling, 8319.63704, 8319.63704, 0.69560, 0.69560, EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB, 7/21 14:50:00, 38.10000, 6.82375E-003, 207.33814, 11.15885, 8.95286E-002, 0.00000
+ Zone Sizing Information, PERIMETER_BOT_ZN_3 ZN, Heating, 5945.07775, 5945.07775, 0.19158, 0.19158, EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB, 12/21 08:00:00, -5.20000, 2.80840E-003, 207.33814, 11.15885, 8.95286E-002, 0.00000
+ Zone Sizing Information, PERIMETER_BOT_ZN_4 ZN, Cooling, 10060.23308, 10060.23308, 0.84112, 0.84112, EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB, 7/21 16:30:00, 36.80000, 6.82375E-003, 131.25358, 7.06401, 5.66753E-002, 0.00000
+ Zone Sizing Information, PERIMETER_BOT_ZN_4 ZN, Heating, 3995.50509, 3995.50509, 0.12877, 0.12877, EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB, 12/21 08:00:00, -5.20000, 2.80840E-003, 131.25358, 7.06401, 5.66753E-002, 0.00000
+ Zone Sizing Information, PERIMETER_MID_ZN_1 ZN, Cooling, 11105.41062, 11105.41062, 0.92851, 0.92851, EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB, 7/21 13:30:00, 37.77500, 6.82375E-003, 207.33814, 11.15885, 8.95286E-002, 0.00000
+ Zone Sizing Information, PERIMETER_MID_ZN_1 ZN, Heating, 7474.89620, 7474.89620, 0.24101, 0.24101, EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB, 12/21 08:00:00, -5.20000, 2.80840E-003, 207.33814, 11.15885, 8.95286E-002, 0.00000
+ Zone Sizing Information, PERIMETER_MID_ZN_2 ZN, Cooling, 10433.72746, 10433.72746, 0.87235, 0.87235, EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB, 7/21 09:40:00, 32.42333, 6.82375E-003, 131.26219, 7.06447, 5.66790E-002, 0.00000
+ Zone Sizing Information, PERIMETER_MID_ZN_2 ZN, Heating, 4971.69611, 4971.69611, 0.16032, 0.16032, EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB, 12/21 08:00:00, -5.20000, 2.80840E-003, 131.26219, 7.06447, 5.66790E-002, 0.00000
+ Zone Sizing Information, PERIMETER_MID_ZN_3 ZN, Cooling, 9670.39361, 9670.39361, 0.80853, 0.80853, EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB, 7/21 14:50:00, 38.10000, 6.82375E-003, 207.33814, 11.15885, 8.95286E-002, 0.00000
+ Zone Sizing Information, PERIMETER_MID_ZN_3 ZN, Heating, 7441.94677, 7441.94677, 0.23994, 0.23994, EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB, 12/21 08:00:00, -5.20000, 2.80840E-003, 207.33814, 11.15885, 8.95286E-002, 0.00000
+ Zone Sizing Information, PERIMETER_MID_ZN_4 ZN, Cooling, 10921.15633, 10921.15633, 0.91310, 0.91310, EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB, 7/21 16:30:00, 36.80000, 6.82375E-003, 131.25358, 7.06401, 5.66753E-002, 0.00000
+ Zone Sizing Information, PERIMETER_MID_ZN_4 ZN, Heating, 4922.55426, 4922.55426, 0.15873, 0.15873, EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB, 12/21 08:00:00, -5.20000, 2.80840E-003, 131.25358, 7.06401, 5.66753E-002, 0.00000
+ Zone Sizing Information, PERIMETER_TOP_ZN_1 ZN, Cooling, 11664.40965, 11664.40965, 0.97525, 0.97525, EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB, 7/21 13:40:00, 37.88333, 6.82376E-003, 207.33814, 11.15885, 8.95286E-002, 0.00000
+ Zone Sizing Information, PERIMETER_TOP_ZN_1 ZN, Heating, 9518.28680, 9518.28680, 0.30706, 0.30706, EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB, 12/21 08:00:00, -5.20000, 2.80840E-003, 207.33814, 11.15885, 8.95286E-002, 0.00000
+ Zone Sizing Information, PERIMETER_TOP_ZN_2 ZN, Cooling, 10596.81906, 10596.81906, 0.88598, 0.88598, EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB, 7/21 09:40:00, 32.42333, 6.82375E-003, 131.26219, 7.06447, 5.66790E-002, 0.00000
+ Zone Sizing Information, PERIMETER_TOP_ZN_2 ZN, Heating, 6260.84645, 6260.84645, 0.20199, 0.20199, EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB, 12/21 08:00:00, -5.20000, 2.80840E-003, 131.26219, 7.06447, 5.66790E-002, 0.00000
+ Zone Sizing Information, PERIMETER_TOP_ZN_3 ZN, Cooling, 10322.12952, 10322.12952, 0.86302, 0.86302, EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB, 7/21 15:00:00, 38.10000, 6.82375E-003, 207.33814, 11.15885, 8.95286E-002, 0.00000
+ Zone Sizing Information, PERIMETER_TOP_ZN_3 ZN, Heating, 9498.91585, 9498.91585, 0.30643, 0.30643, EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB, 12/21 08:00:00, -5.20000, 2.80840E-003, 207.33814, 11.15885, 8.95286E-002, 0.00000
+ Zone Sizing Information, PERIMETER_TOP_ZN_4 ZN, Cooling, 11342.58279, 11342.58279, 0.94833, 0.94833, EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB, 7/21 16:30:00, 36.80000, 6.82375E-003, 131.25358, 7.06401, 5.66753E-002, 0.00000
+ Zone Sizing Information, PERIMETER_TOP_ZN_4 ZN, Heating, 6211.00209, 6211.00209, 0.20038, 0.20038, EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB, 12/21 08:00:00, -5.20000, 2.80840E-003, 131.25358, 7.06401, 5.66753E-002, 0.00000
+! <System Sizing Information>, System Name, Load Type, Peak Load Kind, User Design Capacity, Calc Des Air Flow Rate [m3/s], User Des Air Flow Rate [m3/s], Design Day Name, Date/Time of Peak
+ System Sizing Information, 5 ZONE PVAV, Cooling, Sensible, 80555.00, 5.95152, 5.95152, EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB, 7/21 00:00:00
+ System Sizing Information, 5 ZONE PVAV, Heating, Sensible, 13528.85, 1.06909, 1.06909, EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB, 12/21 00:10:00
+ System Sizing Information, 5 ZONE PVAV 1, Cooling, Sensible, 73647.09, 5.36403, 5.36403, EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB, 7/21 00:00:00
+ System Sizing Information, 5 ZONE PVAV 1, Heating, Sensible, 13528.85, 1.22469, 1.22469, EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB, 12/21 00:10:00
+ System Sizing Information, 5 ZONE PVAV 2, Cooling, Sensible, 78625.22, 5.79472, 5.79472, EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB, 7/21 00:00:00
+ System Sizing Information, 5 ZONE PVAV 2, Heating, Sensible, 13528.85, 1.70917, 1.70917, EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB, 12/21 00:10:00
+! <Component Sizing Information>, Component Type, Component Name, Input Field Description, Value
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, CORE_BOTTOM ZN VAV TERMINAL, Design Size Maximum Air Flow Rate [m3/s], 3.48829
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, CORE_BOTTOM ZN VAV TERMINAL, Design Size Constant Minimum Air Flow Fraction, 0.21485
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, CORE_BOTTOM ZN VAV TERMINAL, User-Specified Constant Minimum Air Flow Fraction, 0.30000
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, CORE_BOTTOM ZN VAV TERMINAL, Design Size Minimum Air Flow Rate [m3/s], 1.04649
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, CORE_BOTTOM ZN VAV TERMINAL, Design Size Maximum Flow per Zone Floor Area during Reheat [m3/s-m2], 1.06400E-003
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, CORE_BOTTOM ZN VAV TERMINAL, Design Size Maximum Flow Fraction during Reheat [], 0.30000
+ Component Sizing Information, Coil:Heating:Electric, CORE_BOTTOM ZN ELECTRIC REHEAT COIL, Design Size Nominal Capacity [W], 41481.23043
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, CORE_MID ZN VAV TERMINAL, Design Size Maximum Air Flow Rate [m3/s], 2.53894
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, CORE_MID ZN VAV TERMINAL, Design Size Constant Minimum Air Flow Fraction, 0.29518
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, CORE_MID ZN VAV TERMINAL, User-Specified Constant Minimum Air Flow Fraction, 0.30000
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, CORE_MID ZN VAV TERMINAL, Design Size Minimum Air Flow Rate [m3/s], 0.76168
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, CORE_MID ZN VAV TERMINAL, Design Size Maximum Flow per Zone Floor Area during Reheat [m3/s-m2], 7.74431E-004
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, CORE_MID ZN VAV TERMINAL, Design Size Maximum Flow Fraction during Reheat [], 0.30000
+ Component Sizing Information, Coil:Heating:Electric, CORE_MID ZN ELECTRIC REHEAT COIL, Design Size Nominal Capacity [W], 30191.95416
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, CORE_TOP ZN VAV TERMINAL, Design Size Maximum Air Flow Rate [m3/s], 2.61295
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, CORE_TOP ZN VAV TERMINAL, Design Size Constant Minimum Air Flow Fraction, 0.28682
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, CORE_TOP ZN VAV TERMINAL, User-Specified Constant Minimum Air Flow Fraction, 0.30000
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, CORE_TOP ZN VAV TERMINAL, Design Size Minimum Air Flow Rate [m3/s], 0.78388
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, CORE_TOP ZN VAV TERMINAL, Design Size Maximum Flow per Zone Floor Area during Reheat [m3/s-m2], 7.97006E-004
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, CORE_TOP ZN VAV TERMINAL, Design Size Maximum Flow Fraction during Reheat [], 0.30000
+ Component Sizing Information, Coil:Heating:Electric, CORE_TOP ZN ELECTRIC REHEAT COIL, Design Size Nominal Capacity [W], 31072.05763
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_BOT_ZN_1 ZN VAV TERMINAL, Design Size Maximum Air Flow Rate [m3/s], 0.81691
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_BOT_ZN_1 ZN VAV TERMINAL, Design Size Constant Minimum Air Flow Fraction, 0.19340
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_BOT_ZN_1 ZN VAV TERMINAL, User-Specified Constant Minimum Air Flow Fraction, 0.30000
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_BOT_ZN_1 ZN VAV TERMINAL, Design Size Minimum Air Flow Rate [m3/s], 0.24507
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_BOT_ZN_1 ZN VAV TERMINAL, Design Size Maximum Flow per Zone Floor Area during Reheat [m3/s-m2], 1.18200E-003
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_BOT_ZN_1 ZN VAV TERMINAL, Design Size Maximum Flow Fraction during Reheat [], 0.30000
+ Component Sizing Information, Coil:Heating:Electric, PERIMETER_BOT_ZN_1 ZN ELECTRIC REHEAT COIL, Design Size Nominal Capacity [W], 9714.38958
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_BOT_ZN_2 ZN VAV TERMINAL, Design Size Maximum Air Flow Rate [m3/s], 0.79524
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_BOT_ZN_2 ZN VAV TERMINAL, Design Size Constant Minimum Air Flow Fraction, 0.12578
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_BOT_ZN_2 ZN VAV TERMINAL, User-Specified Constant Minimum Air Flow Fraction, 0.30000
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_BOT_ZN_2 ZN VAV TERMINAL, Design Size Minimum Air Flow Rate [m3/s], 0.23857
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_BOT_ZN_2 ZN VAV TERMINAL, Design Size Maximum Flow per Zone Floor Area during Reheat [m3/s-m2], 1.81752E-003
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_BOT_ZN_2 ZN VAV TERMINAL, Design Size Maximum Flow Fraction during Reheat [], 0.30000
+ Component Sizing Information, Coil:Heating:Electric, PERIMETER_BOT_ZN_2 ZN ELECTRIC REHEAT COIL, Design Size Nominal Capacity [W], 9456.64369
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_BOT_ZN_3 ZN VAV TERMINAL, Design Size Maximum Air Flow Rate [m3/s], 0.69560
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_BOT_ZN_3 ZN VAV TERMINAL, Design Size Constant Minimum Air Flow Fraction, 0.22713
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_BOT_ZN_3 ZN VAV TERMINAL, User-Specified Constant Minimum Air Flow Fraction, 0.30000
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_BOT_ZN_3 ZN VAV TERMINAL, Design Size Minimum Air Flow Rate [m3/s], 0.20868
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_BOT_ZN_3 ZN VAV TERMINAL, Design Size Maximum Flow per Zone Floor Area during Reheat [m3/s-m2], 1.00647E-003
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_BOT_ZN_3 ZN VAV TERMINAL, Design Size Maximum Flow Fraction during Reheat [], 0.30000
+ Component Sizing Information, Coil:Heating:Electric, PERIMETER_BOT_ZN_3 ZN ELECTRIC REHEAT COIL, Design Size Nominal Capacity [W], 8271.78152
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_BOT_ZN_4 ZN VAV TERMINAL, Design Size Maximum Air Flow Rate [m3/s], 0.84112
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_BOT_ZN_4 ZN VAV TERMINAL, Design Size Constant Minimum Air Flow Fraction, 0.11891
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_BOT_ZN_4 ZN VAV TERMINAL, User-Specified Constant Minimum Air Flow Fraction, 0.30000
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_BOT_ZN_4 ZN VAV TERMINAL, Design Size Minimum Air Flow Rate [m3/s], 0.25234
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_BOT_ZN_4 ZN VAV TERMINAL, Design Size Maximum Flow per Zone Floor Area during Reheat [m3/s-m2], 1.92251E-003
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_BOT_ZN_4 ZN VAV TERMINAL, Design Size Maximum Flow Fraction during Reheat [], 0.30000
+ Component Sizing Information, Coil:Heating:Electric, PERIMETER_BOT_ZN_4 ZN ELECTRIC REHEAT COIL, Design Size Nominal Capacity [W], 10002.27194
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_MID_ZN_1 ZN VAV TERMINAL, Design Size Maximum Air Flow Rate [m3/s], 0.92851
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_MID_ZN_1 ZN VAV TERMINAL, Design Size Constant Minimum Air Flow Fraction, 0.17016
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_MID_ZN_1 ZN VAV TERMINAL, User-Specified Constant Minimum Air Flow Fraction, 0.30000
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_MID_ZN_1 ZN VAV TERMINAL, Design Size Minimum Air Flow Rate [m3/s], 0.27855
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_MID_ZN_1 ZN VAV TERMINAL, Design Size Maximum Flow per Zone Floor Area during Reheat [m3/s-m2], 1.34347E-003
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_MID_ZN_1 ZN VAV TERMINAL, Design Size Maximum Flow Fraction during Reheat [], 0.30000
+ Component Sizing Information, Coil:Heating:Electric, PERIMETER_MID_ZN_1 ZN ELECTRIC REHEAT COIL, Design Size Nominal Capacity [W], 11041.45709
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_MID_ZN_2 ZN VAV TERMINAL, Design Size Maximum Air Flow Rate [m3/s], 0.87235
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_MID_ZN_2 ZN VAV TERMINAL, Design Size Constant Minimum Air Flow Fraction, 0.11466
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_MID_ZN_2 ZN VAV TERMINAL, User-Specified Constant Minimum Air Flow Fraction, 0.30000
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_MID_ZN_2 ZN VAV TERMINAL, Design Size Minimum Air Flow Rate [m3/s], 0.26170
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_MID_ZN_2 ZN VAV TERMINAL, Design Size Maximum Flow per Zone Floor Area during Reheat [m3/s-m2], 1.99375E-003
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_MID_ZN_2 ZN VAV TERMINAL, Design Size Maximum Flow Fraction during Reheat [], 0.30000
+ Component Sizing Information, Coil:Heating:Electric, PERIMETER_MID_ZN_2 ZN ELECTRIC REHEAT COIL, Design Size Nominal Capacity [W], 10373.57961
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_MID_ZN_3 ZN VAV TERMINAL, Design Size Maximum Air Flow Rate [m3/s], 0.80853
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_MID_ZN_3 ZN VAV TERMINAL, Design Size Constant Minimum Air Flow Fraction, 0.19541
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_MID_ZN_3 ZN VAV TERMINAL, User-Specified Constant Minimum Air Flow Fraction, 0.30000
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_MID_ZN_3 ZN VAV TERMINAL, Design Size Minimum Air Flow Rate [m3/s], 0.24256
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_MID_ZN_3 ZN VAV TERMINAL, Design Size Maximum Flow per Zone Floor Area during Reheat [m3/s-m2], 1.16987E-003
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_MID_ZN_3 ZN VAV TERMINAL, Design Size Maximum Flow Fraction during Reheat [], 0.30000
+ Component Sizing Information, Coil:Heating:Electric, PERIMETER_MID_ZN_3 ZN ELECTRIC REHEAT COIL, Design Size Nominal Capacity [W], 9614.71926
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_MID_ZN_4 ZN VAV TERMINAL, Design Size Maximum Air Flow Rate [m3/s], 0.91310
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_MID_ZN_4 ZN VAV TERMINAL, Design Size Constant Minimum Air Flow Fraction, 0.10953
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_MID_ZN_4 ZN VAV TERMINAL, User-Specified Constant Minimum Air Flow Fraction, 0.30000
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_MID_ZN_4 ZN VAV TERMINAL, Design Size Minimum Air Flow Rate [m3/s], 0.27393
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_MID_ZN_4 ZN VAV TERMINAL, Design Size Maximum Flow per Zone Floor Area during Reheat [m3/s-m2], 2.08703E-003
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_MID_ZN_4 ZN VAV TERMINAL, Design Size Maximum Flow Fraction during Reheat [], 0.30000
+ Component Sizing Information, Coil:Heating:Electric, PERIMETER_MID_ZN_4 ZN ELECTRIC REHEAT COIL, Design Size Nominal Capacity [W], 10858.19628
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_TOP_ZN_1 ZN VAV TERMINAL, Design Size Maximum Air Flow Rate [m3/s], 0.97525
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_TOP_ZN_1 ZN VAV TERMINAL, Design Size Constant Minimum Air Flow Fraction, 0.16200
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_TOP_ZN_1 ZN VAV TERMINAL, User-Specified Constant Minimum Air Flow Fraction, 0.30000
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_TOP_ZN_1 ZN VAV TERMINAL, Design Size Minimum Air Flow Rate [m3/s], 0.29257
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_TOP_ZN_1 ZN VAV TERMINAL, Design Size Maximum Flow per Zone Floor Area during Reheat [m3/s-m2], 1.41110E-003
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_TOP_ZN_1 ZN VAV TERMINAL, Design Size Maximum Flow Fraction during Reheat [], 0.30000
+ Component Sizing Information, Coil:Heating:Electric, PERIMETER_TOP_ZN_1 ZN ELECTRIC REHEAT COIL, Design Size Nominal Capacity [W], 12171.34712
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_TOP_ZN_2 ZN VAV TERMINAL, Design Size Maximum Air Flow Rate [m3/s], 0.88598
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_TOP_ZN_2 ZN VAV TERMINAL, Design Size Constant Minimum Air Flow Fraction, 0.11289
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_TOP_ZN_2 ZN VAV TERMINAL, User-Specified Constant Minimum Air Flow Fraction, 0.30000
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_TOP_ZN_2 ZN VAV TERMINAL, Design Size Minimum Air Flow Rate [m3/s], 0.26579
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_TOP_ZN_2 ZN VAV TERMINAL, Design Size Maximum Flow per Zone Floor Area during Reheat [m3/s-m2], 2.02491E-003
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_TOP_ZN_2 ZN VAV TERMINAL, Design Size Maximum Flow Fraction during Reheat [], 0.30000
+ Component Sizing Information, Coil:Heating:Electric, PERIMETER_TOP_ZN_2 ZN ELECTRIC REHEAT COIL, Design Size Nominal Capacity [W], 10535.71802
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_TOP_ZN_3 ZN VAV TERMINAL, Design Size Maximum Air Flow Rate [m3/s], 0.86302
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_TOP_ZN_3 ZN VAV TERMINAL, Design Size Constant Minimum Air Flow Fraction, 0.18307
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_TOP_ZN_3 ZN VAV TERMINAL, User-Specified Constant Minimum Air Flow Fraction, 0.30000
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_TOP_ZN_3 ZN VAV TERMINAL, Design Size Minimum Air Flow Rate [m3/s], 0.25891
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_TOP_ZN_3 ZN VAV TERMINAL, Design Size Maximum Flow per Zone Floor Area during Reheat [m3/s-m2], 1.24872E-003
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_TOP_ZN_3 ZN VAV TERMINAL, Design Size Maximum Flow Fraction during Reheat [], 0.30000
+ Component Sizing Information, Coil:Heating:Electric, PERIMETER_TOP_ZN_3 ZN ELECTRIC REHEAT COIL, Design Size Nominal Capacity [W], 12146.53798
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_TOP_ZN_4 ZN VAV TERMINAL, Design Size Maximum Air Flow Rate [m3/s], 0.94833
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_TOP_ZN_4 ZN VAV TERMINAL, Design Size Constant Minimum Air Flow Fraction, 0.10546
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_TOP_ZN_4 ZN VAV TERMINAL, User-Specified Constant Minimum Air Flow Fraction, 0.30000
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_TOP_ZN_4 ZN VAV TERMINAL, Design Size Minimum Air Flow Rate [m3/s], 0.28450
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_TOP_ZN_4 ZN VAV TERMINAL, Design Size Maximum Flow per Zone Floor Area during Reheat [m3/s-m2], 2.16756E-003
+ Component Sizing Information, AirTerminal:SingleDuct:VAV:Reheat, PERIMETER_TOP_ZN_4 ZN VAV TERMINAL, Design Size Maximum Flow Fraction during Reheat [], 0.30000
+ Component Sizing Information, Coil:Heating:Electric, PERIMETER_TOP_ZN_4 ZN ELECTRIC REHEAT COIL, Design Size Nominal Capacity [W], 11277.17353
+ Component Sizing Information, AirLoopHVAC, 5 ZONE PVAV, Sum of Air Terminal Maximum Heating Flow Rates [m3/s], 1.99115
+ Component Sizing Information, AirLoopHVAC, 5 ZONE PVAV, Sum of Air Terminal Minimum Heating Flow Rates [m3/s], 1.99115
+ Component Sizing Information, AirLoopHVAC, 5 ZONE PVAV, Sum of Air Terminal Maximum Flow Rates [m3/s], 6.63716
+ Component Sizing Information, AirLoopHVAC, 5 ZONE PVAV, Adjusted Heating Design Air Flow Rate [m3/s], 1.99115
+ Component Sizing Information, AirLoopHVAC, 5 ZONE PVAV, Adjusted Cooling Design Air Flow Rate [m3/s], 5.95152
+ Component Sizing Information, AirLoopHVAC, 5 ZONE PVAV, Adjusted Main Design Air Flow Rate [m3/s], 5.95152
+ Component Sizing Information, AirLoopHVAC, 5 ZONE PVAV, User Heating Air Flow Ratio [], 0.30000
+ Component Sizing Information, AirLoopHVAC, 5 ZONE PVAV, Calculated Heating Air Flow Ratio [], 0.33456
+ Component Sizing Information, AirLoopHVAC, 5 ZONE PVAV 1, Sum of Air Terminal Maximum Heating Flow Rates [m3/s], 1.81843
+ Component Sizing Information, AirLoopHVAC, 5 ZONE PVAV 1, Sum of Air Terminal Minimum Heating Flow Rates [m3/s], 1.81843
+ Component Sizing Information, AirLoopHVAC, 5 ZONE PVAV 1, Sum of Air Terminal Maximum Flow Rates [m3/s], 6.06143
+ Component Sizing Information, AirLoopHVAC, 5 ZONE PVAV 1, Adjusted Heating Design Air Flow Rate [m3/s], 1.81843
+ Component Sizing Information, AirLoopHVAC, 5 ZONE PVAV 1, Adjusted Cooling Design Air Flow Rate [m3/s], 5.36403
+ Component Sizing Information, AirLoopHVAC, 5 ZONE PVAV 1, Adjusted Main Design Air Flow Rate [m3/s], 5.36403
+ Component Sizing Information, AirLoopHVAC, 5 ZONE PVAV 1, User Heating Air Flow Ratio [], 0.30000
+ Component Sizing Information, AirLoopHVAC, 5 ZONE PVAV 1, Calculated Heating Air Flow Ratio [], 0.33900
+ Component Sizing Information, AirLoopHVAC, 5 ZONE PVAV 2, Sum of Air Terminal Maximum Heating Flow Rates [m3/s], 1.88566
+ Component Sizing Information, AirLoopHVAC, 5 ZONE PVAV 2, Sum of Air Terminal Minimum Heating Flow Rates [m3/s], 1.88566
+ Component Sizing Information, AirLoopHVAC, 5 ZONE PVAV 2, Sum of Air Terminal Maximum Flow Rates [m3/s], 6.28553
+ Component Sizing Information, AirLoopHVAC, 5 ZONE PVAV 2, Adjusted Heating Design Air Flow Rate [m3/s], 1.88566
+ Component Sizing Information, AirLoopHVAC, 5 ZONE PVAV 2, Adjusted Cooling Design Air Flow Rate [m3/s], 5.79472
+ Component Sizing Information, AirLoopHVAC, 5 ZONE PVAV 2, Adjusted Main Design Air Flow Rate [m3/s], 5.79472
+ Component Sizing Information, AirLoopHVAC, 5 ZONE PVAV 2, User Heating Air Flow Ratio [], 0.30000
+ Component Sizing Information, AirLoopHVAC, 5 ZONE PVAV 2, Calculated Heating Air Flow Ratio [], 0.32541
+ Component Sizing Information, AirLoopHVAC, 5 ZONE PVAV, Design Supply Air Flow Rate [m3/s], 5.95152
+ Component Sizing Information, AirLoopHVAC, 5 ZONE PVAV 1, Design Supply Air Flow Rate [m3/s], 5.36403
+ Component Sizing Information, AirLoopHVAC, 5 ZONE PVAV 2, Design Supply Air Flow Rate [m3/s], 5.79472
+!<Controller:MechanicalVentilation>,Name,Availability Schedule Name,Demand Controlled Ventilation {Yes/No},System Outdoor Air Method,Zone Maximum Outdoor Air Fraction,Number of Zones,Zone Name,DSOA Name,DSZAD Name
+ Controller:MechanicalVentilation,5 ZONE PVAV VENTILATION CONTROLLER,OFFICEMEDIUM MINOA_MOTORIZEDDAMPER_SCHED,No,ZoneSum,1.00,5,CORE_BOTTOM ZN,OFFICE WHOLEBUILDING - MD OFFICE VENTILATION,CORE_BOTTOM ZN DESIGN SPEC ZONE AIR DIST,PERIMETER_BOT_ZN_1 ZN,OFFICE WHOLEBUILDING - MD OFFICE VENTILATION,PERIMETER_BOT_ZN_1 ZN DESIGN SPEC ZONE AIR DIST,PERIMETER_BOT_ZN_2 ZN,OFFICE WHOLEBUILDING - MD OFFICE VENTILATION,PERIMETER_BOT_ZN_2 ZN DESIGN SPEC ZONE AIR DIST,PERIMETER_BOT_ZN_3 ZN,OFFICE WHOLEBUILDING - MD OFFICE VENTILATION,PERIMETER_BOT_ZN_3 ZN DESIGN SPEC ZONE AIR DIST,PERIMETER_BOT_ZN_4 ZN,OFFICE WHOLEBUILDING - MD OFFICE VENTILATION,PERIMETER_BOT_ZN_4 ZN DESIGN SPEC ZONE AIR DIST
+ Controller:MechanicalVentilation,5 ZONE PVAV 1 VENTILATION CONTROLLER,OFFICEMEDIUM MINOA_MOTORIZEDDAMPER_SCHED,No,ZoneSum,1.00,5,CORE_MID ZN,OFFICE WHOLEBUILDING - MD OFFICE VENTILATION,CORE_MID ZN DESIGN SPEC ZONE AIR DIST,PERIMETER_MID_ZN_1 ZN,OFFICE WHOLEBUILDING - MD OFFICE VENTILATION,PERIMETER_MID_ZN_1 ZN DESIGN SPEC ZONE AIR DIST,PERIMETER_MID_ZN_2 ZN,OFFICE WHOLEBUILDING - MD OFFICE VENTILATION,PERIMETER_MID_ZN_2 ZN DESIGN SPEC ZONE AIR DIST,PERIMETER_MID_ZN_3 ZN,OFFICE WHOLEBUILDING - MD OFFICE VENTILATION,PERIMETER_MID_ZN_3 ZN DESIGN SPEC ZONE AIR DIST,PERIMETER_MID_ZN_4 ZN,OFFICE WHOLEBUILDING - MD OFFICE VENTILATION,PERIMETER_MID_ZN_4 ZN DESIGN SPEC ZONE AIR DIST
+ Controller:MechanicalVentilation,5 ZONE PVAV 2 VENTILATION CONTROLLER,OFFICEMEDIUM MINOA_MOTORIZEDDAMPER_SCHED,No,ZoneSum,1.00,5,CORE_TOP ZN,OFFICE WHOLEBUILDING - MD OFFICE VENTILATION,CORE_TOP ZN DESIGN SPEC ZONE AIR DIST,PERIMETER_TOP_ZN_1 ZN,OFFICE WHOLEBUILDING - MD OFFICE VENTILATION,PERIMETER_TOP_ZN_1 ZN DESIGN SPEC ZONE AIR DIST,PERIMETER_TOP_ZN_2 ZN,OFFICE WHOLEBUILDING - MD OFFICE VENTILATION,PERIMETER_TOP_ZN_2 ZN DESIGN SPEC ZONE AIR DIST,PERIMETER_TOP_ZN_3 ZN,OFFICE WHOLEBUILDING - MD OFFICE VENTILATION,PERIMETER_TOP_ZN_3 ZN DESIGN SPEC ZONE AIR DIST,PERIMETER_TOP_ZN_4 ZN,OFFICE WHOLEBUILDING - MD OFFICE VENTILATION,PERIMETER_TOP_ZN_4 ZN DESIGN SPEC ZONE AIR DIST
+ Component Sizing Information, Controller:OutdoorAir, CONTROLLER OUTDOOR AIR 1, Maximum Outdoor Air Flow Rate [m3/s], 5.95152
+ Component Sizing Information, Controller:OutdoorAir, CONTROLLER OUTDOOR AIR 1, Minimum Outdoor Air Flow Rate [m3/s], 0.71710
+ Component Sizing Information, Coil:Cooling:DX:TwoSpeed, 5 ZONE PVAV 2SPD DX CLG COIL, Design Size High Speed Rated Air Flow Rate [m3/s], 5.95152
+ Component Sizing Information, Coil:Cooling:DX:TwoSpeed, 5 ZONE PVAV 2SPD DX CLG COIL, Design Size High Speed Gross Rated Total Cooling Capacity [W], 98518.76476
+ Component Sizing Information, Coil:Cooling:DX:TwoSpeed, 5 ZONE PVAV 2SPD DX CLG COIL, Design Size High Speed Rated Sensible Heat Ratio, 0.80066
+ Component Sizing Information, Coil:Cooling:DX:TwoSpeed, 5 ZONE PVAV 2SPD DX CLG COIL, Design Size Low Speed Rated Air Flow Rate [m3/s], 1.98364
+ Component Sizing Information, Coil:Cooling:DX:TwoSpeed, 5 ZONE PVAV 2SPD DX CLG COIL, Design Size Low Speed Gross Rated Total Cooling Capacity [W], 32836.30429
+ Component Sizing Information, Coil:Cooling:DX:TwoSpeed, 5 ZONE PVAV 2SPD DX CLG COIL, Design Size Low Speed Gross Rated Sensible Heat Ratio, 0.80066
+ Component Sizing Information, Coil:Cooling:DX:TwoSpeed, 5 ZONE PVAV 2SPD DX CLG COIL, User-Specified Low Speed Gross Rated Sensible Heat Ratio, 0.69000
+! <VAV DX Cooling Coil Standard Rating Information>, DX Coil Type, DX Coil Name, Fan Type, Fan Name, Standard Net Cooling Capacity {W}, Standard Net Cooling Capacity {Btu/h}, IEER {Btu/W-h}, COP 100% Capacity {W/W}, COP 75% Capacity {W/W}, COP 50% Capacity {W/W}, COP 25% Capacity {W/W}, EER 100% Capacity {Btu/W-h}, EER 75% Capacity {Btu/W-h}, EER 50% Capacity {Btu/W-h}, EER 25% Capacity {Btu/W-h}, Supply Air Flow 100% {kg/s}, Supply Air Flow 75% {kg/s},Supply Air Flow 50% {kg/s},Supply Air Flow 25% {kg/s}
+ VAV DX Cooling Coil Standard Rating Information, Coil:Cooling:DX:TwoSpeed,5 ZONE PVAV 2SPD DX CLG COIL,N/A,N/A,94083.30,321025.53,9.90,2.53,2.81,3.04,3.14,8.63,9.60,10.37,10.72,5.9693,4.3606,2.6920,1.2080,
+ Component Sizing Information, Coil:Heating:Fuel, 5 ZONE PVAV MAIN GAS HTG COIL, Design Size Nominal Capacity [W], 4310.96104
+ Component Sizing Information, Fan:VariableVolume, 5 ZONE PVAV FAN, Design Size Maximum Flow Rate [m3/s], 5.95152
+ Component Sizing Information, Controller:OutdoorAir, CONTROLLER OUTDOOR AIR 2, Maximum Outdoor Air Flow Rate [m3/s], 5.36403
+ Component Sizing Information, Controller:OutdoorAir, CONTROLLER OUTDOOR AIR 2, Minimum Outdoor Air Flow Rate [m3/s], 0.71710
+ Component Sizing Information, Coil:Cooling:DX:TwoSpeed, 5 ZONE PVAV 1 2SPD DX CLG COIL, Design Size High Speed Rated Air Flow Rate [m3/s], 5.36403
+ Component Sizing Information, Coil:Cooling:DX:TwoSpeed, 5 ZONE PVAV 1 2SPD DX CLG COIL, Design Size High Speed Gross Rated Total Cooling Capacity [W], 88793.75826
+ Component Sizing Information, Coil:Cooling:DX:TwoSpeed, 5 ZONE PVAV 1 2SPD DX CLG COIL, Design Size High Speed Rated Sensible Heat Ratio, 0.80066
+ Component Sizing Information, Coil:Cooling:DX:TwoSpeed, 5 ZONE PVAV 1 2SPD DX CLG COIL, Design Size Low Speed Rated Air Flow Rate [m3/s], 1.78783
+ Component Sizing Information, Coil:Cooling:DX:TwoSpeed, 5 ZONE PVAV 1 2SPD DX CLG COIL, Design Size Low Speed Gross Rated Total Cooling Capacity [W], 29594.95963
+ Component Sizing Information, Coil:Cooling:DX:TwoSpeed, 5 ZONE PVAV 1 2SPD DX CLG COIL, Design Size Low Speed Gross Rated Sensible Heat Ratio, 0.80066
+ Component Sizing Information, Coil:Cooling:DX:TwoSpeed, 5 ZONE PVAV 1 2SPD DX CLG COIL, User-Specified Low Speed Gross Rated Sensible Heat Ratio, 0.69000
+ VAV DX Cooling Coil Standard Rating Information, Coil:Cooling:DX:TwoSpeed,5 ZONE PVAV 1 2SPD DX CLG COIL,N/A,N/A,84796.12,289336.39,9.90,2.53,2.81,3.04,3.14,8.63,9.60,10.37,10.72,5.3800,3.9301,2.4263,1.0887,
+ Component Sizing Information, Coil:Heating:Fuel, 5 ZONE PVAV 1 MAIN GAS HTG COIL, Design Size Nominal Capacity [W], 5831.78032
+ Component Sizing Information, Fan:VariableVolume, 5 ZONE PVAV 1 FAN, Design Size Maximum Flow Rate [m3/s], 5.36403
+ Component Sizing Information, Controller:OutdoorAir, CONTROLLER OUTDOOR AIR 3, Maximum Outdoor Air Flow Rate [m3/s], 5.79472
+ Component Sizing Information, Controller:OutdoorAir, CONTROLLER OUTDOOR AIR 3, Minimum Outdoor Air Flow Rate [m3/s], 0.71710
+ Component Sizing Information, Coil:Cooling:DX:TwoSpeed, 5 ZONE PVAV 2 2SPD DX CLG COIL, Design Size High Speed Rated Air Flow Rate [m3/s], 5.79472
+ Component Sizing Information, Coil:Cooling:DX:TwoSpeed, 5 ZONE PVAV 2 2SPD DX CLG COIL, Design Size High Speed Gross Rated Total Cooling Capacity [W], 95923.24542
+ Component Sizing Information, Coil:Cooling:DX:TwoSpeed, 5 ZONE PVAV 2 2SPD DX CLG COIL, Design Size High Speed Rated Sensible Heat Ratio, 0.80066
+ Component Sizing Information, Coil:Cooling:DX:TwoSpeed, 5 ZONE PVAV 2 2SPD DX CLG COIL, Design Size Low Speed Rated Air Flow Rate [m3/s], 1.93138
+ Component Sizing Information, Coil:Cooling:DX:TwoSpeed, 5 ZONE PVAV 2 2SPD DX CLG COIL, Design Size Low Speed Gross Rated Total Cooling Capacity [W], 31971.21770
+ Component Sizing Information, Coil:Cooling:DX:TwoSpeed, 5 ZONE PVAV 2 2SPD DX CLG COIL, Design Size Low Speed Gross Rated Sensible Heat Ratio, 0.80066
+ Component Sizing Information, Coil:Cooling:DX:TwoSpeed, 5 ZONE PVAV 2 2SPD DX CLG COIL, User-Specified Low Speed Gross Rated Sensible Heat Ratio, 0.69000
+ VAV DX Cooling Coil Standard Rating Information, Coil:Cooling:DX:TwoSpeed,5 ZONE PVAV 2 2SPD DX CLG COIL,N/A,N/A,91604.63,312567.98,9.90,2.53,2.81,3.04,3.14,8.63,9.60,10.37,10.72,5.8120,4.2457,2.6211,1.1761,
+ Component Sizing Information, Coil:Heating:Fuel, 5 ZONE PVAV 2 MAIN GAS HTG COIL, Design Size Nominal Capacity [W], 6834.05971
+ Component Sizing Information, Fan:VariableVolume, 5 ZONE PVAV 2 FAN, Design Size Maximum Flow Rate [m3/s], 5.79472
+Water Heater Information,WaterHeater:Mixed,100GAL NATURAL GAS WATER HEATER - 100KBTU/HR,0.3785,29307.1,0.936,0.2207
+ Component Sizing Information, PlantLoop, MAIN SERVICE WATER LOOP, Maximum Loop Flow Rate [m3/s], 5.36265E-005
+ Component Sizing Information, PlantLoop, MAIN SERVICE WATER LOOP, Plant Loop Volume [m3], 6.43518E-003
+ Component Sizing Information, Pump:ConstantSpeed, MAIN SERVICE WATER LOOP CIRCULATOR PUMP, Design Flow Rate [m3/s], 5.36265E-005
+ Component Sizing Information, Pump:ConstantSpeed, MAIN SERVICE WATER LOOP CIRCULATOR PUMP, Design Power Consumption [W], 6.85021
+ Component Sizing Information, WaterHeater:Mixed, 100GAL NATURAL GAS WATER HEATER - 100KBTU/HR, Use Side Design Flow Rate [m3/s], 5.36265E-005
+! <Environment>,Environment Name,Environment Type, Start Date, End Date, Start DayOfWeek, Duration {#days}, Source:Start DayOfWeek,  Use Daylight Saving, Use Holidays, Apply Weekend Holiday Rule,  Use Rain Values, Use Snow Values
+! <Environment:Special Days>, Special Day Name, Special Day Type, Source, Start Date, Duration {#days}
+! <Environment:Daylight Saving>, Daylight Saving Indicator, Source, Start Date, End Date
+! <Environment:WarmupDays>, NumberofWarmupDays
+Environment,EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB,SizingPeriod:DesignDay,07/21,07/21,SummerDesignDay,1,N/A,N/A,N/A,N/A,N/A,N/A
+Environment:Daylight Saving,No,SizingPeriod:DesignDay
+! <Environment:Design Day Data>, Max Dry-Bulb Temp {C}, Temp Range {dC}, Temp Range Ind Type, Hum Ind Value at Max Temp, Hum Ind Type,Pressure {Pa}, Wind Direction {deg CW from N}, Wind Speed {m/s}, Clearness, Rain, Snow
+! <Environment:Design Day Misc>,DayOfYear,ASHRAE A Coeff,ASHRAE B Coeff,ASHRAE C Coeff,Solar Constant-Annual Variation,Eq of Time {minutes}, Solar Declination Angle {deg}, Solar Model
+Environment:Design Day Data,38.10,13.00,DefaultMultipliers,87865,280,3.9,0.00,No,No
+Environment:Design Day Misc,202,1084.4,0.2082,0.1365,1.0,-6.23,20.6,ASHRAETau
+Environment:WarmupDays,  6
+! <Tabular Report>,Style,Unit Conversion
+Tabular Report,HTML,None
+! <Warmup Convergence Information>,Zone Name,Environment Type/Name,Average Warmup Temperature Difference {deltaC},Std Dev Warmup Temperature Difference {deltaC},Max Temperature Pass/Fail Convergence,Min Temperature Pass/Fail Convergence,Average Warmup Load Difference {W},Std Dev Warmup Load Difference {W},Heating Load Pass/Fail Convergence,Cooling Load Pass/Fail Convergence
+ Warmup Convergence Information,CORE_BOTTOM ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB,0.3261092609,0.5965880171,Pass,Pass,0.2016441814,0.3920338225,Pass,Pass
+ Warmup Convergence Information,CORE_MID ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB,0.1560436604,0.2922372016,Pass,Pass,0.1885407068,0.3970490885,Pass,Pass
+ Warmup Convergence Information,CORE_TOP ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB,0.1577374218,0.2953073434,Pass,Pass,0.1884593057,0.3977761146,Pass,Pass
+ Warmup Convergence Information,FIRSTFLOOR_PLENUM ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB,7.5025179817E-002,0.1101601093,Pass,Pass,0.2476874054,0.6771174164,Pass,Pass
+ Warmup Convergence Information,MIDFLOOR_PLENUM ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB,3.5114094349E-002,5.9053512831E-002,Pass,Pass,0.2173872644,0.4389469903,Pass,Pass
+ Warmup Convergence Information,PERIMETER_BOT_ZN_1 ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB,0.1788131578,0.3081727572,Pass,Pass,0.1870627284,0.3749864952,Pass,Pass
+ Warmup Convergence Information,PERIMETER_BOT_ZN_2 ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB,0.2325148953,0.4026809927,Pass,Pass,0.1843960311,0.3639028709,Pass,Pass
+ Warmup Convergence Information,PERIMETER_BOT_ZN_3 ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB,0.1634613978,0.2840962763,Pass,Pass,0.1822943468,0.3802163833,Pass,Pass
+ Warmup Convergence Information,PERIMETER_BOT_ZN_4 ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB,0.2471869592,0.4192654855,Pass,Pass,0.1882352959,0.3661563384,Pass,Pass
+ Warmup Convergence Information,PERIMETER_MID_ZN_1 ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB,0.2045748385,0.3926868608,Pass,Pass,0.1871784590,0.3763046582,Pass,Pass
+ Warmup Convergence Information,PERIMETER_MID_ZN_2 ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB,0.2835435772,0.5364947466,Pass,Pass,0.1880071664,0.3695369557,Pass,Pass
+ Warmup Convergence Information,PERIMETER_MID_ZN_3 ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB,0.1890322424,0.3506442996,Pass,Pass,0.1854588692,0.3805889541,Pass,Pass
+ Warmup Convergence Information,PERIMETER_MID_ZN_4 ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB,0.2948315201,0.5687508861,Pass,Pass,0.1911171813,0.3701444791,Pass,Pass
+ Warmup Convergence Information,PERIMETER_TOP_ZN_1 ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB,0.2145541406,0.4096750641,Pass,Pass,0.1885688437,0.3766890783,Pass,Pass
+ Warmup Convergence Information,PERIMETER_TOP_ZN_2 ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB,0.2851974347,0.5414436442,Pass,Pass,0.1881880732,0.3697789351,Pass,Pass
+ Warmup Convergence Information,PERIMETER_TOP_ZN_3 ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB,0.1970797262,0.3700291890,Pass,Pass,0.1870390198,0.3800278755,Pass,Pass
+ Warmup Convergence Information,PERIMETER_TOP_ZN_4 ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB,0.3040082391,0.5854612582,Pass,Pass,0.1916022586,0.3705840463,Pass,Pass
+ Warmup Convergence Information,TOPFLOOR_PLENUM ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN CLG .4% CONDNS DB=>MWB,4.5020859735E-002,5.3513211988E-002,Pass,Pass,0.2275316886,0.4441334536,Pass,Pass
+Environment,EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB,SizingPeriod:DesignDay,12/21,12/21,WinterDesignDay,1,N/A,N/A,N/A,N/A,N/A,N/A
+Environment:Daylight Saving,No,SizingPeriod:DesignDay
+Environment:Design Day Data,-5.20,0.00,DefaultMultipliers,87865,20,2.2,0.00,No,No
+Environment:Design Day Misc,355,1232.8,0.1424,5.7719E-002,1.0,2.45,-23.5,ASHRAEClearSky
+Environment:WarmupDays,  9
+ Warmup Convergence Information,CORE_BOTTOM ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB,4.6439932457E-002,0.1504560012,Pass,Pass,0.4500737957,3.1625467802,Pass,Pass
+ Warmup Convergence Information,CORE_MID ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB,7.8330633235E-002,0.1923226534,Pass,Pass,0.1473231067,0.3497505220,Pass,Pass
+ Warmup Convergence Information,CORE_TOP ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB,0.1429149090,0.2480628854,Pass,Pass,0.2117931459,0.3769205949,Pass,Pass
+ Warmup Convergence Information,FIRSTFLOOR_PLENUM ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB,3.3730719460E-002,5.5269412973E-002,Pass,Pass,0.1033802467,0.2855354892,Pass,Pass
+ Warmup Convergence Information,MIDFLOOR_PLENUM ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB,3.9283676209E-002,6.2443995671E-002,Pass,Pass,0.1052642248,0.2977288825,Pass,Pass
+ Warmup Convergence Information,PERIMETER_BOT_ZN_1 ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB,0.1744121023,0.3778278761,Pass,Pass,0.1071157609,0.2704582898,Pass,Pass
+ Warmup Convergence Information,PERIMETER_BOT_ZN_2 ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB,0.1817073150,0.4177490069,Pass,Pass,0.1160877407,0.2792669663,Pass,Pass
+ Warmup Convergence Information,PERIMETER_BOT_ZN_3 ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB,0.1739985708,0.3634111418,Pass,Pass,0.1133113457,0.2910657812,Pass,Pass
+ Warmup Convergence Information,PERIMETER_BOT_ZN_4 ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB,0.1797279646,0.4155989066,Pass,Pass,0.1146878840,0.2772874292,Pass,Pass
+ Warmup Convergence Information,PERIMETER_MID_ZN_1 ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB,0.2085205849,0.4523378130,Pass,Pass,0.1040926469,0.2772023755,Pass,Pass
+ Warmup Convergence Information,PERIMETER_MID_ZN_2 ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB,0.2166793737,0.4988973755,Pass,Pass,0.1143073292,0.2870191287,Pass,Pass
+ Warmup Convergence Information,PERIMETER_MID_ZN_3 ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB,0.2087707348,0.4364111468,Pass,Pass,0.1114831989,0.3026752375,Pass,Pass
+ Warmup Convergence Information,PERIMETER_MID_ZN_4 ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB,0.2140608106,0.4950685962,Pass,Pass,0.1144109172,0.2879983660,Pass,Pass
+ Warmup Convergence Information,PERIMETER_TOP_ZN_1 ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB,0.2803879956,0.5112323825,Pass,Pass,0.4427928733,1.5267492268,Pass,Pass
+ Warmup Convergence Information,PERIMETER_TOP_ZN_2 ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB,0.2942061208,0.5640599607,Pass,Pass,0.6279277775,2.4925174835,Pass,Pass
+ Warmup Convergence Information,PERIMETER_TOP_ZN_3 ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB,0.2800114311,0.4921206516,Pass,Pass,0.4555898488,1.4632127565,Pass,Pass
+ Warmup Convergence Information,PERIMETER_TOP_ZN_4 ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB,0.2897455366,0.5652497512,Pass,Pass,0.6795756554,2.7929384854,Pass,Pass
+ Warmup Convergence Information,TOPFLOOR_PLENUM ZN,SizingPeriod: EL PASO INTERNATIONAL AP  UT ANN HTG 99.6% CONDNS DB,9.5747556067E-002,0.1229272826,Pass,Pass,0.1889363590,0.3737964277,Pass,Pass
+! <Program Control Information:Threads/Parallel Sims>, Threading Supported,Maximum Number of Threads, Env Set Threads (OMP_NUM_THREADS), EP Env Set Threads (EP_OMP_NUM_THREADS), IDF Set Threads, Number of Threads Used (Interior Radiant Exchange), Number Nominal Surfaces, Number Parallel Sims
+Program Control:Threads/Parallel Sims, No,1, N/A, N/A, N/A, N/A, N/A, N/A
+End of Data

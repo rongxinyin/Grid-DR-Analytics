@@ -1,0 +1,23 @@
+{
+  "CreateDOEPrototypeBuilding": {
+    "building_type": "MediumOffice",
+    "template": "90.1-2010",
+    "climate_zone": "ASHRAE 169-2006-3B",
+    "epw_file": "Not Applicable",
+    "applicable": true
+  },
+  "SetTimeStep": {
+    "timestep": 4,
+    "applicable": true
+  },
+  "ChangeHeatingAndCoolingSetpoint": {
+    "cooling_adjustment": 4.0,
+    "heating_adjustment": 0.0,
+    "start_hour": 12,
+    "start_minute": 0,
+    "end_hour": 18,
+    "end_minute": 0,
+    "alter_design_days": false,
+    "applicable": true
+  }
+}

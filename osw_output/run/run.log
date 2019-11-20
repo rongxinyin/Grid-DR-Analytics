@@ -1,0 +1,32 @@
+[10:32:18.610068 WARN] No valid weather file defined in either the osm or osw.
+[10:32:33.786230 WARN] [openstudio.standards.ConstructionBase] Can only set the u-value of opaque constructions or simple glazing. U 0.62 SHGC 0.25 Dbl Ref-C-H Clr 6mm/6mm Air is not opaque or simple glazing.
+[10:32:33.786348 WARN] [openstudio.standards.ConstructionBase] Can only set the u-value of opaque constructions or simple glazing. U 0.88 SHGC 0.16 Sgl Ref-A-L Clr 6mm is not opaque or simple glazing.
+[10:32:33.786387 WARN] [openstudio.standards.ConstructionBase] Requested U-value of 1.45 for Typical Overhead Door is too low given the other materials in the construction; insulation layer will not be modified.
+[10:32:33.786988 WARN] [openstudio.model.Model] In model_add_swh_loop, number_water_heaters = 1
+[10:32:33.787025 WARN] [openstudio.model.Model] In model_add_water_heater, number_water_heaters = 1
+[10:32:33.787124 WARN] [openstudio.EpwFile] Successive data points (2004-Jan-31 to 2001-Feb-01, ending on line 753) are greater than 1 day apart in EPW file '/Users/ryin/github/task8-parametric-runs/osw_output/run/000_CreateDOEPrototypeBuilding/extracted_files/weather/USA_TX_El.Paso.Intl.AP.722700_TMY3.epw'. Data will be treated as typical (TMY)
+[10:32:34.451454 WARN] The model started with timestep of 6.
+[10:32:34.451524 WARN] The model finished with timestep of 4.
+[10:32:34.508588 WARN] Lowering the cooling setpoint will increase energy use.
+[10:32:34.508981 WARN] Thermostat 'Plenum Thermostat 3' doesn't have a cooling setpoint schedule
+[10:32:34.509017 WARN] Thermostat 'Plenum Thermostat 3' doesn't have a heating setpoint schedule.
+[10:32:34.532409 WARN] Thermostat 'Plenum Thermostat 1' doesn't have a cooling setpoint schedule
+[10:32:34.532456 WARN] Thermostat 'Plenum Thermostat 1' doesn't have a heating setpoint schedule.
+[10:32:34.532922 WARN] Thermostat 'Plenum Thermostat 2' doesn't have a cooling setpoint schedule
+[10:32:34.532958 WARN] Thermostat 'Plenum Thermostat 2' doesn't have a heating setpoint schedule.
+[10:32:34.533075 WARN] Thermostat 'Plenum Thermostat' doesn't have a cooling setpoint schedule
+[10:32:34.533111 WARN] Thermostat 'Plenum Thermostat' doesn't have a heating setpoint schedule.
+[10:32:34.533213 WARN] Thermal zone 'TopFloor_Plenum ZN' has a thermostat but does not appear to be conditioned.
+[10:32:34.533364 WARN] Thermal zone 'FirstFloor_Plenum ZN' has a thermostat but does not appear to be conditioned.
+[10:32:34.533441 WARN] Thermal zone 'MidFloor_Plenum ZN' has a thermostat but does not appear to be conditioned.
+[10:32:34.593032 WARN] Thermostat 'Plenum Thermostat 3' doesn't have a cooling setpoint schedule
+[10:32:34.593099 WARN] Thermostat 'Plenum Thermostat 3' doesn't have a heating setpoint schedule.
+[10:32:34.617959 WARN] Thermostat 'Plenum Thermostat 1' doesn't have a cooling setpoint schedule
+[10:32:34.618015 WARN] Thermostat 'Plenum Thermostat 1' doesn't have a heating setpoint schedule.
+[10:32:34.618458 WARN] Thermostat 'Plenum Thermostat 2' doesn't have a cooling setpoint schedule
+[10:32:34.618494 WARN] Thermostat 'Plenum Thermostat 2' doesn't have a heating setpoint schedule.
+[10:32:34.618609 WARN] Thermostat 'Plenum Thermostat' doesn't have a cooling setpoint schedule
+[10:32:34.618643 WARN] Thermostat 'Plenum Thermostat' doesn't have a heating setpoint schedule.
+[10:32:34.618730 WARN] Thermal zone 'TopFloor_Plenum ZN' has a thermostat but does not appear to be conditioned.
+[10:32:34.618867 WARN] Thermal zone 'FirstFloor_Plenum ZN' has a thermostat but does not appear to be conditioned.
+[10:32:34.618939 WARN] Thermal zone 'MidFloor_Plenum ZN' has a thermostat but does not appear to be conditioned.

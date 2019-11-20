@@ -24,3 +24,22 @@ def create_rvalue_measure(params):
     output['arguments']['r_value'] = params.get('WallRValue')
     return output
 
+def create_gta_measure(params):
+    output = dict()
+    output.update({'measure_dir_name': 'ChangeHeatingAndCoolingSetpoint'})
+    output['arguments']={}
+    output['arguments']['cooling_adjustment'] = params.get('reset_deg')
+    output['arguments']['heating_adjustment'] = 0
+    output['arguments']['start_hour'] = params.get('start_hour')
+    output['arguments']['end_hour'] = params.get('end_hour')
+    return output
+
+def create_precool_measure(params):
+    output = dict()
+    output.update({'measure_dir_name': 'ChangeHeatingAndCoolingSetpoint'})
+    output['arguments']={}
+    output['arguments']['cooling_adjustment'] = 0 - int(params.get('precool_deg'))
+    output['arguments']['heating_adjustment'] = 0
+    output['arguments']['start_hour'] = int(params.get('start_hour'))-int(params.get('precool_hours'))
+    output['arguments']['end_hour'] = params.get('start_hour')
+    return output
