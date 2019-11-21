@@ -17,5 +17,6 @@ SyncToy*.dat
 # Testing outputs
 osw_output/*
 !osw_output/measures
+!osw_output/eplus
 parametric_analysis/osw
 parametric_analysis/osm
