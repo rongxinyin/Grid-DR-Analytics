@@ -15,9 +15,7 @@ docs/_build/
 SyncToy*.dat
 
 # Testing outputs
-model_paras.json
 osw_output/*
 !osw_output/measures
-generate_baseline_model_local.py
 parametric_analysis/osw
 parametric_analysis/osm
