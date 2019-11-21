@@ -22,8 +22,9 @@ def perturb_model(osm_file, design_file, config_file, measure_file):
     """"""
     # Provide OpenStudio path and current file path
     with open(config_file, 'r') as f:
-        exe_path = json.load(f)['OpenStudioPath']
-        # measure_folder = json.load(f)['MeasureDirectory']
+        config = json.load(f)
+        exe_path = config['OpenStudioPath']
+        measure_folder = config['MeasureDirectory']
 
     # OenStudio Model name
     model_name = pathlib.Path(osm_file).stem
@@ -32,8 +33,7 @@ def perturb_model(osm_file, design_file, config_file, measure_file):
     root_dir = pathlib.Path.cwd()
 
     # Directory where OpenStudio measures are located
-    # measure_dir = root_dir.joinpath(measure_folder)
-    measure_dir = root_dir.joinpath('measures')
+    measure_dir = root_dir.joinpath(measure_folder)
 
     # Directory for parametric analysis workflow outputs
     osw_dir = root_dir.joinpath('osw')
