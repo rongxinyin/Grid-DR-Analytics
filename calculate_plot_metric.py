@@ -100,16 +100,44 @@ class PlotDFOutput(object):
         output_path = self.root_path.joinpath('eplus_output', 'plot')
         fig.savefig(output_path.joinpath('{}-test.png'.format(self.model_id)), dpi=300, bbox_inches='tight')
 
+        # box-plot
+
+    def generate_boxplot(self):
+        df = self.add_df_output()
+        # Subset of data on weekdays in summer months
+        df_wk = df[(df['weekday'] > 0) & (df['weekday'] < 6) & (df['month'] <= 10) & (df['month'] > 4)]
+        df_wk = df_wk.resample('60min').mean()
+        df_wk['day'] = list(map(lambda x: x.strftime('%Y-%d'), df_wk.index))
+        df_wk_pivot = pd.pivot_table(df_wk, values=self.model_id+'_'+'shed_W_ft2',index='day',columns='hour')
+        # print(df_wk_pivot.head())
+
+        sns.set_style('ticks')
+        sns.set_context("paper", rc={"lines.linewidth": 2})
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 3), facecolor='w', edgecolor='k', sharey=False)
+        fig.subplots_adjust(hspace=.1, wspace=.15)
+
+        df_wk_pivot.boxplot(ax=ax1)
+        ax1.plot(range(24), df_wk_pivot.mean(), '-ro', label='Average')
+        # ax1.set_ylim(0, 50)
+        ax1.set_xlabel('Hour of Day')
+        ax1.set_ylabel('Demand Shed Density (w/ft2)')
+        ax1.legend()
+
+        output_path = self.root_path.joinpath('eplus_output', 'plot')
+        fig.savefig(output_path.joinpath('{}-boxplot.png'.format(self.model_id)), dpi=300, bbox_inches='tight')
+
 
 # test
-test = PlotDFOutput(floor_area=53628,
-                    base_csv='MediumOffice_Post1980_3B_74_12_18_0_0.csv',
-                    df_csv='MediumOffice_Post1980_3B_74_12_18_2_4.csv',
-                    model_id='Post1980')
-test.generate_plot()
+# test = PlotDFOutput(floor_area=53628,
+#                     base_csv='MediumOffice_Post1980_3B_74_12_18_0_0.csv',
+#                     df_csv='MediumOffice_Post1980_3B_74_12_18_2_4.csv',
+#                     model_id='Post1980')
+# test.generate_plot()
 
 test = PlotDFOutput(floor_area=53628,
                     base_csv='MediumOffice_2010_3B_74_12_18_0_0.csv',
                     df_csv='MediumOffice_2010_3B_74_12_18_2_4.csv',
                     model_id='2010')
-test.generate_plot()
+# test.generate_plot()
+
+test.generate_boxplot()
