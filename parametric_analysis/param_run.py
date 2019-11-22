@@ -1,5 +1,5 @@
 """
-Main workflow to perturb OpenStudio model parameters to analyze DF metrics
+Main workflow to perturb OpenStudio model parameters and analyze DF metrics
 variations
 
 """
@@ -18,8 +18,10 @@ import pandas as pd
 from add_measure import *
 
 
-def perturb_model(osm_file, design_file, config_file, measure_file):
+def perturb_model(osm_file, design_file, config_file, measure_file, run=None):
     """"""
+    run = 'osm' if run is None else 'idf'
+
     # Provide OpenStudio path and current file path
     with open(config_file, 'r') as f:
         config = json.load(f)
@@ -63,9 +65,9 @@ def perturb_model(osm_file, design_file, config_file, measure_file):
 
     # Set RUBYLIB environment variable RUBYLIB
 
-    # Create osw file using OpenStudio and call OpenStudio command
-    # to generate E+ model file
-    for i in range(design_table.shape[0]):
+    # Create osw file using OpenStudio
+    n_run = design_table.shape[0]
+    for i in range(n):
         osw_inst = osw_template.copy()
         osw_inst['steps'] = []
         for j, measure in enumerate(measure_list):
@@ -77,24 +79,33 @@ def perturb_model(osm_file, design_file, config_file, measure_file):
         with open(osw_path, 'w') as f:
             f.write(json.dumps(osw_inst))
 
-        # Call OpenStudio command to generate E+ model
-        command_line = '{} run -m -w "{}"'.format(exe_path, str(osw_path))
-        os.system(command_line)
+    # Call OpenStudio command to generate E+ model and/or run simulation
+    if run == 'osm':
+        # OpenStudio workflow
+        for i in range(n_run):
+            command_line = '{} run -w "{}"'.format(exe_path, str(osw_path))
+            os.system(command_line)
+    else:
+        # EnergyPlus workflow
+        for i in range(n_run):
+            command_line = '{} run -m -w "{}"'.format(exe_path, str(osw_path))
+            os.system(command_line)
 
-        # Copy the in.idf to the eplus output folder
-        idf_output = osw_dir.joinpath('run', 'in.idf')
-        idf_file = out_dir.joinpath('{}-Inst_{}.idf'.format(model_name, i+1))
-        if os.path.exists(idf_output):
-            shutil.copyfile(idf_output, idf_file)
-        else:
-            print('''in.idf doesn't exist.''')
-        # Copy the in.osm to the eplus output folder
-        osm_output = osw_dir.joinpath('run', 'in.osm')
-        osm_file = out_dir.joinpath('{}-Inst_{}.osm'.format(model_name, i+1))
-        if os.path.exists(osm_output):
-            shutil.copyfile(osm_output, osm_file)
-        else:
-            print('''in.osm doesn't exist.''')
+            # Copy the in.idf and in.osm to the eplus output folder
+            for model in ['idf', 'osm']:
+                copy_model_file(osw_dir, out_dir, model_name, i+1, model)
+
+
+def copy_model_file(src_dir, dst_dir, name, idx, file_type=None):
+    """Copy energy model file."""
+    file_type = 'osm' if file_type is None else 'idf'
+
+    src_file = src_dir.joinpath('run', 'in.{}'.format(file_type))
+    dst_file = dst_dir.joinpath('{}-Inst_{}.{}'.format(name, idx, file_type))
+    try:
+        shutil.copyfile(src_file, dst_file)
+    except FileNotFoundError:
+        print('''in.{} doesn't exist.'''.format(file_type))
 
 
 if __name__ == "__main__":

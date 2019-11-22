@@ -20,3 +20,6 @@ osw_output/*
 !osw_output/eplus
 parametric_analysis/osw
 parametric_analysis/osm
+parametric_analysis/tmp
+parametric_analysis/model_paras.json
+parametric_analysis/model_tstat_paras.json
