@@ -18,9 +18,10 @@ import pandas as pd
 from add_measure import *
 
 
-def perturb_model(osm_file, design_file, config_file, measure_file, run=None):
+def perturb_model(
+        osm_file, epw_file, design_file, config_file, measure_file, run=None):
     """"""
-    run = 'osm' if run is None else 'idf'
+    run = 'osm' if run is None else run
 
     # Provide OpenStudio path and current file path
     with open(config_file, 'r') as f:
@@ -29,7 +30,7 @@ def perturb_model(osm_file, design_file, config_file, measure_file, run=None):
         measure_folder = config['MeasureDirectory']
 
     # OenStudio Model name
-    model_name = pathlib.Path(osm_file).stem
+    mdl_name = pathlib.Path(osm_file).stem
 
     # Workflow root directory
     root_dir = pathlib.Path.cwd()
@@ -39,19 +40,29 @@ def perturb_model(osm_file, design_file, config_file, measure_file, run=None):
 
     # Directory for parametric analysis workflow outputs
     osw_dir = root_dir.joinpath('osw')
-    shutil.rmtree(osw_dir, ignore_errors=True)
-    pathlib.Path.mkdir(osw_dir)
 
-    # Directory for model instance outputs
-    out_dir = root_dir.joinpath('osm')
-    shutil.rmtree(out_dir, ignore_errors=True)
-    pathlib.Path.mkdir(out_dir)
+    # Directory for generated model instances
+    mdl_dir = root_dir.joinpath('model')
+
+    # Directory for simulation outputs
+    run_dir = root_dir.joinpath('run')
+
+    # Directory for analysis outputs
+    out_dir = root_dir.joinpath('output')
+
+    # Create directories
+    for dir_inst in [osw_dir, mdl_dir, run_dir, out_dir]:
+        shutil.rmtree(dir_inst, ignore_errors=True)
+        pathlib.Path.mkdir(dir_inst)
+    for mdl in ['idf', 'osm']:
+        pathlib.Path.mkdir(mdl_dir.joinpath(mdl))
 
     # Create osw template and model params in JSON
     osw_template = {}
     osw_template['file_paths'] = [str(root_dir)]
     osw_template['measure_paths'] = [str(measure_dir)]
-    osw_template['seed_file'] = osm_file
+    osw_template['seed_file'] = str(pathlib.Path(osm_file))
+    osw_template['weather_file'] = str(pathlib.Path(epw_file))
 
     # Read experimental design of model parameter values
     design_table = pd.read_csv(design_file)
@@ -67,56 +78,82 @@ def perturb_model(osm_file, design_file, config_file, measure_file, run=None):
 
     # Create osw file using OpenStudio
     n_run = design_table.shape[0]
-    for i in range(n):
+    osw_path = []
+    run_inst_dirs = []
+    for i in range(n_run):
         osw_inst = osw_template.copy()
+
+        # Run directory
+        run_inst_dir = run_dir.joinpath('run-inst_{}'.format(i+1))
+        run_inst_dirs.append(run_inst_dir)
+        osw_inst['run_directory'] = str(run_inst_dir)
+
+        # Measures
         osw_inst['steps'] = []
         for j, measure in enumerate(measure_list):
             osw_inst['steps'].extend(
                 create_measure(measure, design_table.iloc[i, j])
             )
 
-        osw_path = osw_dir.joinpath('{}-Inst_{}.osw'.format(model_name, i+1))
-        with open(osw_path, 'w') as f:
+        # Generate osw files
+        osw_path_inst = osw_dir.joinpath(
+            '{}-Inst_{}.osw'.format(mdl_name, i+1)
+        )
+        with open(osw_path_inst, 'w') as f:
             f.write(json.dumps(osw_inst))
+        osw_path.append(osw_path_inst)
 
     # Call OpenStudio command to generate E+ model and/or run simulation
     if run == 'osm':
         # OpenStudio workflow
         for i in range(n_run):
-            command_line = '{} run -w "{}"'.format(exe_path, str(osw_path))
+            command_line = '{} run -w "{}"'.format(exe_path, str(osw_path[i]))
             os.system(command_line)
+
+            # Copy the in.idf and in.osm to the model folder
+            for file_ext in ['idf', 'osm']:
+                file_name = '{}-Inst_{}'.format(mdl_name, i+1)
+                copy_model_file(
+                    run_inst_dirs[i], mdl_dir.joinpath(file_ext),
+                    file_name, file_ext
+                )
+
     else:
         # EnergyPlus workflow
         for i in range(n_run):
-            command_line = '{} run -m -w "{}"'.format(exe_path, str(osw_path))
+            command_line = '{} run -m -w "{}"'.format(
+                exe_path, str(osw_path[i])
+            )
             os.system(command_line)
 
-            # Copy the in.idf and in.osm to the eplus output folder
-            for model in ['idf', 'osm']:
-                copy_model_file(osw_dir, out_dir, model_name, i+1, model)
+            # Copy the in.idf and in.osm to the model folder
+            for file_ext in ['idf', 'osm']:
+                file_name = '{}-Inst_{}'.format(mdl_name, i+1)
+                copy_model_file(
+                    run_inst_dirs[i], mdl_dir.joinpath(file_ext),
+                    file_name, file_ext
+                )
+        pass
 
 
-def copy_model_file(src_dir, dst_dir, name, idx, file_type=None):
+def copy_model_file(src_dir, dst_dir, file_name, file_ext=None):
     """Copy energy model file."""
-    file_type = 'osm' if file_type is None else 'idf'
+    file_ext = 'osm' if file_ext is None else file_ext
 
-    src_file = src_dir.joinpath('run', 'in.{}'.format(file_type))
-    dst_file = dst_dir.joinpath('{}-Inst_{}.{}'.format(name, idx, file_type))
+    src_file = src_dir.joinpath('in.{}'.format(file_ext))
+    dst_file = dst_dir.joinpath('{}.{}'.format(file_name, file_ext))
     try:
         shutil.copyfile(src_file, dst_file)
     except FileNotFoundError:
-        print('''in.{} doesn't exist.'''.format(file_type))
+        print('''in.{} doesn't exist.'''.format(file_ext))
 
 
 if __name__ == "__main__":
-    model = sys.argv[1]
-    design = sys.argv[2]
-    try:
-        config = sys.argv[3]
-    except IndexError:
-        config = 'config.ini'
-    try:
-        measure = sys.argv[4]
-    except IndexError:
-        measure = 'measure_lookup.csv'
-    perturb_model(model, design, config, measure)
+    (model, weather, design) = tuple([sys.argv[i] for i in range(1, 4)])
+    args = [model, weather, design, 'config.ini', 'measure_lookup.csv', 'osm']
+    for i in range(4, 7):
+        try:
+            args[i-1] = sys.argv[i]
+        except IndexError:
+            break
+    perturb_model(*args)

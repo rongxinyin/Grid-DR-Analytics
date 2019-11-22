@@ -19,7 +19,7 @@ osw_output/
 # !osw_output/measures
 # !osw_output/eplus
 parametric_analysis/osw
-parametric_analysis/mdl
+parametric_analysis/model
 parametric_analysis/run
-parametric_analysis/out
+parametric_analysis/output
 parametric_analysis/tmp
