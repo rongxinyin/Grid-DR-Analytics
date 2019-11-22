@@ -52,6 +52,8 @@ class PlotDFOutput(object):
         base[self.model_id+'_'+'shed_pct'] = (base.bldg - df.bldg) / base.bldg
         base[self.model_id+'_'+'shed_W_ft2'] = (base.bldg - df.bldg) * 1000 / self.floor_area
 
+        print(base[self.model_id+'_'+'shed_W_ft2'].max())
+
         return base
 
     def generate_plot(self):
@@ -63,16 +65,16 @@ class PlotDFOutput(object):
 
         # plot
         sns.set_style('ticks')
-        sns.set_context("talk", rc={"lines.linewidth": 2})
+        sns.set_context("paper", rc={"lines.linewidth": 2})
         fig, axes = plt.subplots(2, 3, figsize=(15, 6), sharex=True, sharey=True)
 
         for startHour in range(12, 18):
             x1 = df_wk.loc[(df_wk.hour == (startHour - 1)) & (df_wk.oat <= 75)].oat
             # y1 = df_wk.loc[(df_wk.hour == (startHour - 1)) & (df_wk.oat <= 75)].shed_pct
-            y12 = df_wk.loc[(df_wk.hour == (startHour - 1)) & (df_wk.oat <= 75)][self.model_id+'_'+'shed_pct']
+            y12 = df_wk.loc[(df_wk.hour == (startHour - 1)) & (df_wk.oat <= 75)][self.model_id+'_'+'shed_W_ft2']
             x2 = df_wk.loc[(df_wk.hour == (startHour - 1)) & (df_wk.oat > 75)].oat
             # y2 = df_wk.loc[(df_wk.hour == (startHour - 1)) & (df_wk.oat > 75)].shed_pct
-            y22 = df_wk.loc[(df_wk.hour == (startHour - 1)) & (df_wk.oat > 75)][self.model_id+'_'+'shed_pct']
+            y22 = df_wk.loc[(df_wk.hour == (startHour - 1)) & (df_wk.oat > 75)][self.model_id+'_'+'shed_W_ft2']
 
             # break temp points of regression model
             breaks = [75, 95]
@@ -104,4 +106,10 @@ test = PlotDFOutput(floor_area=53628,
                     base_csv='MediumOffice_Post1980_3B_74_12_18_0_0.csv',
                     df_csv='MediumOffice_Post1980_3B_74_12_18_2_4.csv',
                     model_id='Post1980')
+test.generate_plot()
+
+test = PlotDFOutput(floor_area=53628,
+                    base_csv='MediumOffice_2010_3B_74_12_18_0_0.csv',
+                    df_csv='MediumOffice_2010_3B_74_12_18_2_4.csv',
+                    model_id='2010')
 test.generate_plot()
