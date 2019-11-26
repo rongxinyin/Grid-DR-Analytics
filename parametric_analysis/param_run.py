@@ -159,7 +159,7 @@ def perturb_model(
         pass
 
     # TEMPORARY: Collect simulation outputs
-    rng = pd.date_range('1/1/2017 0:00', '12/31/2017 23:45', freq='15min')
+    rng = pd.date_range('1/1/2017 0:00', '12/31/2017 23:45', freq='15T')
     out_spec = {
         'Environment:Site Outdoor Air Drybulb Temperature [C](TimeStep)': (
             'SELECT Value FROM ReportVariableWithTime '
