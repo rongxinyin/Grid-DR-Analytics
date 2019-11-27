@@ -18,8 +18,8 @@ SyncToy*.dat
 osw_output/
 # !osw_output/measures
 # !osw_output/eplus
-param_run/osw
-param_run/model
+# param_run/osw
+# param_run/model
 param_run/run
-param_run/output
+# param_run/output
 param_run/tmp

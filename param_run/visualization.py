@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 
+import sys
+import pathlib
+import shutil
 import csv
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import pathlib
-import shutil
 import seaborn as sns
 
 
@@ -325,16 +327,24 @@ class PlotDFOutput(object):
             )
 
 
-test = PlotDFOutput(
-    root_dir=r'O:\Projects\GEB-FLA\work\workflow\parametric_analysis',
-    floor_area=53628,
-    base_csv='output/MediumOffice_2010_3B.csv',
-    df_csv='output/MediumOffice_2010_3B_74_12_18_6_2_4.csv',
-    dsg_csv='test.csv',
-    model_id='2010'
-)
+def visualize_output(root_dir, floor_area, base, df, design, model_id):
+    """"""
+    # Initializaiton
+    vis = PlotDFOutput(root_dir, floor_area, base, df, design, model_id)
 
-test.generate_regplots()
-test.generate_tsplots()
-test.generate_tsplots(plot_type='box')
-test.generate_boxplot_param()
+    # Visualization
+    vis.generate_regplots()
+    vis.generate_tsplots()
+    vis.generate_tsplots(plot_type='box')
+    vis.generate_boxplot_param()
+
+
+if __name__ == "__main__":
+    """"""
+    root_dir = sys.argv[1]
+    floor_area = float(sys.argv[2])
+    base = sys.argv[3]
+    df = sys.argv[4]
+    design = sys.argv[5]
+    model_id = sys.argv[6]
+    visualize_output(root_dir, floor_area, base, df, design, model_id)

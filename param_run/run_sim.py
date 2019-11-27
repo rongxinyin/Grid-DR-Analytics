@@ -137,7 +137,7 @@ def perturb_model(
                     file_name, file_ext
                 )
 
-    else if run == 'idf':
+    elif run == 'idf':
         # EnergyPlus workflow
         for i in range(n_run):
             command_line = '{} run -m -w "{}"'.format(
@@ -197,11 +197,12 @@ def copy_model_file(src_dir, dst_dir, file_name, file_ext=None):
 
 
 if __name__ == "__main__":
-    (model, weather, design) = tuple([sys.argv[i] for i in range(1, 4)])
-    args = [model, weather, design, 'config.ini', 'measure_lookup.csv', 'osm']
-    for i in range(4, 7):
+    (base, df, weather, design) = tuple([sys.argv[i] for i in range(1, 5)])
+    args = ['config.ini', 'measure_lookup.csv', 'osm']
+    for i in range(3):
         try:
-            args[i-1] = sys.argv[i]
+            args[i] = sys.argv[i+5]
         except IndexError:
             break
-    perturb_model(*args)
+    perturb_model(base, weather, design, *args)
+    perturb_model(df, weather, design, *args)
