@@ -28,13 +28,14 @@ def read_eplus_output(csv_file):
 class PlotDFOutput(object):
     """"""
     def __init__(
-            self, floor_area, base_csv='', df_csv='', dsg_csv='', model_id=''):
+            self, root_dir, floor_area,
+            base_csv='', df_csv='', dsg_csv='', model_id=''):
+        self.root_dir = pathlib.Path(root_dir)
         self.floor_area = floor_area
         self.base_csv = base_csv
         self.df_csv = df_csv
         self.model_id = model_id
-        self.root_path = pathlib.Path.cwd().parent
-        self.design = pd.read_csv(self.root_path.joinpath(dsg_csv))
+        self.design = pd.read_csv(self.root_dir.joinpath(dsg_csv))
 
     def add_df_output(self, base_csv=None, df_csv=None):
         """"""
@@ -42,8 +43,8 @@ class PlotDFOutput(object):
         df_csv = self.df_csv if df_csv is None else df_csv
 
         # Read base and df eplus csv files
-        base = read_eplus_output(self.root_path.joinpath(base_csv))
-        df = read_eplus_output(self.root_path.joinpath(df_csv))
+        base = read_eplus_output(self.root_dir.joinpath(base_csv))
+        df = read_eplus_output(self.root_dir.joinpath(df_csv))
 
         base['_'.join([self.model_id, 'bldg'])] = df.bldg
         base['_'.join([self.model_id, 'shed_pct'])] = (
@@ -81,17 +82,18 @@ class PlotDFOutput(object):
 
         # Subset of data on weekdays in summer months
         df_wk_sm = df.loc[df.index.weekday < 5].loc['2017-5-1':'2017-10-31']
+        df_wk_sm = df_wk_sm.loc[
+            (df_wk_sm.index.hour > 10) & (df_wk_sm.index.hour <= 16)
+        ]
         # print(df_wk_sm.head())
 
         # Plot
-        df_lmplot = df_wk_sm.copy().loc[
-            (df_wk_sm.index.hour > 10) & (df_wk_sm.index.hour <= 16)
-        ]
-        df_lmplot['hour'] = df_lmplot.index.hour
-        df_lmplot['hour'] = df_lmplot['hour'].apply(
+        df_plot = df_wk_sm.copy()
+        df_plot['hour'] = df_plot.index.hour
+        df_plot['hour'] = df_plot['hour'].apply(
             lambda x: '{}:00~{}:00'.format(x, x+1)
         )
-        df_lmplot['oat_range'] = df_lmplot.oat.apply(
+        df_plot['oat_range'] = df_plot.oat.apply(
             lambda x: 'OAT > 75F' if x > 75 else 'OAT <= 75F'
         )
 
@@ -99,7 +101,7 @@ class PlotDFOutput(object):
         sns.set_context("paper", rc={"lines.linewidth": 2})
         g = sns.lmplot(
             x='oat', y='_'.join([self.model_id, 'shed_W_ft2']),
-            col='hour', col_wrap=3, hue='oat_range', data=df_lmplot,
+            col='hour', col_wrap=3, hue='oat_range', data=df_plot,
             height=3, aspect=5/3, ci=None, legend=False, truncate=True
         )
         # g.despine(trim=True)
@@ -109,7 +111,7 @@ class PlotDFOutput(object):
         for ax in g.axes:
             ax.legend(loc=2)
 
-        output_path = self.root_path.joinpath('plot')
+        output_path = self.root_dir.joinpath('plot')
         g.fig.savefig(
             output_path.joinpath('{}-test.png'.format(self.model_id)),
             dpi=300, bbox_inches='tight'
@@ -121,15 +123,17 @@ class PlotDFOutput(object):
 
         # Subset of data on weekdays in summer months
         df_wk_sm = df.loc[df.index.weekday < 5].loc['2017-5-1':'2017-10-31']
-        # Plot
-        df_wk_sm_tmp = df_wk_sm.copy().loc[
+        df_wk_sm = df_wk_sm.loc[
             (df_wk_sm.index.hour > 10) & (df_wk_sm.index.hour <= 16)
         ]
-        df_wk_sm_tmp['hour'] = df_wk_sm_tmp.index.hour
-        df_wk_sm_tmp['hour'] = df_wk_sm_tmp['hour'].apply(
+
+        # Plot
+        df_plot = df_wk_sm.copy()
+        df_plot['hour'] = df_plot.index.hour
+        df_plot['hour'] = df_plot['hour'].apply(
             lambda x: '{}:00~{}:00'.format(x, x+1)
         )
-        df_wk_sm_tmp['oat_range'] = df_wk_sm_tmp.oat.apply(
+        df_plot['oat_range'] = df_plot.oat.apply(
             lambda x: 'OAT > 75F' if x > 75 else 'OAT <= 75F'
         )
 
@@ -139,19 +143,19 @@ class PlotDFOutput(object):
         for i in range(self.design.shape[1]):
             param = self.design.columns[i]
             response = '_'.join([self.model_id, 'shed_W_ft2'])
-            df_lmplot = df_wk_sm_tmp[
+            df_plot_inst = df_plot[
                 [response, 'oat', 'oat_range', 'hour', param]
             ]
 
-            df_lmplot['cat'] = (
-                '{} = '.format(param) + df_lmplot[param].map(str) + ', '
-                + df_lmplot['oat_range']
+            df_plot_inst['cat'] = (
+                '{} = '.format(param) + df_plot_inst[param].map(str) + ', '
+                + df_plot_inst['oat_range']
             )
 
             # All hours
             gm = sns.lmplot(
                 x='oat', y=response, hue='cat',
-                data=df_lmplot, height=3, aspect=5/3,
+                data=df_plot_inst, height=3, aspect=5/3,
                 ci=None, legend=False, truncate=True
             )
             gm.set_xlabels('Outside Air Temperature, °F')
@@ -161,7 +165,7 @@ class PlotDFOutput(object):
             # Each hour
             g = sns.lmplot(
                 x='oat', y=response, col='hour', col_wrap=3, hue='cat',
-                data=df_lmplot, height=3, aspect=5/3,
+                data=df_plot_inst, height=3, aspect=5/3,
                 ci=None, legend=False, truncate=True
             )
             # g.despine(trim=True)
@@ -171,7 +175,7 @@ class PlotDFOutput(object):
             for ax in g.axes:
                 ax.legend(loc=2)
 
-            output_path = self.root_path.joinpath('plot')
+            output_path = self.root_dir.joinpath('plot')
             gm.fig.savefig(
                 output_path.joinpath(
                     '{}-reg-{}.png'.format(self.model_id, param.lower())
@@ -192,36 +196,41 @@ class PlotDFOutput(object):
 
         # Subset of data on weekdays in summer months
         df_wk_sm = df.loc[df.index.weekday < 5].loc['2017-5-1':'2017-10-31']
-        df_wk_sm['hour'] = df_wk_sm.index.hour
+
         # print(df_wk_sm.head())
 
-        df_boxplot = pd.pivot_table(
-            df_wk_sm, values='_'.join([self.model_id, 'shed_W_ft2']),
-            index=df_wk_sm.index.date, columns='hour'
+        # Plot
+        df_plot = df_wk_sm.copy()
+        df_plot['hour'] = df_plot.index.hour
+        df_plot_bx = pd.pivot_table(
+            df_plot, values='_'.join([self.model_id, 'shed_W_ft2']),
+            index=df_plot.index.date, columns='hour'
         )
 
-        # print(df_boxplot.head())
+        # print(df_plot_bx.head())
 
         sns.set_style('ticks')
         sns.set_context("paper", rc={"lines.linewidth": 2})
 
         fig = plt.figure(figsize=(5, 3), facecolor='w', edgecolor='k')
         ax = fig.add_subplot(111)
-        df_boxplot.boxplot(ax=ax)
-        ax.plot(range(1, 25), df_boxplot.mean(), '-ro', label='Average')
+        df_plot_bx.boxplot(ax=ax)
+        ax.plot(range(1, 25), df_plot_bx.mean(), '-ro', label='Average')
         # ax1.set_ylim(0, 50)
         ax.set_xlabel('Hour of Day')
         ax.set_ylabel('Demand Shed Density (w/ft2)')
         ax.legend()
 
-        output_path = self.root_path.joinpath('plot')
+        output_path = self.root_dir.joinpath('plot')
         fig.savefig(
             output_path.joinpath('{}-boxplot.png'.format(self.model_id)),
             dpi=300, bbox_inches='tight'
         )
 
-    def generate_bandplots(self):
+    def generate_tsplots(self, plot_type=None):
         """"""
+        plot_type = 'band' if plot_type is None else plot_type
+
         sns.set_style('ticks')
         sns.set_context("paper", rc={"lines.linewidth": 2})
 
@@ -234,34 +243,49 @@ class PlotDFOutput(object):
                 df_wk_sm = (
                     df.loc[df.index.weekday < 5].loc['2017-5-1':'2017-10-31']
                 )
-                df_wk_sm['hour'] = df_wk_sm.index.hour
-                df_bandplot = pd.pivot_table(
-                    df_wk_sm, values='_'.join([self.model_id, 'shed_W_ft2']),
-                    index=df_wk_sm.index.date, columns='hour'
+
+                # Plot
+                df_plot = df_wk_sm.copy()
+                df_plot['hour'] = df_plot.index.hour
+                df_plot_ts = pd.pivot_table(
+                    df_plot, values='_'.join([self.model_id, 'shed_W_ft2']),
+                    index=df_plot.index.date, columns='hour'
                 )
 
                 color = sns.color_palette()[i]
                 ax.plot(
-                    range(1, 25), df_bandplot.mean(axis=0), color=color,
+                    range(1, 25), df_plot_ts.mean(axis=0), color=color,
                     label='{} = {}'.format(param, self.design.iloc[i, j])
                 )
-                ax.fill_between(
-                    range(1, 25),
-                    df_bandplot.quantile(0.025, axis=0),
-                    df_bandplot.quantile(0.975, axis=0),
-                    color=color, alpha=0.5,
-                    label='{} = {} : 95% CI'.format(
-                        param, self.design.iloc[i, j]
+                if plot_type == 'box':
+                    box = df_plot_ts.boxplot(
+                        ax=ax, patch_artist=True, return_type='dict'
                     )
-                )
+                    plt.setp(box['boxes'], color=color, alpha=0.5)
+                    for item in ['whiskers', 'fliers', 'medians', 'caps']:
+                        plt.setp(box[item], color=color)
+                    plt.setp(box["fliers"], markeredgecolor=color)
+                else:
+                    ax.fill_between(
+                        range(1, 25),
+                        df_plot_ts.quantile(0.025, axis=0),
+                        df_plot_ts.quantile(0.975, axis=0),
+                        color=color, alpha=0.5,
+                        label='{} = {} : 95% CI'.format(
+                            param, self.design.iloc[i, j]
+                        )
+                    )
+
             ax.set_xlabel('Hour of Day')
             ax.set_ylabel('Demand Shed Density (w/ft2)')
             ax.legend()
 
-            output_path = self.root_path.joinpath('plot')
+            output_path = self.root_dir.joinpath('plot')
             fig.savefig(
                 output_path.joinpath(
-                    '{}-bandplot-{}.png'.format(self.model_id, param.lower())
+                    '{}-tsplot-{}-{}.png'.format(
+                        self.model_id, plot_type, param.lower()
+                    )
                 ),
                 dpi=300, bbox_inches='tight'
             )
@@ -272,7 +296,7 @@ class PlotDFOutput(object):
 
         # Subset of data on weekdays in summer months
         df_wk_sm = df.loc[df.index.weekday < 5].loc['2017-5-1':'2017-10-31']
-        df_wk_sm_tmp = df_wk_sm.copy().loc[
+        df_wk_sm = df_wk_sm.loc[
             (df_wk_sm.index.hour > 10) & (df_wk_sm.index.hour <= 16)
         ]
 
@@ -281,18 +305,18 @@ class PlotDFOutput(object):
 
         for i in range(self.design.shape[1]):
             param = self.design.columns[i]
-            df_boxplot_param = pd.pivot_table(
-                df_wk_sm_tmp, values='_'.join([self.model_id, 'shed_W_ft2']),
-                index=df_wk_sm_tmp.index, columns=param
+            df_plot_bx_par = pd.pivot_table(
+                df_wk_sm, values='_'.join([self.model_id, 'shed_W_ft2']),
+                index=df_wk_sm.index, columns=param
             )
 
             fig = plt.figure(figsize=(5, 3), facecolor='w', edgecolor='k')
             ax = fig.add_subplot(111)
-            g = df_boxplot_param.boxplot(ax=ax)
+            g = df_plot_bx_par.boxplot(ax=ax)
             ax.set_xlabel(param)
             ax.set_ylabel('Demand Shed Density (w/ft2)')
 
-            output_path = self.root_path.joinpath('plot')
+            output_path = self.root_dir.joinpath('plot')
             fig.savefig(
                 output_path.joinpath(
                     '{}-boxplot-{}.png'.format(self.model_id, param.lower())
@@ -302,6 +326,7 @@ class PlotDFOutput(object):
 
 
 test = PlotDFOutput(
+    root_dir=r'O:\Projects\GEB-FLA\work\workflow\parametric_analysis',
     floor_area=53628,
     base_csv='output/MediumOffice_2010_3B.csv',
     df_csv='output/MediumOffice_2010_3B_74_12_18_6_2_4.csv',
@@ -310,5 +335,6 @@ test = PlotDFOutput(
 )
 
 test.generate_regplots()
-test.generate_bandplots()
+test.generate_tsplots()
+test.generate_tsplots(plot_type='box')
 test.generate_boxplot_param()
