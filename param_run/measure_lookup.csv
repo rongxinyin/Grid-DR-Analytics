@@ -1,2 +1,4 @@
 Parameter Name,Measure Directory,Measure Argument
 WWR,SetWindowToWallRatioByFacade,wwr
+R-value,IncreaseR-valueOfInsulationForExteriorWallsToASpecificValue,r_value
+Infiltration,SetSpaceInfiltrationPerExteriorArea,flow_per_area

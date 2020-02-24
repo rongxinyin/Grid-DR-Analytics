@@ -326,6 +326,9 @@ class PlotDFOutput(object):
                 dpi=300, bbox_inches='tight'
             )
 
+        # TEMPORARY
+        df_wk_sm.to_csv(output_path.joinpath('data_output.csv'))
+
 
 def visualize_output(root_dir, floor_area, base, df, design, model_id):
     """"""
@@ -333,9 +336,9 @@ def visualize_output(root_dir, floor_area, base, df, design, model_id):
     vis = PlotDFOutput(root_dir, floor_area, base, df, design, model_id)
 
     # Visualization
-    vis.generate_regplots()
-    vis.generate_tsplots()
-    vis.generate_tsplots(plot_type='box')
+    # vis.generate_regplots()
+    # vis.generate_tsplots()
+    # vis.generate_tsplots(plot_type='box')
     vis.generate_boxplot_param()
 
 
