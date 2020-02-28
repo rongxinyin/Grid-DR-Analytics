@@ -3,12 +3,39 @@
 import sys
 import pathlib
 import shutil
+import json
 import csv
 
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+
+
+def visualize_output(config_file, floor_area, model_id):
+    """"""
+    with open(config_file, 'r') as f:
+        config = json.load(f)
+
+    root_dir = pathlib.Path.cwd().joinpath('sim')
+    output_dir = root_dir.joinpath('output')
+    base_csv = '{}.csv'.format(config['BaseModel'].strip('.osm'))
+    df_csv = '{}.csv'.format(config['DFModel'].strip('.osm'))
+    design = pathlib.Path.cwd().joinpath(
+        config['InputDirectory'], config['Design']
+    )
+
+    # Initializaiton
+    vis = PlotDFOutput(
+        root_dir, output_dir, base_csv, df_csv, design, floor_area, model_id
+    )
+
+    # Visualization
+    # vis.generate_regplot()
+    # vis.generate_regplots()
+    # vis.generate_tsplot(plot_type='box')
+    # vis.generate_tsplots(plot_type='box')
+    vis.generate_boxplot()
 
 
 def read_eplus_output(csv_file):
@@ -30,14 +57,15 @@ def read_eplus_output(csv_file):
 class PlotDFOutput(object):
     """"""
     def __init__(
-            self, root_dir, floor_area,
-            base_csv='', df_csv='', dsg_csv='', model_id=''):
-        self.root_dir = pathlib.Path(root_dir)
-        self.floor_area = floor_area
+            self, root_dir, output_dir,
+            base_csv='', df_csv='', dsg_csv='', floor_area=None, model_id=''):
+        self.root_dir = root_dir
+        self.output_dir = output_dir
         self.base_csv = base_csv
         self.df_csv = df_csv
+        self.design = pd.read_csv(dsg_csv)
+        self.floor_area = floor_area
         self.model_id = model_id
-        self.design = pd.read_csv(self.root_dir.joinpath(dsg_csv))
 
     def add_df_output(self, base_csv=None, df_csv=None):
         """"""
@@ -45,8 +73,8 @@ class PlotDFOutput(object):
         df_csv = self.df_csv if df_csv is None else df_csv
 
         # Read base and df eplus csv files
-        base = read_eplus_output(self.root_dir.joinpath(base_csv))
-        df = read_eplus_output(self.root_dir.joinpath(df_csv))
+        base = read_eplus_output(self.output_dir.joinpath(base_csv))
+        df = read_eplus_output(self.output_dir.joinpath(df_csv))
 
         base['_'.join([self.model_id, 'bldg'])] = df.bldg
         base['_'.join([self.model_id, 'shed_pct'])] = (
@@ -101,6 +129,18 @@ class PlotDFOutput(object):
 
         sns.set_style('ticks')
         sns.set_context("paper", rc={"lines.linewidth": 2})
+
+        # All hours
+        gm = sns.lmplot(
+            x='oat', y='_'.join([self.model_id, 'shed_W_ft2']),
+            hue='oat_range', data=df_plot,
+            height=3, aspect=5/3, ci=None, legend=False, truncate=True
+        )
+        gm.set_xlabels('Outside Air Temperature, °F')
+        gm.set_ylabels('Demand Shed Intensity (w/ft2)')
+        gm.ax.legend(loc=2)
+
+        # Each hour
         g = sns.lmplot(
             x='oat', y='_'.join([self.model_id, 'shed_W_ft2']),
             col='hour', col_wrap=3, hue='oat_range', data=df_plot,
@@ -109,13 +149,17 @@ class PlotDFOutput(object):
         # g.despine(trim=True)
         g.set_titles('{col_name}')
         g.set_xlabels('Outside Air Temperature, °F')
-        g.set_ylabels('Demand Shed Density (w/ft2)')
+        g.set_ylabels('Demand Shed Intensity (w/ft2)')
         for ax in g.axes:
             ax.legend(loc=2)
 
         output_path = self.root_dir.joinpath('plot')
+        gm.fig.savefig(
+            output_path.joinpath('{}-reg.png'.format(self.model_id)),
+            dpi=300, bbox_inches='tight'
+        )
         g.fig.savefig(
-            output_path.joinpath('{}-test.png'.format(self.model_id)),
+            output_path.joinpath('{}-reg-hour.png'.format(self.model_id)),
             dpi=300, bbox_inches='tight'
         )
 
@@ -161,7 +205,7 @@ class PlotDFOutput(object):
                 ci=None, legend=False, truncate=True
             )
             gm.set_xlabels('Outside Air Temperature, °F')
-            gm.set_ylabels('Demand Shed Density (w/ft2)')
+            gm.set_ylabels('Demand Shed Intensity (w/ft2)')
             gm.ax.legend(loc=2)
 
             # Each hour
@@ -173,26 +217,26 @@ class PlotDFOutput(object):
             # g.despine(trim=True)
             g.set_titles('{col_name}')
             g.set_xlabels('Outside Air Temperature, °F')
-            g.set_ylabels('Demand Shed Density (w/ft2)')
+            g.set_ylabels('Demand Shed Intensity (w/ft2)')
             for ax in g.axes:
                 ax.legend(loc=2)
 
             output_path = self.root_dir.joinpath('plot')
             gm.fig.savefig(
                 output_path.joinpath(
-                    '{}-reg-{}.png'.format(self.model_id, param.lower())
+                    '{}-regs-{}.png'.format(self.model_id, param.lower())
                 ),
                 dpi=300, bbox_inches='tight'
             )
             g.fig.savefig(
                 output_path.joinpath(
-                    '{}-reg-hour-{}.png'.format(self.model_id, param.lower())
+                    '{}-regs-hour-{}.png'.format(self.model_id, param.lower())
                 ),
                 dpi=300, bbox_inches='tight'
             )
 
     # Box-plot
-    def generate_boxplot(self):
+    def generate_tsplot(self, plot_type=None):
         """"""
         df = self.add_df_output().resample('H').mean()
 
@@ -204,7 +248,7 @@ class PlotDFOutput(object):
         # Plot
         df_plot = df_wk_sm.copy()
         df_plot['hour'] = df_plot.index.hour
-        df_plot_bx = pd.pivot_table(
+        df_plot_ts = pd.pivot_table(
             df_plot, values='_'.join([self.model_id, 'shed_W_ft2']),
             index=df_plot.index.date, columns='hour'
         )
@@ -216,16 +260,27 @@ class PlotDFOutput(object):
 
         fig = plt.figure(figsize=(5, 3), facecolor='w', edgecolor='k')
         ax = fig.add_subplot(111)
-        df_plot_bx.boxplot(ax=ax)
-        ax.plot(range(1, 25), df_plot_bx.mean(), '-ro', label='Average')
-        # ax1.set_ylim(0, 50)
+
+        ax.plot(range(1, 25), df_plot_ts.mean(), '-ro', label='Average')
+        if plot_type == 'box':
+            df_plot_ts.boxplot(ax=ax)
+        else:
+            ax.fill_between(
+                range(1, 25),
+                df_plot_ts.quantile(0.025, axis=0),
+                df_plot_ts.quantile(0.975, axis=0),
+                alpha=0.5, label='95% CI'
+            )
+
         ax.set_xlabel('Hour of Day')
-        ax.set_ylabel('Demand Shed Density (w/ft2)')
+        ax.set_ylabel('Demand Shed Intensity (w/ft2)')
         ax.legend()
 
         output_path = self.root_dir.joinpath('plot')
         fig.savefig(
-            output_path.joinpath('{}-boxplot.png'.format(self.model_id)),
+            output_path.joinpath(
+                '{}-tsplot-{}.png'.format(self.model_id, plot_type)
+            ),
             dpi=300, bbox_inches='tight'
         )
 
@@ -279,20 +334,20 @@ class PlotDFOutput(object):
                     )
 
             ax.set_xlabel('Hour of Day')
-            ax.set_ylabel('Demand Shed Density (w/ft2)')
+            ax.set_ylabel('Demand Shed Intensity (w/ft2)')
             ax.legend()
 
             output_path = self.root_dir.joinpath('plot')
             fig.savefig(
                 output_path.joinpath(
-                    '{}-tsplot-{}-{}.png'.format(
+                    '{}-tsplots-{}-{}.png'.format(
                         self.model_id, plot_type, param.lower()
                     )
                 ),
                 dpi=300, bbox_inches='tight'
             )
 
-    def generate_boxplot_param(self):
+    def generate_boxplot(self):
         """"""
         df = pd.concat([d.resample('H').mean() for d in self.add_df_outputs()])
 
@@ -316,7 +371,7 @@ class PlotDFOutput(object):
             ax = fig.add_subplot(111)
             g = df_plot_bx_par.boxplot(ax=ax)
             ax.set_xlabel(param)
-            ax.set_ylabel('Demand Shed Density (w/ft2)')
+            ax.set_ylabel('Demand Shed Intensity (w/ft2)')
 
             output_path = self.root_dir.joinpath('plot')
             fig.savefig(
@@ -330,24 +385,9 @@ class PlotDFOutput(object):
         df_wk_sm.to_csv(output_path.joinpath('data_output.csv'))
 
 
-def visualize_output(root_dir, floor_area, base, df, design, model_id):
-    """"""
-    # Initializaiton
-    vis = PlotDFOutput(root_dir, floor_area, base, df, design, model_id)
-
-    # Visualization
-    # vis.generate_regplots()
-    # vis.generate_tsplots()
-    # vis.generate_tsplots(plot_type='box')
-    vis.generate_boxplot_param()
-
-
 if __name__ == "__main__":
     """"""
-    root_dir = sys.argv[1]
+    config = sys.argv[1]
     floor_area = float(sys.argv[2])
-    base = sys.argv[3]
-    df = sys.argv[4]
-    design = sys.argv[5]
-    model_id = sys.argv[6]
-    visualize_output(root_dir, floor_area, base, df, design, model_id)
+    model_id = sys.argv[3]
+    visualize_output(config, floor_area, model_id)
