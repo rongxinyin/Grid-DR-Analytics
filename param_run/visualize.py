@@ -31,11 +31,20 @@ def visualize_output(config_file, floor_area, model_id):
     )
 
     # Visualization
-    # vis.generate_regplot()
-    # vis.generate_regplots()
-    # vis.generate_tsplot(plot_type='box')
-    # vis.generate_tsplots(plot_type='box')
-    vis.generate_boxplot()
+    switcher = {
+        'Regplot': vis.generate_regplot,
+        'Regplots': vis.generate_regplots,
+        'TSplot': vis.generate_tsplot,
+        'TSplots': vis.generate_tsplots,
+        'Boxplot': vis.generate_boxplot
+    }
+
+    try:
+        plots = config['Plots']
+    except KeyError:
+        plots = ['Regplot', 'Regplots', 'TSplot', 'TSplots', 'Boxplot']
+    for p in plots:
+        switcher.get(p, vis.generate_regplot)()
 
 
 def read_eplus_output(csv_file):
@@ -238,6 +247,8 @@ class PlotDFOutput(object):
     # Box-plot
     def generate_tsplot(self, plot_type=None):
         """"""
+        plot_type = 'box' if plot_type is None else plot_type
+
         df = self.add_df_output().resample('H').mean()
 
         # Subset of data on weekdays in summer months
@@ -262,15 +273,15 @@ class PlotDFOutput(object):
         ax = fig.add_subplot(111)
 
         ax.plot(range(1, 25), df_plot_ts.mean(), '-ro', label='Average')
-        if plot_type == 'box':
-            df_plot_ts.boxplot(ax=ax)
-        else:
+        if plot_type == 'band':
             ax.fill_between(
                 range(1, 25),
                 df_plot_ts.quantile(0.025, axis=0),
                 df_plot_ts.quantile(0.975, axis=0),
                 alpha=0.5, label='95% CI'
             )
+        else:
+            df_plot_ts.boxplot(ax=ax)
 
         ax.set_xlabel('Hour of Day')
         ax.set_ylabel('Demand Shed Intensity (w/ft2)')
@@ -286,7 +297,7 @@ class PlotDFOutput(object):
 
     def generate_tsplots(self, plot_type=None):
         """"""
-        plot_type = 'band' if plot_type is None else plot_type
+        plot_type = 'box' if plot_type is None else plot_type
 
         sns.set_style('ticks')
         sns.set_context("paper", rc={"lines.linewidth": 2})
@@ -314,15 +325,7 @@ class PlotDFOutput(object):
                     range(1, 25), df_plot_ts.mean(axis=0), color=color,
                     label='{} = {}'.format(param, self.design.iloc[i, j])
                 )
-                if plot_type == 'box':
-                    box = df_plot_ts.boxplot(
-                        ax=ax, patch_artist=True, return_type='dict'
-                    )
-                    plt.setp(box['boxes'], color=color, alpha=0.5)
-                    for item in ['whiskers', 'fliers', 'medians', 'caps']:
-                        plt.setp(box[item], color=color)
-                    plt.setp(box["fliers"], markeredgecolor=color)
-                else:
+                if plot_type == 'band':
                     ax.fill_between(
                         range(1, 25),
                         df_plot_ts.quantile(0.025, axis=0),
@@ -332,6 +335,14 @@ class PlotDFOutput(object):
                             param, self.design.iloc[i, j]
                         )
                     )
+                else:
+                    box = df_plot_ts.boxplot(
+                        ax=ax, patch_artist=True, return_type='dict'
+                    )
+                    plt.setp(box['boxes'], color=color, alpha=0.5)
+                    for item in ['whiskers', 'fliers', 'medians', 'caps']:
+                        plt.setp(box[item], color=color)
+                    plt.setp(box["fliers"], markeredgecolor=color)
 
             ax.set_xlabel('Hour of Day')
             ax.set_ylabel('Demand Shed Intensity (w/ft2)')

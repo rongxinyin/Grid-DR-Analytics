@@ -1,15 +1,15 @@
 
 OS:Version,
-  {1b882e58-3d6f-44be-9a87-bd490ebd1a82}, !- Handle
+  {af0007d3-f143-44d3-9610-d288737db13c}, !- Handle
   2.9.0;                                  !- Version Identifier
 
 OS:Site,
   {4401af15-c546-44f8-96c5-410b73437a27}, !- Handle
-  El Paso International Ap  Ut_TX_USA,    !- Name
-  31.77,                                  !- Latitude {deg}
-  -106.5,                                 !- Longitude {deg}
-  -7,                                     !- Time Zone {hr}
-  1186,                                   !- Elevation {m}
+  Los Angeles Intl Arpt,                  !- Name
+  33.93,                                  !- Latitude {deg}
+  -118.4,                                 !- Longitude {deg}
+  -8,                                     !- Time Zone {hr}
+  30,                                     !- Elevation {m}
   City;                                   !- Terrain
 
 OS:SimulationControl,
@@ -12743,54 +12743,6 @@ OS:Site:WaterMainsTemperature,
   17.9416666666667,                       !- Annual Average Outdoor Air Temperature {C}
   21.1;                                   !- Maximum Difference In Monthly Average Outdoor Air Temperatures {deltaC}
 
-OS:SizingPeriod:DesignDay,
-  {ed2b9a9d-0aa3-4db5-8e2a-687b80f9250b}, !- Handle
-  El Paso International Ap  Ut Ann Htg 99.6% Condns DB, !- Name
-  -5.2,                                   !- Maximum Dry-Bulb Temperature {C}
-  0,                                      !- Daily Dry-Bulb Temperature Range {deltaC}
-  -5.2,                                   !- Humidity Indicating Conditions at Maximum Dry-Bulb
-  87865,                                  !- Barometric Pressure {Pa}
-  2.2,                                    !- Wind Speed {m/s}
-  20,                                     !- Wind Direction {deg}
-  0,                                      !- Sky Clearness
-  0,                                      !- Rain Indicator
-  0,                                      !- Snow Indicator
-  21,                                     !- Day of Month
-  12,                                     !- Month
-  WinterDesignDay,                        !- Day Type
-  0,                                      !- Daylight Saving Time Indicator
-  Wetbulb,                                !- Humidity Indicating Type
-  ,                                       !- Humidity Indicating Day Schedule Name
-  DefaultMultipliers,                     !- Dry-Bulb Temperature Range Modifier Type
-  ,                                       !- Dry-Bulb Temperature Range Modifier Schedule Name
-  ASHRAEClearSky;                         !- Solar Model Indicator
-
-OS:SizingPeriod:DesignDay,
-  {0ab973d7-153f-44e1-8a8d-8b7404920687}, !- Handle
-  El Paso International Ap  Ut Ann Clg .4% Condns DB=>MWB, !- Name
-  38.1,                                   !- Maximum Dry-Bulb Temperature {C}
-  13,                                     !- Daily Dry-Bulb Temperature Range {deltaC}
-  18.1,                                   !- Humidity Indicating Conditions at Maximum Dry-Bulb
-  87865,                                  !- Barometric Pressure {Pa}
-  3.9,                                    !- Wind Speed {m/s}
-  280,                                    !- Wind Direction {deg}
-  0,                                      !- Sky Clearness
-  0,                                      !- Rain Indicator
-  0,                                      !- Snow Indicator
-  21,                                     !- Day of Month
-  7,                                      !- Month
-  SummerDesignDay,                        !- Day Type
-  0,                                      !- Daylight Saving Time Indicator
-  Wetbulb,                                !- Humidity Indicating Type
-  ,                                       !- Humidity Indicating Day Schedule Name
-  DefaultMultipliers,                     !- Dry-Bulb Temperature Range Modifier Type
-  ,                                       !- Dry-Bulb Temperature Range Modifier Schedule Name
-  ASHRAETau,                              !- Solar Model Indicator
-  ,                                       !- Beam Solar Day Schedule Name
-  ,                                       !- Diffuse Solar Day Schedule Name
-  0.605,                                  !- ASHRAE Taub {dimensionless}
-  1.547;                                  !- ASHRAE Taud {dimensionless}
-
 OS:RunPeriodControl:DaylightSavingTime,
   {f16c32f2-2abf-40f5-a9d9-c3bdd314b15f}, !- Handle
   2nd Sunday in March,                    !- Start Date
@@ -13278,118 +13230,166 @@ OS:Daylighting:Control,
   22;                                     !- Maximum Allowable Discomfort Glare Index
 
 OS:StandardsInformation:Material,
-  {b1a06a0a-8454-4b7d-9fb1-f88fb98509d1}, !- Handle
+  {9872d079-4b5f-4939-8f2f-355e6ef7c109}, !- Handle
   {192ca1bf-9555-4679-9fa9-b18e19c2bb1e}; !- Material Name
 
 OS:StandardsInformation:Material,
-  {8fd1cc79-6fd9-492f-b1f0-e095102b2525}, !- Handle
+  {420804dd-670d-40df-9b6f-430eed17c118}, !- Handle
   {112cfda4-a870-49cd-ae53-b5ac9598809e}; !- Material Name
 
 OS:StandardsInformation:Material,
-  {41480834-4d27-422d-8141-b8f313105c45}, !- Handle
+  {94ca42ab-0a25-4df8-b9a5-a46a2121adb9}, !- Handle
   {2ff5bb9b-39b2-4f33-aed5-33e02b80af69}; !- Material Name
 
 OS:StandardsInformation:Material,
-  {8b8cc520-7c3a-4d07-a79e-eb1d1dce1804}, !- Handle
+  {910af395-da14-4ab6-89ab-b92dc73add3e}, !- Handle
   {3e9d45b6-0c66-44fc-acde-81df084bb13f}; !- Material Name
 
 OS:StandardsInformation:Material,
-  {9cd0e761-27f4-4439-8016-fc3a4fbc6650}, !- Handle
+  {6ebed587-ec72-4562-b7a7-0f27f7d78925}, !- Handle
   {eaec6690-ad0a-4250-a357-953dfd7abace}; !- Material Name
 
 OS:StandardsInformation:Material,
-  {b3bc1a49-9071-4413-9bd8-90d1447a37bf}, !- Handle
+  {31717231-c1d6-489e-9f36-9829c93bd7b5}, !- Handle
   {aabe89fd-84c5-4a3a-bae7-f7ff7bf496bb}; !- Material Name
 
 OS:StandardsInformation:Material,
-  {ef804238-4dc5-4d84-ab35-5120239de623}, !- Handle
+  {fb17b25e-41ba-45ef-8dac-bc913a5d0a32}, !- Handle
   {3f3517c5-3c64-4262-bb9d-8b9adda6753e}; !- Material Name
 
 OS:StandardsInformation:Material,
-  {9296f7ea-2eeb-41c7-ace9-e82f3358106e}, !- Handle
+  {25d16ec8-c9b7-48d9-a758-660e08e14be3}, !- Handle
   {9a15b16c-d9b9-4629-8de1-f83f6fb214df}; !- Material Name
 
 OS:StandardsInformation:Material,
-  {7bbb2e12-c7db-4c55-bc7c-2de130eaf98b}, !- Handle
+  {0d17717e-5037-4c1e-80d6-efc7093ea5d1}, !- Handle
   {a50121d5-9d43-41be-8db6-bf289edfaccb}; !- Material Name
 
 OS:StandardsInformation:Material,
-  {6abfa3d5-b5cd-4c1f-b73e-886b84c69202}, !- Handle
+  {6bfa2057-14b6-4f6f-82fc-5e711bb4bdbc}, !- Handle
   {0fda4eb3-73a9-46bd-9209-02504e386869}; !- Material Name
 
 OS:StandardsInformation:Material,
-  {db431999-b70a-4680-9bf5-3443f3aef357}, !- Handle
+  {ee018e58-e4d0-4978-b324-8bded8d73f6d}, !- Handle
   {078dfd9e-c7cf-4912-9297-78fe109b56e8}; !- Material Name
 
 OS:StandardsInformation:Material,
-  {fe680a37-0a9e-4ae2-9a21-eb64ca29454f}, !- Handle
+  {e9f9875b-8cc8-4a62-bdbc-f9ad09234f75}, !- Handle
   {c2799e20-a3ca-4a8e-9355-8dd728773704}; !- Material Name
 
 OS:StandardsInformation:Material,
-  {3b99847f-c729-4476-a929-82ee3c38e948}, !- Handle
+  {c5c95753-f0ca-425e-94b0-14354a202c0c}, !- Handle
   {ae0c7146-57cc-4132-9aba-b2e8dd650bb5}; !- Material Name
 
 OS:StandardsInformation:Material,
-  {47363da3-ac66-4804-92a5-7dfe8a5fdb95}, !- Handle
+  {6c4478c2-6027-4a37-816a-64063c1900da}, !- Handle
   {3130bcac-bf46-40b0-b199-e7d7bc091cfe}; !- Material Name
 
 OS:StandardsInformation:Material,
-  {6f46c293-9671-4d59-962d-230a3d776447}, !- Handle
+  {1c1aba47-ea04-4273-8430-f236c28bb290}, !- Handle
   {7fdb9415-e9bb-4c18-8515-75d2b340f8c3}; !- Material Name
 
 OS:StandardsInformation:Material,
-  {88ee7a59-ab76-4bd8-9ad4-3c0ae650090a}, !- Handle
+  {0ac10efb-1790-40e0-b992-6f7ed46f7303}, !- Handle
   {eda5e471-2398-4787-98b2-005f5fa9db04}; !- Material Name
 
 OS:StandardsInformation:Material,
-  {008da3d3-41e2-4ff3-be6f-978420c22713}, !- Handle
+  {f81d7950-e664-4ad3-94f5-17ce2365bd29}, !- Handle
   {dca725eb-7f5a-449e-b95e-997c5a15e7b7}; !- Material Name
 
 OS:StandardsInformation:Material,
-  {50b07a51-7c2b-4855-a027-cb0d998fe481}, !- Handle
+  {63009d4f-6d71-4942-92ee-18a5ab6a82ec}, !- Handle
   {e148c97a-730f-4aa0-9971-3253467abe1a}; !- Material Name
 
 OS:StandardsInformation:Material,
-  {b371b92a-c455-4359-bc11-c3c5333c5fc8}, !- Handle
+  {7213000a-c63d-4061-85c6-5fc1bc111934}, !- Handle
   {cbb3c8a7-27b5-473a-8585-8bf65497c2ee}; !- Material Name
 
 OS:StandardsInformation:Material,
-  {bb90db65-106e-4310-81ec-7420d4e1f811}, !- Handle
+  {994bc359-2132-4c32-9c04-e9c604303672}, !- Handle
   {9a835a68-e36f-467c-8abb-3d11674e0e0e}; !- Material Name
 
 OS:StandardsInformation:Material,
-  {75fd9e99-5fed-4470-b73d-f0e955da8025}, !- Handle
+  {54833f7c-fcf7-404c-bb92-422235a7842e}, !- Handle
   {ccacd2d3-9031-4aa8-ac36-539394826125}; !- Material Name
 
 OS:StandardsInformation:Material,
-  {487b919e-fb68-4245-88c3-f558e7d9421f}, !- Handle
+  {01a164e7-f1c9-45ab-977c-43f3e8564eca}, !- Handle
   {eba0c06d-aa59-405f-8d6a-d219215bf7b9}; !- Material Name
 
 OS:StandardsInformation:Material,
-  {9bf180bf-284b-46d2-86c1-007534e901b0}, !- Handle
+  {19dc2b71-c58c-4a6e-ac59-100c62c98152}, !- Handle
   {bbfa1dbd-0e39-424d-9f81-4ada139a3cd3}; !- Material Name
 
 OS:StandardsInformation:Material,
-  {553e2d0c-10a9-4542-9f3f-33bab7db4a25}, !- Handle
+  {bdb4b254-39a6-4516-aa21-85eb47c64f73}, !- Handle
   {588a3f37-cf58-49a5-a789-71b9d3235609}; !- Material Name
 
 OS:StandardsInformation:Material,
-  {b740861c-c5c7-4681-aa44-b0f0236d3152}, !- Handle
+  {acb10ed6-a6e0-458e-9edf-b1e8dd3496a5}, !- Handle
   {23d02b5e-ab27-4a14-a801-219309c7d037}; !- Material Name
 
 OS:StandardsInformation:Material,
-  {e77496f1-de9c-4ab3-ae59-d6a2d1d7af9f}, !- Handle
+  {8965ff12-f6dd-492c-98ea-5fdc4c04ea11}, !- Handle
   {c70505cb-5fd2-4fd5-a376-3b52bce67f9b}; !- Material Name
 
 OS:StandardsInformation:Material,
-  {f4d4c088-644a-4408-a83d-3623df10e28c}, !- Handle
+  {eea79eaa-1036-4842-ba07-debb5df04cc9}, !- Handle
   {f8ccce8a-a17c-4476-a7ba-423d0ea85291}; !- Material Name
 
 OS:StandardsInformation:Material,
-  {17c35747-ba80-47f9-8d7c-1acc74aec38e}, !- Handle
+  {615c523b-d8b9-4645-a0df-d01ef70756d6}, !- Handle
   {938b00ff-c5eb-49d4-8c6b-711cedf9d589}; !- Material Name
 
 OS:StandardsInformation:Construction,
-  {0a1c60b7-f5a0-4fa8-8a05-576567fe58e4}, !- Handle
+  {c8b5e484-0935-4347-a3e7-531727bc411c}, !- Handle
   {a13d4765-fc5d-4ddd-bf88-8af6baab6dae}; !- Construction Name
+
+OS:SizingPeriod:DesignDay,
+  {f52be68f-2c49-4140-83dd-9b9960983343}, !- Handle
+  Los Angeles Intl Arpt Ann Htg 99.6% Condns DB, !- Name
+  6.9,                                    !- Maximum Dry-Bulb Temperature {C}
+  0,                                      !- Daily Dry-Bulb Temperature Range {deltaC}
+  6.9,                                    !- Humidity Indicating Conditions at Maximum Dry-Bulb
+  100965,                                 !- Barometric Pressure {Pa}
+  2.4,                                    !- Wind Speed {m/s}
+  90,                                     !- Wind Direction {deg}
+  0,                                      !- Sky Clearness
+  0,                                      !- Rain Indicator
+  0,                                      !- Snow Indicator
+  21,                                     !- Day of Month
+  1,                                      !- Month
+  WinterDesignDay,                        !- Day Type
+  0,                                      !- Daylight Saving Time Indicator
+  Wetbulb,                                !- Humidity Indicating Type
+  ,                                       !- Humidity Indicating Day Schedule Name
+  DefaultMultipliers,                     !- Dry-Bulb Temperature Range Modifier Type
+  ,                                       !- Dry-Bulb Temperature Range Modifier Schedule Name
+  ASHRAEClearSky;                         !- Solar Model Indicator
+
+OS:SizingPeriod:DesignDay,
+  {0dfc152b-3d1d-4707-bdf3-7bcfb0f54ba0}, !- Handle
+  Los Angeles Intl Arpt Ann Clg .4% Condns DB=>MWB, !- Name
+  28.7,                                   !- Maximum Dry-Bulb Temperature {C}
+  6,                                      !- Daily Dry-Bulb Temperature Range {deltaC}
+  17.9,                                   !- Humidity Indicating Conditions at Maximum Dry-Bulb
+  100965,                                 !- Barometric Pressure {Pa}
+  4.1,                                    !- Wind Speed {m/s}
+  250,                                    !- Wind Direction {deg}
+  0,                                      !- Sky Clearness
+  0,                                      !- Rain Indicator
+  0,                                      !- Snow Indicator
+  21,                                     !- Day of Month
+  8,                                      !- Month
+  SummerDesignDay,                        !- Day Type
+  0,                                      !- Daylight Saving Time Indicator
+  Wetbulb,                                !- Humidity Indicating Type
+  ,                                       !- Humidity Indicating Day Schedule Name
+  DefaultMultipliers,                     !- Dry-Bulb Temperature Range Modifier Type
+  ,                                       !- Dry-Bulb Temperature Range Modifier Schedule Name
+  ASHRAETau,                              !- Solar Model Indicator
+  ,                                       !- Beam Solar Day Schedule Name
+  ,                                       !- Diffuse Solar Day Schedule Name
+  0.44,                                   !- ASHRAE Taub {dimensionless}
+  2.108;                                  !- ASHRAE Taud {dimensionless}
 
