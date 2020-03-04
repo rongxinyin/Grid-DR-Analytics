@@ -45,6 +45,9 @@ def visualize_output(config_file, floor_area, model_id):
         plots = ['Regplot', 'Regplots', 'TSplot', 'TSplots', 'Boxplot']
     for p in plots:
         switcher.get(p, vis.generate_regplot)()
+    if 'TSplots' in plots:
+        vis.generate_tsplots(plot_type='band')
+        vis.generate_tsplots(plot_type='box-sep')
 
 
 def read_eplus_output(csv_file):
@@ -137,7 +140,8 @@ class PlotDFOutput(object):
         )
 
         sns.set_style('ticks')
-        sns.set_context("paper", rc={"lines.linewidth": 2})
+        sns.set_context('paper', rc={"lines.linewidth": 2})
+        sns.set_palette('colorblind')
 
         # All hours
         gm = sns.lmplot(
@@ -193,7 +197,8 @@ class PlotDFOutput(object):
         )
 
         sns.set_style('ticks')
-        sns.set_context("paper", rc={"lines.linewidth": 2})
+        sns.set_context('paper', rc={"lines.linewidth": 2})
+        sns.set_palette('colorblind')
 
         for i in range(self.design.shape[1]):
             param = self.design.columns[i]
@@ -202,9 +207,13 @@ class PlotDFOutput(object):
                 [response, 'oat', 'oat_range', 'hour', param]
             ]
 
-            df_plot_inst['cat'] = (
-                '{} = '.format(param) + df_plot_inst[param].map(str) + ', '
-                + df_plot_inst['oat_range']
+            df_plot_inst.insert(
+                loc=0, column='cat',
+                value=(
+                    '{} = '.format(param)
+                    + df_plot_inst[param].map(str) + ', '
+                    + df_plot_inst['oat_range']
+                )
             )
 
             # All hours
@@ -267,7 +276,8 @@ class PlotDFOutput(object):
         # print(df_plot_bx.head())
 
         sns.set_style('ticks')
-        sns.set_context("paper", rc={"lines.linewidth": 2})
+        sns.set_context('paper', rc={"lines.linewidth": 2})
+        sns.set_palette('colorblind')
 
         fig = plt.figure(figsize=(5, 3), facecolor='w', edgecolor='k')
         ax = fig.add_subplot(111)
@@ -300,53 +310,92 @@ class PlotDFOutput(object):
         plot_type = 'box' if plot_type is None else plot_type
 
         sns.set_style('ticks')
-        sns.set_context("paper", rc={"lines.linewidth": 2})
+        sns.set_context('paper', rc={"lines.linewidth": 2})
+        sns.set_palette('colorblind')
 
         for j in range(self.design.shape[1]):
             param = self.design.columns[j]
-            fig = plt.figure(figsize=(5, 3), facecolor='w', edgecolor='k')
-            ax = fig.add_subplot(111)
-            for i, d in enumerate(self.add_df_outputs()):
-                df = d.resample('H').mean()
-                df_wk_sm = (
-                    df.loc[df.index.weekday < 5].loc['2017-5-1':'2017-10-31']
+
+            dfs = self.add_df_outputs()
+            if plot_type == 'box-sep':
+                fig = plt.figure(figsize=(8, 3), facecolor='w', edgecolor='k')
+                ax = fig.add_subplot(111)
+                df_m = pd.DataFrame(columns=dfs[0].columns)
+                for d in dfs:
+                    df = d.resample('H').mean()
+                    df_wk_sm = (
+                        df.loc[df.index.weekday < 5]
+                        .loc['2017-5-1':'2017-10-31']
+                    )
+                    df_m = df_m.append(df_wk_sm)
+
+                value = '_'.join([self.model_id, 'shed_W_ft2'])
+                df_plot_ts = df_m.loc[:, [value, param]]
+                df_plot_ts['hour'] = df_plot_ts.index.hour
+                df_plot_ts.index = df_plot_ts.index.date
+
+                sns.boxplot(
+                    x='hour', y=value, hue=param, data=df_plot_ts, ax=ax,
+                    linewidth=0.5,
+                    flierprops=dict(
+                        marker='o', markerfacecolor='none',
+                        markersize=2, markeredgewidth=0.5
+                    )
                 )
 
-                # Plot
-                df_plot = df_wk_sm.copy()
-                df_plot['hour'] = df_plot.index.hour
-                df_plot_ts = pd.pivot_table(
-                    df_plot, values='_'.join([self.model_id, 'shed_W_ft2']),
-                    index=df_plot.index.date, columns='hour'
+                handles, _ = ax.get_legend_handles_labels()
+                ax.legend(
+                    handles,
+                    [
+                        '{} = {}'.format(param, v)
+                        for v in self.design.iloc[:, j]
+                    ]
                 )
 
-                color = sns.color_palette()[i]
-                ax.plot(
-                    range(1, 25), df_plot_ts.mean(axis=0), color=color,
-                    label='{} = {}'.format(param, self.design.iloc[i, j])
-                )
-                if plot_type == 'band':
-                    ax.fill_between(
-                        range(1, 25),
-                        df_plot_ts.quantile(0.025, axis=0),
-                        df_plot_ts.quantile(0.975, axis=0),
-                        color=color, alpha=0.5,
-                        label='{} = {} : 95% CI'.format(
-                            param, self.design.iloc[i, j]
+            else:
+                fig = plt.figure(figsize=(5, 3), facecolor='w', edgecolor='k')
+                ax = fig.add_subplot(111)
+                for i, d in enumerate(dfs):
+                    df = d.resample('H').mean()
+                    df_wk_sm = (
+                        df.loc[df.index.weekday < 5]
+                        .loc['2017-5-1':'2017-10-31']
+                    )
+
+                    # Plot
+                    df_plot = df_wk_sm.copy()
+                    df_plot['hour'] = df_plot.index.hour
+                    df_plot_ts = pd.pivot_table(
+                        df_plot,
+                        values='_'.join([self.model_id, 'shed_W_ft2']),
+                        index=df_plot.index.date, columns='hour'
+                    )
+
+                    color = sns.color_palette()[i]
+                    ax.plot(
+                        range(1, 25), df_plot_ts.mean(axis=0), color=color,
+                        label='{} = {}'.format(param, self.design.iloc[i, j])
+                    )
+                    if plot_type == 'band':
+                        ax.fill_between(
+                            range(1, 25),
+                            df_plot_ts.quantile(0.025, axis=0),
+                            df_plot_ts.quantile(0.975, axis=0),
+                            color=color, alpha=0.5
                         )
-                    )
-                else:
-                    box = df_plot_ts.boxplot(
-                        ax=ax, patch_artist=True, return_type='dict'
-                    )
-                    plt.setp(box['boxes'], color=color, alpha=0.5)
-                    for item in ['whiskers', 'fliers', 'medians', 'caps']:
-                        plt.setp(box[item], color=color)
-                    plt.setp(box["fliers"], markeredgecolor=color)
+                    else:
+                        box = df_plot_ts.boxplot(
+                            ax=ax, patch_artist=True, return_type='dict'
+                        )
+                        plt.setp(box['boxes'], color=color, alpha=0.5)
+                        for item in ['whiskers', 'fliers', 'medians', 'caps']:
+                            plt.setp(box[item], color=color)
+                        plt.setp(box["fliers"], markeredgecolor=color)
+
+                    ax.legend()
 
             ax.set_xlabel('Hour of Day')
             ax.set_ylabel('Demand Shed Intensity (w/ft2)')
-            ax.legend()
 
             output_path = self.root_dir.joinpath('plot')
             fig.savefig(
@@ -369,7 +418,8 @@ class PlotDFOutput(object):
         ]
 
         sns.set_style('ticks')
-        sns.set_context("paper", rc={"lines.linewidth": 2})
+        sns.set_context('paper', rc={"lines.linewidth": 2})
+        sns.set_palette('colorblind')
 
         for i in range(self.design.shape[1]):
             param = self.design.columns[i]
