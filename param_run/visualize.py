@@ -12,22 +12,24 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-def visualize_output(config_file, floor_area, model_id):
+def visualize_output(config_file):
     """"""
     with open(config_file, 'r') as f:
         config = json.load(f)
 
     root_dir = pathlib.Path.cwd().joinpath('sim')
     output_dir = root_dir.joinpath('output')
+    model_id = config['ModelID']
     base_csv = '{}.csv'.format(config['BaseModel'].strip('.osm'))
     df_csv = '{}.csv'.format(config['DFModel'].strip('.osm'))
     design = pathlib.Path.cwd().joinpath(
         config['InputDirectory'], config['Design']
     )
+    floor_area = float(config['FloorArea'])
 
     # Initializaiton
     vis = PlotDFOutput(
-        root_dir, output_dir, base_csv, df_csv, design, floor_area, model_id
+        model_id, root_dir, output_dir, base_csv, df_csv, design, floor_area
     )
 
     # Visualization
@@ -69,8 +71,8 @@ def read_eplus_output(csv_file):
 class PlotDFOutput(object):
     """"""
     def __init__(
-            self, root_dir, output_dir,
-            base_csv='', df_csv='', dsg_csv='', floor_area=None, model_id=''):
+            self,  model_id, root_dir, output_dir,
+            base_csv='', df_csv='', dsg_csv='', floor_area=None):
         self.root_dir = root_dir
         self.output_dir = output_dir
         self.base_csv = base_csv
@@ -430,7 +432,7 @@ class PlotDFOutput(object):
 
             fig = plt.figure(figsize=(5, 3), facecolor='w', edgecolor='k')
             ax = fig.add_subplot(111)
-            g = df_plot_bx_par.boxplot(ax=ax)
+            g = df_plot_bx_par.boxplot(ax=ax, showmeans=True)
             ax.set_xlabel(param)
             ax.set_ylabel('Demand Shed Intensity (w/ft2)')
 
@@ -449,6 +451,4 @@ class PlotDFOutput(object):
 if __name__ == "__main__":
     """"""
     config = sys.argv[1]
-    floor_area = float(sys.argv[2])
-    model_id = sys.argv[3]
-    visualize_output(config, floor_area, model_id)
+    visualize_output(config)
