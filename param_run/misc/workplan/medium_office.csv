@@ -1,0 +1,3 @@
+BaseModelId,BldgType,BldgVint,BldgLoc,TimeStep
+MediumOffice_2004_3B,MediumOffice,90.1-2004,ASHRAE 169-2006-3B,4
+MediumOffice_2004_3C,MediumOffice,90.1-2004,ASHRAE 169-2006-3C,4
