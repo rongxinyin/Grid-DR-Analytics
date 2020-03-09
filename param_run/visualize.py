@@ -288,8 +288,8 @@ class PlotDFOutput(object):
         if plot_type == 'band':
             ax.fill_between(
                 range(1, 25),
-                df_plot_ts.quantile(0.025, axis=0),
-                df_plot_ts.quantile(0.975, axis=0),
+                df_plot_ts.quantile(0.05, axis=0),
+                df_plot_ts.quantile(0.95, axis=0),
                 alpha=0.5, label='95% CI'
             )
         else:
@@ -381,8 +381,8 @@ class PlotDFOutput(object):
                     if plot_type == 'band':
                         ax.fill_between(
                             range(1, 25),
-                            df_plot_ts.quantile(0.025, axis=0),
-                            df_plot_ts.quantile(0.975, axis=0),
+                            df_plot_ts.quantile(0.05, axis=0),
+                            df_plot_ts.quantile(0.95, axis=0),
                             color=color, alpha=0.5
                         )
                     else:
