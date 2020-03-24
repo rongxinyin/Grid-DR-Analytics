@@ -30,30 +30,37 @@ def visualize_output(config_file):
 
     # Initializaiton
     vis = PlotDFOutput(
-        model_id, root_dir, output_dir, base_csv, df_csv, design, floor_area
+        model_id, root_dir, output_dir,
+        base_csv, df_csv, design, design_type, floor_area
     )
 
     # Extract and export data
-    vis.extract_data(model_id, design_type)
+    vis.extract_data()
 
     # Visualization
-    switcher = {
-        'Regplot': vis.generate_regplot,
-        'Regplots': vis.generate_regplots,
-        'TSplot': vis.generate_tsplot,
-        'TSplots': vis.generate_tsplots,
-        'Boxplot': vis.generate_boxplot
-    }
+    if design_type.lower() == 'param':
+        switcher = {
+            'Regplot': vis.generate_regplot,
+            'Regplots': vis.generate_regplots,
+            'TSplot': vis.generate_tsplot,
+            'TSplots': vis.generate_tsplots,
+            'Boxplot': vis.generate_boxplot
+        }
 
-    try:
-        plots = config['Plots']
-    except KeyError:
-        plots = ['Regplot', 'Regplots', 'TSplot', 'TSplots', 'Boxplot']
-    for p in plots:
-        switcher.get(p, vis.generate_regplot)()
-    if 'TSplots' in plots:
-        vis.generate_tsplots(plot_type='band')
-        vis.generate_tsplots(plot_type='box-sep')
+        try:
+            plots = config['Plots']
+        except KeyError:
+            plots = ['Regplot', 'Regplots', 'TSplot', 'TSplots', 'Boxplot']
+        for p in plots:
+            switcher.get(p, vis.generate_regplot)()
+        if 'TSplots' in plots:
+            vis.generate_tsplots(plot_type='band')
+            vis.generate_tsplots(plot_type='box-sep')
+    elif design_type.lower() == 'sa':
+        pass
+    else:
+        names = config['Parameters']
+        vis.generate_histograms(names)
 
 
 def read_eplus_output(csv_file):
@@ -76,12 +83,14 @@ class PlotDFOutput(object):
     """"""
     def __init__(
             self,  model_id, root_dir, output_dir,
-            base_csv='', df_csv='', dsg_csv='', floor_area=None):
+            base_csv='', df_csv='', dsg_csv='',
+            dsg_type=None, floor_area=None):
         self.root_dir = root_dir
         self.output_dir = output_dir
         self.base_csv = base_csv
         self.df_csv = df_csv
         self.design = pd.read_csv(dsg_csv)
+        self.design_type = dsg_type
         self.floor_area = floor_area
         self.model_id = model_id
 
@@ -123,7 +132,7 @@ class PlotDFOutput(object):
 
         return outputs
 
-    def extract_data(self, model_id, design_type):
+    def extract_data(self):
         """"""
         # Reference case
         df_ref = self.add_df_output().resample('H').mean()
@@ -157,10 +166,12 @@ class PlotDFOutput(object):
         # Export data
         output_path = self.root_dir.joinpath('output')
         self.df_ref_evt.to_csv(
-            output_path.joinpath('{}_Ref.csv'.format(model_id))
+            output_path.joinpath('{}_Ref.csv'.format(self.model_id))
         )
         pd.concat(self.df_dsg_evt).to_csv(
-            output_path.joinpath('{}_{}.csv'.format(model_id, design_type))
+            output_path.joinpath(
+                '{}_{}.csv'.format(self.model_id, self.design_type)
+            )
         )
 
     # Regression plot
@@ -229,8 +240,7 @@ class PlotDFOutput(object):
         sns.set_context('paper', rc={"lines.linewidth": 2})
         sns.set_palette('colorblind')
 
-        for i in range(self.design.shape[1]):
-            param = self.design.columns[i]
+        for param in self.design.columns:
             response = '_'.join([self.model_id, 'shed_W_ft2'])
             df_plot_inst = df_plot[
                 [response, 'oat', 'oat_range', 'hour', param]
@@ -424,8 +434,7 @@ class PlotDFOutput(object):
         sns.set_context('paper', rc={"lines.linewidth": 2})
         sns.set_palette('colorblind')
 
-        for i in range(self.design.shape[1]):
-            param = self.design.columns[i]
+        for param in self.design.columns:
             df_plot_bx_par = pd.pivot_table(
                 df_wk_sm, values='_'.join([self.model_id, 'shed_W_ft2']),
                 index=df_wk_sm.index, columns=param
@@ -444,6 +453,58 @@ class PlotDFOutput(object):
                 ),
                 dpi=300, bbox_inches='tight'
             )
+
+    def generate_histograms(self, names):
+        """"""
+        sns.set_style('ticks')
+        sns.set_context("paper", rc={"lines.linewidth": 2})
+        output_path = self.root_dir.joinpath('plot')
+
+        # Parameters
+        for i, param in enumerate(self.design.columns):
+            fig = plt.figure(figsize=(4, 3))
+            ax = fig.add_subplot(111)
+            ax.hist(
+                self.design.loc[:, param].values,
+                alpha=0.8, density=True
+            )
+            ax.set_xlabel(names[i])
+            ax.set_ylabel('Probability density')
+            plt.savefig(
+                output_path.joinpath(
+                    '{}-histogram-{}.png'.format(self.model_id, param)
+                ),
+                dpi=300, bbox_inches='tight'
+            )
+
+        # Output
+        df_wk_sm_avg = pd.concat(
+            [d.mean(axis=0) for d in self.df_dsg_evt], axis=1
+        ).transpose()
+
+        out = df_wk_sm_avg.loc[:, '_'.join([self.model_id, 'shed_W_ft2'])]
+
+        fig = plt.figure(figsize=(5, 3))
+        ax = fig.add_subplot(111)
+        ax.hist(out.values, alpha=0.8, density=True)
+        ax.set_xlabel('Hourly Average Demand Shed Intensity [W/ft2]')
+        ax.set_ylabel('Probability Density')
+
+        output_path = self.root_dir.joinpath('plot')
+        fig.savefig(
+            output_path.joinpath(
+                '{}-histogram.png'.format(self.model_id)
+            ),
+            dpi=300, bbox_inches='tight'
+        )
+
+        # Export data
+        output_path = self.root_dir.joinpath('output')
+        df_wk_sm_avg.to_csv(
+            output_path.joinpath(
+                '{}_{}_Hist.csv'.format(self.model_id, self.design_type)
+            )
+        )
 
 
 if __name__ == "__main__":
