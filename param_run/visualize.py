@@ -26,7 +26,7 @@ def visualize_output(config_file):
     design = pathlib.Path.cwd().joinpath(
         config['InputDirectory'], config['Design']
     )
-    floor_area = float(config['FloorArea'])
+    floor_area = config['FloorArea']
 
     # Initializaiton
     vis = PlotDFOutput(
@@ -56,11 +56,13 @@ def visualize_output(config_file):
         if 'TSplots' in plots:
             vis.generate_tsplots(plot_type='band')
             vis.generate_tsplots(plot_type='box-sep')
+    elif design_type.lower() == 'mcs':
+        labels = [d['label'] for d in config['Parameters']]
+        vis.generate_histograms(labels)
     elif design_type.lower() == 'sa':
         pass
     else:
-        names = config['Parameters']
-        vis.generate_histograms(names)
+        print("Error: Unknown analysis type")
 
 
 def read_eplus_output(csv_file):
@@ -454,7 +456,7 @@ class PlotDFOutput(object):
                 dpi=300, bbox_inches='tight'
             )
 
-    def generate_histograms(self, names):
+    def generate_histograms(self, labels):
         """"""
         sns.set_style('ticks')
         sns.set_context("paper", rc={"lines.linewidth": 2})
@@ -468,7 +470,7 @@ class PlotDFOutput(object):
                 self.design.loc[:, param].values,
                 alpha=0.8, density=True
             )
-            ax.set_xlabel(names[i])
+            ax.set_xlabel(labels[i])
             ax.set_ylabel('Probability density')
             plt.savefig(
                 output_path.joinpath(
