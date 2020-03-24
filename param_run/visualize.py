@@ -22,6 +22,7 @@ def visualize_output(config_file):
     model_id = config['ModelID']
     base_csv = '{}.csv'.format(config['BaseModel'].strip('.osm'))
     df_csv = '{}.csv'.format(config['DFModel'].strip('.osm'))
+    design_type = config['DesignType']
     design = pathlib.Path.cwd().joinpath(
         config['InputDirectory'], config['Design']
     )
@@ -31,6 +32,9 @@ def visualize_output(config_file):
     vis = PlotDFOutput(
         model_id, root_dir, output_dir, base_csv, df_csv, design, floor_area
     )
+
+    # Extract and export data
+    vis.extract_data(model_id, design_type)
 
     # Visualization
     switcher = {
@@ -119,20 +123,51 @@ class PlotDFOutput(object):
 
         return outputs
 
+    def extract_data(self, model_id, design_type):
+        """"""
+        # Reference case
+        df_ref = self.add_df_output().resample('H').mean()
+
+        # Subset of data on weekdays in summer months
+        df_ref_wk_sm = (
+            df_ref.loc[df_ref.index.weekday < 5].loc['2017-5-1':'2017-10-31']
+        )
+        df_ref_wk_sm_evt = df_ref_wk_sm.loc[
+            (df_ref_wk_sm.index.hour > 10) & (df_ref_wk_sm.index.hour <= 16)
+        ]
+        self.df_ref = df_ref_wk_sm
+        self.df_ref_evt = df_ref_wk_sm_evt
+
+        # Analysis design
+        df_dsg = [d.resample('H').mean() for d in self.add_df_outputs()]
+
+        # Subset of data on weekdays in summer months
+        df_dsg_wk_sm = [
+            d.loc[d.index.weekday < 5].loc['2017-5-1':'2017-10-31']
+            for d in df_dsg
+        ]
+
+        df_dsg_wk_sm_evt = [
+            d.loc[(d.index.hour > 10) & (d.index.hour <= 16)]
+            for d in df_dsg_wk_sm
+        ]
+        self.df_dsg = df_dsg_wk_sm
+        self.df_dsg_evt = df_dsg_wk_sm_evt
+
+        # Export data
+        output_path = self.root_dir.joinpath('output')
+        self.df_ref_evt.to_csv(
+            output_path.joinpath('{}_Ref.csv'.format(model_id))
+        )
+        pd.concat(self.df_dsg_evt).to_csv(
+            output_path.joinpath('{}_{}.csv'.format(model_id, design_type))
+        )
+
     # Regression plot
     def generate_regplot(self):
         """"""
-        df = self.add_df_output().resample('H').mean()
-
-        # Subset of data on weekdays in summer months
-        df_wk_sm = df.loc[df.index.weekday < 5].loc['2017-5-1':'2017-10-31']
-        df_wk_sm = df_wk_sm.loc[
-            (df_wk_sm.index.hour > 10) & (df_wk_sm.index.hour <= 16)
-        ]
-        # print(df_wk_sm.head())
-
         # Plot
-        df_plot = df_wk_sm.copy()
+        df_plot = self.df_ref_evt.copy()
         df_plot['hour'] = df_plot.index.hour
         df_plot['hour'] = df_plot['hour'].apply(
             lambda x: '{}:00~{}:00'.format(x, x+1)
@@ -180,16 +215,8 @@ class PlotDFOutput(object):
 
     def generate_regplots(self):
         """"""
-        df = pd.concat([d.resample('H').mean() for d in self.add_df_outputs()])
-
-        # Subset of data on weekdays in summer months
-        df_wk_sm = df.loc[df.index.weekday < 5].loc['2017-5-1':'2017-10-31']
-        df_wk_sm = df_wk_sm.loc[
-            (df_wk_sm.index.hour > 10) & (df_wk_sm.index.hour <= 16)
-        ]
-
         # Plot
-        df_plot = df_wk_sm.copy()
+        df_plot = pd.concat(self.df_dsg_evt)
         df_plot['hour'] = df_plot.index.hour
         df_plot['hour'] = df_plot['hour'].apply(
             lambda x: '{}:00~{}:00'.format(x, x+1)
@@ -260,15 +287,8 @@ class PlotDFOutput(object):
         """"""
         plot_type = 'box' if plot_type is None else plot_type
 
-        df = self.add_df_output().resample('H').mean()
-
-        # Subset of data on weekdays in summer months
-        df_wk_sm = df.loc[df.index.weekday < 5].loc['2017-5-1':'2017-10-31']
-
-        # print(df_wk_sm.head())
-
         # Plot
-        df_plot = df_wk_sm.copy()
+        df_plot = self.df_ref.copy()
         df_plot['hour'] = df_plot.index.hour
         df_plot_ts = pd.pivot_table(
             df_plot, values='_'.join([self.model_id, 'shed_W_ft2']),
@@ -318,21 +338,12 @@ class PlotDFOutput(object):
         for j in range(self.design.shape[1]):
             param = self.design.columns[j]
 
-            dfs = self.add_df_outputs()
             if plot_type == 'box-sep':
                 fig = plt.figure(figsize=(8, 3), facecolor='w', edgecolor='k')
                 ax = fig.add_subplot(111)
-                df_m = pd.DataFrame(columns=dfs[0].columns)
-                for d in dfs:
-                    df = d.resample('H').mean()
-                    df_wk_sm = (
-                        df.loc[df.index.weekday < 5]
-                        .loc['2017-5-1':'2017-10-31']
-                    )
-                    df_m = df_m.append(df_wk_sm)
-
+                df_wk_sm = pd.concat(self.df_dsg)
                 value = '_'.join([self.model_id, 'shed_W_ft2'])
-                df_plot_ts = df_m.loc[:, [value, param]]
+                df_plot_ts = df_wk_sm.loc[:, [value, param]]
                 df_plot_ts['hour'] = df_plot_ts.index.hour
                 df_plot_ts.index = df_plot_ts.index.date
 
@@ -357,12 +368,7 @@ class PlotDFOutput(object):
             else:
                 fig = plt.figure(figsize=(5, 3), facecolor='w', edgecolor='k')
                 ax = fig.add_subplot(111)
-                for i, d in enumerate(dfs):
-                    df = d.resample('H').mean()
-                    df_wk_sm = (
-                        df.loc[df.index.weekday < 5]
-                        .loc['2017-5-1':'2017-10-31']
-                    )
+                for i, df_wk_sm in enumerate(self.df_dsg):
 
                     # Plot
                     df_plot = df_wk_sm.copy()
@@ -411,13 +417,8 @@ class PlotDFOutput(object):
 
     def generate_boxplot(self):
         """"""
-        df = pd.concat([d.resample('H').mean() for d in self.add_df_outputs()])
-
         # Subset of data on weekdays in summer months
-        df_wk_sm = df.loc[df.index.weekday < 5].loc['2017-5-1':'2017-10-31']
-        df_wk_sm = df_wk_sm.loc[
-            (df_wk_sm.index.hour > 10) & (df_wk_sm.index.hour <= 16)
-        ]
+        df_wk_sm = pd.concat(self.df_dsg_evt)
 
         sns.set_style('ticks')
         sns.set_context('paper', rc={"lines.linewidth": 2})
@@ -443,9 +444,6 @@ class PlotDFOutput(object):
                 ),
                 dpi=300, bbox_inches='tight'
             )
-
-        # TEMPORARY
-        df_wk_sm.to_csv(output_path.joinpath('data_output.csv'))
 
 
 if __name__ == "__main__":
