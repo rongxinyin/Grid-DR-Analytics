@@ -118,12 +118,21 @@ def dist_generator(pars, distribution=None):
         distribution = 'Uniform'
         print("Warning: Missing distribution type; set to uniform by default")
 
-    switcher = {
-        'Uniform': stats.uniform(loc=pars[0], scale=np.diff(pars)),
-        'Normal': stats.norm(loc=pars[0], scale=pars[1]),
-        'RandInt': stats.randint(low=pars[0], high=pars[1]),
-    }
-    return switcher.get(distribution, stats.norm())
+    if distribution == 'Uniform':
+        dist = stats.uniform(loc=pars[0], scale=np.diff(pars))
+    elif distribution == 'Normal':
+        dist = stats.norm(loc=pars[0], scale=pars[1])
+    elif distribution == 'RandInt':
+        dist = stats.randint(low=pars[0], high=pars[1])
+    elif distribution == 'Triangle':
+        dist = stats.triang(
+            c=(pars[2] - pars[0]) / np.diff(pars[:2]),
+            loc=pars[0], scale=np.diff(pars[:2]),
+        )
+    else:
+        dist = stats.uniform()
+
+    return dist
 
 
 if __name__ == "__main__":
