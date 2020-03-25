@@ -27,29 +27,81 @@ def generate_design(config_file):
     output_dir = root_dir.joinpath('output')
     design_type = config['DesignType']
     design_file = config['Design']
+    design_path = input_dir.joinpath(design_file)
 
     if design_type.lower() == 'mcs':
         params = config['Parameters']
         size = config['Size']
-        design_path = input_dir.joinpath(design_file)
-        generate_lhs_design(params, size, design_path)
+        generate_lhs_design(params, size, input_dir, design_file)
     elif design_type.lower() == 'sa':
         params = config['Parameters']
+        problem = config['Problem']
+        generate_morris_design(params, problem, input_dir, design_file)
     else:
         print("Error: Unknown analysis type")
 
 
-def generate_lhs_design(params, size, out_path):
+def generate_lhs_design(params, size, out_dir, filename):
     """"""
+    # Design setting
     p = len(params)
     names = [param['name'] for param in params]
+
+    # Generate design matrix on parameter CDF space from [0, 1]
     design = pyDOE2.lhs(p, size, criterion='maximin', iterations=20)
+
+    # Translate design matrix into parameter sample values
     sample = np.empty(design.shape)
+
     for i, param in enumerate(params):
-        d = dist_generator(param['parameters'], param['distribution'])
+        if param['form'].lower() == 'actual':
+            dist_params = param['parameters']
+        else:
+            # TODO Support other forms of uncertainty
+            dist_params = param['parameters']
+        d = dist_generator(dist_params, param['distribution'])
         sample[:, i] = d.ppf(design[:, i])
 
-    pd.DataFrame(sample, columns=names).to_csv(out_path, index=False)
+    # Export design sample
+    pd.DataFrame(sample, columns=names).to_csv(
+        out_dir.joinpath(filename), index=False
+    )
+
+
+def generate_morris_design(params, setting, out_dir, filename):
+    """"""
+    # Design setting
+    p = len(params)
+    names = [param['name'] for param in params]
+    problem = {
+        'num_vars': p,
+        'names': names,
+        'bounds': np.tile(np.array([1e-3, 1 - 1e-3]), (p, 1))
+    }
+
+    # Generate design matrix on parameter CDF space from [0, 1]
+    design = morris.sample(
+        problem, N=setting['r'], num_levels=setting['levels']
+    )
+
+    # Translate design matrix into parameter sample values
+    sample = np.empty(design.shape)
+    for i, param in enumerate(params):
+        if param['form'].lower() == 'actual':
+            dist_params = param['parameters']
+        else:
+            # TODO Support other forms of uncertainty
+            dist_params = param['parameters']
+        d = dist_generator(dist_params, param['distribution'])
+        sample[:, i] = d.ppf(design[:, i])
+
+    # Export design sample
+    pd.DataFrame(sample, columns=names).to_csv(
+        out_dir.joinpath(filename), index=False
+    )
+    pd.DataFrame(design, columns=names).to_csv(
+        out_dir.joinpath(filename.replace('.csv', '_cdf.csv')), index=False
+    )
 
 
 def dist_generator(pars, distribution=None):

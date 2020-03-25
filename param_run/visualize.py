@@ -11,6 +11,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+from SALib.analyze import morris as morris_analyze
+from SALib.plotting import morris as morris_plot
+
 
 def visualize_output(config_file):
     """"""
@@ -60,7 +63,13 @@ def visualize_output(config_file):
         labels = [d['label'] for d in config['Parameters']]
         vis.generate_histograms(labels)
     elif design_type.lower() == 'sa':
-        pass
+        names = [d['name'] for d in config['Parameters']]
+        problem = config['Problem']
+        design_cdf = pathlib.Path.cwd().joinpath(
+            config['InputDirectory'],
+            config['Design'].replace('.csv', '_cdf.csv')
+        )
+        vis.generate_sa_plots(names, problem, design_cdf)
     else:
         print("Error: Unknown analysis type")
 
@@ -166,12 +175,12 @@ class PlotDFOutput(object):
         self.df_dsg_evt = df_dsg_wk_sm_evt
 
         # Export data
-        output_path = self.root_dir.joinpath('output')
+        output_dir = self.root_dir.joinpath('output')
         self.df_ref_evt.to_csv(
-            output_path.joinpath('{}_Ref.csv'.format(self.model_id))
+            output_dir.joinpath('{}_Ref.csv'.format(self.model_id))
         )
         pd.concat(self.df_dsg_evt).to_csv(
-            output_path.joinpath(
+            output_dir.joinpath(
                 '{}_{}.csv'.format(self.model_id, self.design_type)
             )
         )
@@ -216,13 +225,13 @@ class PlotDFOutput(object):
         for ax in g.axes:
             ax.legend(loc=2)
 
-        output_path = self.root_dir.joinpath('plot')
+        output_dir = self.root_dir.joinpath('plot')
         gm.fig.savefig(
-            output_path.joinpath('{}-reg.png'.format(self.model_id)),
+            output_dir.joinpath('{}-reg.png'.format(self.model_id)),
             dpi=300, bbox_inches='tight'
         )
         g.fig.savefig(
-            output_path.joinpath('{}-reg-hour.png'.format(self.model_id)),
+            output_dir.joinpath('{}-reg-hour.png'.format(self.model_id)),
             dpi=300, bbox_inches='tight'
         )
 
@@ -280,15 +289,15 @@ class PlotDFOutput(object):
             for ax in g.axes:
                 ax.legend(loc=2)
 
-            output_path = self.root_dir.joinpath('plot')
+            output_dir = self.root_dir.joinpath('plot')
             gm.fig.savefig(
-                output_path.joinpath(
+                output_dir.joinpath(
                     '{}-regs-{}.png'.format(self.model_id, param.lower())
                 ),
                 dpi=300, bbox_inches='tight'
             )
             g.fig.savefig(
-                output_path.joinpath(
+                output_dir.joinpath(
                     '{}-regs-hour-{}.png'.format(self.model_id, param.lower())
                 ),
                 dpi=300, bbox_inches='tight'
@@ -331,9 +340,9 @@ class PlotDFOutput(object):
         ax.set_ylabel('Demand Shed Intensity (w/ft2)')
         ax.legend()
 
-        output_path = self.root_dir.joinpath('plot')
+        output_dir = self.root_dir.joinpath('plot')
         fig.savefig(
-            output_path.joinpath(
+            output_dir.joinpath(
                 '{}-tsplot-{}.png'.format(self.model_id, plot_type)
             ),
             dpi=300, bbox_inches='tight'
@@ -417,9 +426,9 @@ class PlotDFOutput(object):
             ax.set_xlabel('Hour of Day')
             ax.set_ylabel('Demand Shed Intensity (w/ft2)')
 
-            output_path = self.root_dir.joinpath('plot')
+            output_dir = self.root_dir.joinpath('plot')
             fig.savefig(
-                output_path.joinpath(
+                output_dir.joinpath(
                     '{}-tsplots-{}-{}.png'.format(
                         self.model_id, plot_type, param.lower()
                     )
@@ -448,9 +457,9 @@ class PlotDFOutput(object):
             ax.set_xlabel(param)
             ax.set_ylabel('Demand Shed Intensity (w/ft2)')
 
-            output_path = self.root_dir.joinpath('plot')
+            output_dir = self.root_dir.joinpath('plot')
             fig.savefig(
-                output_path.joinpath(
+                output_dir.joinpath(
                     '{}-boxplot-{}.png'.format(self.model_id, param.lower())
                 ),
                 dpi=300, bbox_inches='tight'
@@ -460,7 +469,7 @@ class PlotDFOutput(object):
         """"""
         sns.set_style('ticks')
         sns.set_context("paper", rc={"lines.linewidth": 2})
-        output_path = self.root_dir.joinpath('plot')
+        output_dir = self.root_dir.joinpath('plot')
 
         # Parameters
         for i, param in enumerate(self.design.columns):
@@ -473,7 +482,7 @@ class PlotDFOutput(object):
             ax.set_xlabel(labels[i])
             ax.set_ylabel('Probability density')
             plt.savefig(
-                output_path.joinpath(
+                output_dir.joinpath(
                     '{}-histogram-{}.png'.format(self.model_id, param)
                 ),
                 dpi=300, bbox_inches='tight'
@@ -483,28 +492,133 @@ class PlotDFOutput(object):
         df_wk_sm_avg = pd.concat(
             [d.mean(axis=0) for d in self.df_dsg_evt], axis=1
         ).transpose()
-
-        out = df_wk_sm_avg.loc[:, '_'.join([self.model_id, 'shed_W_ft2'])]
+        out = df_wk_sm_avg.loc[
+            :, '_'.join([self.model_id, 'shed_W_ft2'])
+        ].values
 
         fig = plt.figure(figsize=(5, 3))
         ax = fig.add_subplot(111)
-        ax.hist(out.values, alpha=0.8, density=True)
+        ax.hist(out, alpha=0.8, density=True)
         ax.set_xlabel('Hourly Average Demand Shed Intensity [W/ft2]')
         ax.set_ylabel('Probability Density')
 
-        output_path = self.root_dir.joinpath('plot')
+        output_dir = self.root_dir.joinpath('plot')
         fig.savefig(
-            output_path.joinpath(
+            output_dir.joinpath(
                 '{}-histogram.png'.format(self.model_id)
             ),
             dpi=300, bbox_inches='tight'
         )
 
         # Export data
-        output_path = self.root_dir.joinpath('output')
+        output_dir = self.root_dir.joinpath('output')
         df_wk_sm_avg.to_csv(
-            output_path.joinpath(
-                '{}_{}_Hist.csv'.format(self.model_id, self.design_type)
+            output_dir.joinpath(
+                '{}_{}_Output.csv'.format(self.model_id, self.design_type)
+            )
+        )
+
+    def generate_sa_plots(self, names, setting, design_file):
+        """"""
+        # Plot functions
+        def plot_morris_cov(sa, name, outdir):
+            """Plot result of sensitivity analysis using Morris method."""
+            if np.isnan(sa['sigma']).any():
+                # Remove sigma to trigger the use of 'mu_star_conf'in y axis
+                # by SALib
+                sa_plot = sa.copy()
+                sa_plot['sigma'] = None
+                Y = sa['mu_star_conf']
+            else:
+                sa_plot = sa
+                Y = sa['sigma']
+
+            fig, ax = plt.subplots(figsize=(6, 5))
+            morris_plot.covariance_plot(ax, sa_plot, {})
+
+            # TEMPORARY
+            ax.set_ylim(0, 0.001)
+            ax.set_xlabel(r'$\mu^\star$ [W/ft2]')
+            ax.set_ylabel(r'$\sigma$ [W/ft2]')
+
+            x_offset = ax.get_xlim()[1] * 0.01
+            y_offset = ax.get_ylim()[1] * 0.01
+            for i in range(len(sa['names'])):
+                plt.annotate(
+                    sa['names'][i],
+                    (sa['mu_star'][i] + x_offset, Y[i] + y_offset)
+                )
+            plt.savefig(
+                outdir.joinpath('{}-morris_covplot.png'.format(name)),
+                dpi=300, bbox_inches='tight'
+            )
+            plt.close()
+
+        def plot_morris_bar(sa, name, outdir):
+            """Plot result of sensitivity analysis using Morris method."""
+            # Use short variable name in plots
+            sa_copy = sa.copy()
+
+            fig, ax = plt.subplots(figsize=(6, 5))
+            morris_plot.horizontal_bar_plot(ax, sa_copy, {})
+            plt.savefig(
+                outdir.joinpath('{}-morris_barplot.png'.format(name)),
+                dpi=300, bbox_inches='tight'
+            )
+            plt.close()
+
+        def plot_morris_bar_sign(sa, name, outdir):
+            """Plot result of sensitivity analysis using Morris method."""
+            # Use short variable name in plots
+            sa_copy = sa.copy()
+            sa_copy['mu_star'] = sa_copy['mu']
+
+            fig, ax = plt.subplots(figsize=(6, 5))
+            morris_plot.horizontal_bar_plot(ax, sa_copy, {})
+            ax.plot([0, 0], [ax.get_ylim()[0], ax.get_ylim()[1]], 'k--')
+            ax.set_xlabel(r'$\mu$ [W/ft2]')
+            plt.savefig(
+                outdir.joinpath('{}-morris_barplot-sign.png'.format(name)),
+                dpi=300, bbox_inches='tight'
+            )
+            plt.close()
+
+        # Result
+        df_wk_sm_avg = pd.concat(
+            [d.mean(axis=0) for d in self.df_dsg_evt], axis=1
+        ).transpose()
+        out = df_wk_sm_avg.loc[
+            :, '_'.join([self.model_id, 'shed_W_ft2'])
+        ].values
+
+        # Analyze result
+        design = pd.read_csv(design_file).values
+        p = design.shape[1]
+        problem = {
+            'num_vars': p,
+            'names': names,
+            'bounds': np.tile(np.array([1e-3, 1 - 1e-3]), (p, 1))
+        }
+        sa = morris_analyze.analyze(
+            problem, X=design, Y=out, num_levels=setting['levels']
+        )
+
+        # Generate plots
+        output_dir = self.root_dir.joinpath('plot')
+        plot_morris_cov(sa, self.model_id, output_dir)
+        plot_morris_bar(sa, self.model_id, output_dir)
+        plot_morris_bar_sign(sa, self.model_id, output_dir)
+
+        # Export result
+        output_dir = self.root_dir.joinpath('output')
+        df_wk_sm_avg.to_csv(
+            output_dir.joinpath(
+                '{}_{}_Output.csv'.format(self.model_id, self.design_type)
+            )
+        )
+        pd.DataFrame(sa).to_csv(
+            output_dir.joinpath(
+                '{}_{}_Morris.csv'.format(self.model_id, self.design_type)
             )
         )
 
