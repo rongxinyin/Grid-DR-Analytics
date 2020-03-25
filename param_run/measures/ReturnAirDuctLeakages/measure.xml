@@ -1,0 +1,142 @@
+<measure xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://bcl.nrel.gov/xsd/measures/version/1.0.xsd">
+ <schema_version>3.0</schema_version>
+ <name>return_air_duct_leakages</name>
+ <uid>e28746df-aa8c-4f6e-a2be-6e2ff3c5e7dd</uid>
+ <version_id>b0439ebc-b482-4dc7-88c3-aa624f47de0b</version_id>
+ <version_modified>20180828T211346Z</version_modified>
+ <xml_checksum>FAAEB4D1</xml_checksum>
+ <class_name>ReturnAirDuctLeakages</class_name>
+ <display_name>Return Air Duct Leakages</display_name>
+ <description>The return duct of an air system typically operates at negative pressure, thus the leakage in the return duct (outside of conditioned space) results in increased heating and cooling load due to unconditioned air being drawn into the return duct and mixing with return air from conditioned spaces. This measure simulates the return air leakage by modifying the Controller:OutdoorAir object in EnergyPlus. This measure was authored by Herrick Laboratory researchers at Purdue University in collaboration with staff from the National Renewable Energy Laboratory. For assistance using this measure please post to https://unmethours.com/questions/</description>
+ <modeler_description>Nine user inputs are required to simulate the fault and, based on these inputs, this fault model simulates the return air duct leakage by introducing additional outdoor air (based on the leakage ratio) through the economizer object. Equation (2) shows the calculation of outdoor airflow rate in the economizer (qdot_(oa,F)) at a faulted condition where qdot_oa is the outdoor airflow rate for ventilation, qdot_(ra,tot) is the return airflow rate, F is the fault intensity and AF is the adjustment factor. qdot_(oa,F) = qdot_oa + qdot_(ra,tot)∙F∙AF. The second term represents the outdoor airflow rate introduced to the duct due to leakage. The fault intensity (F) for this fault is defined as the unconditioned air introduced to return air stream at full load condition as a ratio of the total return airflow rate. The time required for the fault to reach the full level is only required when user wants to model dynamic fault evolution. If dynamic fault evolution is not necessary for the user, it can be defined as zero and the fault intensity will be imposed as a step function with user defined value. However, by defining the time required for the fault to reach the full level, fault starting month/date/time and fault ending month/date/time, the adjustment factor AF is calculated at each time step starting from the starting month/date/time to gradually impose fault intensity based on the user specified time frame. AF is calculated as follows, AF_current = AF_previous + dt/tau where AF_current is the adjustment factor calculated based on the previously calculated adjustment factor (AF_previous), simulation timestep (dt) and the time required for the fault to reach the full level (tau).</modeler_description>
+ <arguments>
+  <argument>
+   <name>econ_choice</name>
+   <display_name>Outdoor air controller affected by the leakage of unconditioned air from the ambient.</display_name>
+   <type>Choice</type>
+   <required>true</required>
+   <model_dependent>false</model_dependent>
+  </argument>
+  <argument>
+   <name>leak_ratio</name>
+   <display_name>Enter the unconditioned air introduced to return air stream at full load condition as a ratio of the total return airflow rate [0-1].</display_name>
+   <type>Double</type>
+   <required>false</required>
+   <model_dependent>false</model_dependent>
+   <default_value>0.1</default_value>
+  </argument>
+  <argument>
+   <name>time_constant</name>
+   <display_name>Enter the time required for fault to reach full level [hr]</display_name>
+   <type>Double</type>
+   <required>false</required>
+   <model_dependent>false</model_dependent>
+   <default_value>0</default_value>
+  </argument>
+  <argument>
+   <name>start_month</name>
+   <display_name>Enter the month (1-12) when the fault starts to occur</display_name>
+   <type>Double</type>
+   <required>false</required>
+   <model_dependent>false</model_dependent>
+   <default_value>6</default_value>
+  </argument>
+  <argument>
+   <name>start_date</name>
+   <display_name>Enter the date (1-28/30/31) when the fault starts to occur</display_name>
+   <type>Double</type>
+   <required>false</required>
+   <model_dependent>false</model_dependent>
+   <default_value>1</default_value>
+  </argument>
+  <argument>
+   <name>start_time</name>
+   <display_name>Enter the time of day (0-24) when the fault starts to occur</display_name>
+   <type>Double</type>
+   <required>false</required>
+   <model_dependent>false</model_dependent>
+   <default_value>9</default_value>
+  </argument>
+  <argument>
+   <name>end_month</name>
+   <display_name>Enter the month (1-12) when the fault ends</display_name>
+   <type>Double</type>
+   <required>false</required>
+   <model_dependent>false</model_dependent>
+   <default_value>12</default_value>
+  </argument>
+  <argument>
+   <name>end_date</name>
+   <display_name>Enter the date (1-28/30/31) when the fault ends</display_name>
+   <type>Double</type>
+   <required>false</required>
+   <model_dependent>false</model_dependent>
+   <default_value>31</default_value>
+  </argument>
+  <argument>
+   <name>end_time</name>
+   <display_name>Enter the time of day (0-24) when the fault ends</display_name>
+   <type>Double</type>
+   <required>false</required>
+   <model_dependent>false</model_dependent>
+   <default_value>23</default_value>
+  </argument>
+ </arguments>
+ <tags>
+  <tag>HVAC.Ventilation</tag>
+ </tags>
+ <attributes>
+  <attribute>
+   <name>Measure Type</name>
+   <value>EnergyPlusMeasure</value>
+   <datatype>string</datatype>
+  </attribute>
+  <attribute>
+   <name>Intended Software Tool</name>
+   <value>OpenStudio Application</value>
+   <datatype>string</datatype>
+  </attribute>
+  <attribute>
+   <name>Intended Software Tool</name>
+   <value>Parametric Analysis Tool</value>
+   <datatype>string</datatype>
+  </attribute>
+  <attribute>
+   <name>Intended Software Tool</name>
+   <value>Analysis Spreadsheet</value>
+   <datatype>string</datatype>
+  </attribute>
+ </attributes>
+ <files>
+  <file>
+   <filename>misc_eplus_func.rb</filename>
+   <filetype>rb</filetype>
+   <usage_type>resource</usage_type>
+   <checksum>435C6B82</checksum>
+  </file>
+  <file>
+   <filename>ControllerOutdoorAirFlow_DuctLeakage.rb</filename>
+   <filetype>rb</filetype>
+   <usage_type>resource</usage_type>
+   <checksum>E872BB8F</checksum>
+  </file>
+  <file>
+   <version>
+    <software_program>OpenStudio</software_program>
+    <identifier>2.4.0</identifier>
+    <min_compatible>2.4.0</min_compatible>
+    <max_compatible>2.4.1</max_compatible>
+   </version>
+   <filename>measure.rb</filename>
+   <filetype>rb</filetype>
+   <usage_type>script</usage_type>
+   <checksum>CC899300</checksum>
+  </file>
+  <file>
+   <filename>LICENSE.txt</filename>
+   <filetype>txt</filetype>
+   <usage_type>license</usage_type>
+   <checksum>D2F7B1D3</checksum>
+  </file>
+ </files>
+</measure>
