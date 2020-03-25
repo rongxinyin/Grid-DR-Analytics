@@ -42,7 +42,7 @@ For parametric analysis:
 
 For Monte Carlo simulation and sensitivity analysis using Morris method:
 1. Create the configuration file accordingly, use *config_mcs.ini* and *config_sa.ini* as templates. Make sure all input files are placed correctly.
-2. Run *design.py* to generate design matrix and csv file of parameter sample values. For example in command prompt:
+2. Run *design.py* to generate design matrix and csv file of parameter sample values. For example, in command prompt:
 `python design.py config_example.ini`
 After completion, check that the file(s) are correctly generated. Sensitivity analysis will generate an additional file with a "cdf" suffix. This file is the design matrix of the CDF space and will be used in the analysis later.
 3. Run *run_sim.py* and *visualize.py*. For example, in command prompt:
@@ -55,7 +55,8 @@ All simulation and analysis outputs are stored in the *sim* folder created by th
 * "osm": contains all simulation instance osm files.
 * "idf": contains all simulation instance idf files.
 * "run": contains all simulation instance raw outputs, including a sub-folder for each instance.
-* "output": contains the post-processed demand flexibility related outputs for each simulation instance, as well as a few result summary files:
+* "output": contains the post-processed demand flexibility related outputs for each simulation instance, 
+* "result": contains a few result summary files:
 -- *{ModelID}_Ref.csv*: outputs of the reference case.
 -- *{ModelID}_{DesignType}.csv*: outputs of all the instance cases.
 -- *{ModelID}_{DesignType}_Output.csv*: outputs of Monte Carlo simulation and sensitivity analysis, where the demand shed intensity is averaged over all hours of the considered period within each instance.

@@ -22,6 +22,8 @@ def visualize_output(config_file):
 
     root_dir = pathlib.Path.cwd().joinpath('sim')
     output_dir = root_dir.joinpath('output')
+    result_dir = root_dir.joinpath('result')
+    plot_dir = root_dir.joinpath('plot')
     model_id = config['ModelID']
     base_csv = '{}.csv'.format(config['BaseModel'].strip('.osm'))
     df_csv = '{}.csv'.format(config['DFModel'].strip('.osm'))
@@ -33,7 +35,7 @@ def visualize_output(config_file):
 
     # Initializaiton
     vis = PlotDFOutput(
-        model_id, root_dir, output_dir,
+        model_id, root_dir, output_dir, result_dir, plot_dir,
         base_csv, df_csv, design, design_type, floor_area
     )
 
@@ -93,11 +95,13 @@ def read_eplus_output(csv_file):
 class PlotDFOutput(object):
     """"""
     def __init__(
-            self,  model_id, root_dir, output_dir,
+            self,  model_id, root_dir, output_dir, result_dir, plot_dir,
             base_csv='', df_csv='', dsg_csv='',
             dsg_type=None, floor_area=None):
         self.root_dir = root_dir
         self.output_dir = output_dir
+        self.result_dir = result_dir
+        self.plot_dir = plot_dir
         self.base_csv = base_csv
         self.df_csv = df_csv
         self.design = pd.read_csv(dsg_csv)
@@ -175,12 +179,11 @@ class PlotDFOutput(object):
         self.df_dsg_evt = df_dsg_wk_sm_evt
 
         # Export data
-        output_dir = self.root_dir.joinpath('output')
         self.df_ref_evt.to_csv(
-            output_dir.joinpath('{}_Ref.csv'.format(self.model_id))
+            self.result_dir.joinpath('{}_Ref.csv'.format(self.model_id))
         )
         pd.concat(self.df_dsg_evt).to_csv(
-            output_dir.joinpath(
+            self.result_dir.joinpath(
                 '{}_{}.csv'.format(self.model_id, self.design_type)
             )
         )
@@ -225,13 +228,12 @@ class PlotDFOutput(object):
         for ax in g.axes:
             ax.legend(loc=2)
 
-        output_dir = self.root_dir.joinpath('plot')
         gm.fig.savefig(
-            output_dir.joinpath('{}-reg.png'.format(self.model_id)),
+            self.plot_dir.joinpath('{}-reg.png'.format(self.model_id)),
             dpi=300, bbox_inches='tight'
         )
         g.fig.savefig(
-            output_dir.joinpath('{}-reg-hour.png'.format(self.model_id)),
+            self.plot_dir.joinpath('{}-reg-hour.png'.format(self.model_id)),
             dpi=300, bbox_inches='tight'
         )
 
@@ -289,15 +291,14 @@ class PlotDFOutput(object):
             for ax in g.axes:
                 ax.legend(loc=2)
 
-            output_dir = self.root_dir.joinpath('plot')
             gm.fig.savefig(
-                output_dir.joinpath(
+                self.plot_dir.joinpath(
                     '{}-regs-{}.png'.format(self.model_id, param.lower())
                 ),
                 dpi=300, bbox_inches='tight'
             )
             g.fig.savefig(
-                output_dir.joinpath(
+                self.plot_dir.joinpath(
                     '{}-regs-hour-{}.png'.format(self.model_id, param.lower())
                 ),
                 dpi=300, bbox_inches='tight'
@@ -340,9 +341,8 @@ class PlotDFOutput(object):
         ax.set_ylabel('Demand Shed Intensity (w/ft2)')
         ax.legend()
 
-        output_dir = self.root_dir.joinpath('plot')
         fig.savefig(
-            output_dir.joinpath(
+            self.plot_dir.joinpath(
                 '{}-tsplot-{}.png'.format(self.model_id, plot_type)
             ),
             dpi=300, bbox_inches='tight'
@@ -426,9 +426,8 @@ class PlotDFOutput(object):
             ax.set_xlabel('Hour of Day')
             ax.set_ylabel('Demand Shed Intensity (w/ft2)')
 
-            output_dir = self.root_dir.joinpath('plot')
             fig.savefig(
-                output_dir.joinpath(
+                self.plot_dir.joinpath(
                     '{}-tsplots-{}-{}.png'.format(
                         self.model_id, plot_type, param.lower()
                     )
@@ -457,9 +456,8 @@ class PlotDFOutput(object):
             ax.set_xlabel(param)
             ax.set_ylabel('Demand Shed Intensity (w/ft2)')
 
-            output_dir = self.root_dir.joinpath('plot')
             fig.savefig(
-                output_dir.joinpath(
+                self.plot_dir.joinpath(
                     '{}-boxplot-{}.png'.format(self.model_id, param.lower())
                 ),
                 dpi=300, bbox_inches='tight'
@@ -469,7 +467,6 @@ class PlotDFOutput(object):
         """"""
         sns.set_style('ticks')
         sns.set_context("paper", rc={"lines.linewidth": 2})
-        output_dir = self.root_dir.joinpath('plot')
 
         # Parameters
         for i, param in enumerate(self.design.columns):
@@ -482,7 +479,7 @@ class PlotDFOutput(object):
             ax.set_xlabel(labels[i])
             ax.set_ylabel('Probability density')
             plt.savefig(
-                output_dir.joinpath(
+                self.plot_dir.joinpath(
                     '{}-histogram-{}.png'.format(self.model_id, param)
                 ),
                 dpi=300, bbox_inches='tight'
@@ -502,18 +499,16 @@ class PlotDFOutput(object):
         ax.set_xlabel('Hourly Average Demand Shed Intensity [W/ft2]')
         ax.set_ylabel('Probability Density')
 
-        output_dir = self.root_dir.joinpath('plot')
         fig.savefig(
-            output_dir.joinpath(
+            self.plot_dir.joinpath(
                 '{}-histogram.png'.format(self.model_id)
             ),
             dpi=300, bbox_inches='tight'
         )
 
         # Export data
-        output_dir = self.root_dir.joinpath('output')
         df_wk_sm_avg.to_csv(
-            output_dir.joinpath(
+            self.result_dir.joinpath(
                 '{}_{}_Output.csv'.format(self.model_id, self.design_type)
             )
         )
@@ -604,20 +599,18 @@ class PlotDFOutput(object):
         )
 
         # Generate plots
-        output_dir = self.root_dir.joinpath('plot')
-        plot_morris_cov(sa, self.model_id, output_dir)
-        plot_morris_bar(sa, self.model_id, output_dir)
-        plot_morris_bar_sign(sa, self.model_id, output_dir)
+        plot_morris_cov(sa, self.model_id, self.plot_dir)
+        plot_morris_bar(sa, self.model_id, self.plot_dir)
+        plot_morris_bar_sign(sa, self.model_id, self.plot_dir)
 
         # Export result
-        output_dir = self.root_dir.joinpath('output')
         df_wk_sm_avg.to_csv(
-            output_dir.joinpath(
+            self.result_dir.joinpath(
                 '{}_{}_Output.csv'.format(self.model_id, self.design_type)
             )
         )
         pd.DataFrame(sa).to_csv(
-            output_dir.joinpath(
+            self.result_dir.joinpath(
                 '{}_{}_Morris.csv'.format(self.model_id, self.design_type)
             )
         )

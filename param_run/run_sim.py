@@ -70,15 +70,19 @@ def perturb_model(
     # Directory for simulation outputs
     run_dir = sim_dir.joinpath('run')
 
-    # Directory for analysis outputs
+    # Directory for simulation outputs
     out_dir = sim_dir.joinpath('output')
+
+    # Directory for analysis results
+    rlt_dir = sim_dir.joinpath('result')
 
     # Directory for visualization plots
     plot_dir = sim_dir.joinpath('plot')
 
     # Create directories
     for dir_inst in [
-            sim_dir, osw_dir, osm_dir, idf_dir, run_dir, out_dir, plot_dir]:
+            sim_dir, osw_dir, osm_dir, idf_dir, run_dir,
+            out_dir, rlt_dir, plot_dir]:
         try:
             pathlib.Path.mkdir(dir_inst)
         except FileExistsError:

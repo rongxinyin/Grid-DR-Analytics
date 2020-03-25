@@ -11,7 +11,7 @@ def create_measure(params, value):
     output = {}
     output.update({'measure_dir_name': params['Measure Directory']})
     output['arguments'] = {}
-    output['arguments'][params['Measure Argument']] = value
+    output['arguments'][params['Measure Argument']] = float(value)
 
     # TODO: Need customization for each parameter measure
     if params['index'].lower() == 'wwr':
