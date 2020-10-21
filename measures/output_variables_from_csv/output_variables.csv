@@ -1,0 +1,20 @@
+key,report,variable_name,reporting_frequency
+,variable,Site Outdoor Air Drybulb Temperature,timestep
+,variable,Site Outdoor Air Relative Humidity,timestep
+,variable,Site Outdoor Air Dewpoint Temperature,timestep
+,variable,Site Outdoor Air Wetbulb Temperature,timestep
+,variable,Site Wind Speed,timestep
+,variable,Site Horizontal Infrared Radiation Rate per Area,timestep
+,variable,Site Diffuse Solar Radiation Rate per Area,timestep
+,variable,Site Direct Solar Radiation Rate per Area,timestep
+,variable,Site Daylight Saving Time Status,timestep
+,variable,Zone Mean Air Temperature,timestep
+,variable,Zone Thermal Comfort Fanger Model PMV,timestep
+,variable,Zone Thermal Comfort Operative Temperature,timestep
+,variable,Zone Operative Temperature,timestep
+,meter,Electricity:Facility,timestep
+,meter,Fans:Electricity,timestep
+,meter,Cooling:Electricity,timestep
+,meter,Heating:Electricity,timestep
+,meter,InteriorLights:Electricity,timestep
+,meter,InteriorEquipment:Electricity,timestep

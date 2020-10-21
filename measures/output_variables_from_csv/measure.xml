@@ -1,0 +1,85 @@
+<measure xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://bcl.nrel.gov/xsd/measures/version/1.0.xsd">
+ <schema_version/>
+ <name>output_variables_from_csv</name>
+ <uid>180543a3-3a8e-4987-9c43-f77fac3e9d2a</uid>
+ <version_id>66317bf9-db72-4992-8546-d1720b480ca0</version_id>
+ <xml_checksum/>
+ <class_name/>
+ <display_name/>
+ <description>Loads a csv file from a path (see the resource folder), and adds the report variables.
+There's a helper function to create a reporting schedule that will report one tuesday, one saturday, and one sunday per month. Helpful to report at detailed timestep without overloading the SQL file</description>
+ <modeler_description>See \test\output_variables.csv for an example of setup.
+In the CSV file, only the fields key, variable_name and reporting_frequency are mandatory.
+The field 'reporting_schedule':
+- if blank, always 1,
+- if reporting_schedule_3_days_per_month a schedule reporting a tuesday, a saturday and a sunday will be created and applied.
+- you can also supply a schedule from your model. If the schedule doesn't exist, a warning is issued and the variable isn't requested.
+
+In the 'key' field you add several keys separated by commas, and it will create separate variables for each.
+
+In Windows Explorer You use Shift + Right click on your file then 'copy as path' and there is no need to strip the leading and trailing quote marks, I'm handling it in the procedure</modeler_description>
+ <tags>
+  <tag>Reporting.QAQC</tag>
+ </tags>
+ <attributes>
+  <attribute>
+   <name>Measure Type</name>
+   <value>ModelMeasure</value>
+   <datatype>string</datatype>
+  </attribute>
+  <attribute>
+   <name>Intended Software Tool</name>
+   <value>Apply Measure Now</value>
+   <datatype>string</datatype>
+  </attribute>
+  <attribute>
+   <name>Intended Software Tool</name>
+   <value>OpenStudio Application</value>
+   <datatype>string</datatype>
+  </attribute>
+  <attribute>
+   <name>Intended Software Tool</name>
+   <value>Parametric Analysis Tool</value>
+   <datatype>string</datatype>
+  </attribute>
+ </attributes>
+ <files>
+  <file>
+   <filename>os_report.rb</filename>
+   <filetype>rb</filetype>
+  </file>
+  <file>
+   <filename>output_variables_from_csv_test.rb</filename>
+   <filetype>rb</filetype>
+  </file>
+  <file>
+   <filename>example_model.osm</filename>
+   <filetype>osm</filetype>
+   <usage_type>test</usage_type>
+   <checksum>C4F35230</checksum>
+  </file>
+  <file>
+   <filename>output_variables.csv</filename>
+   <filetype>csv</filetype>
+   <usage_type>test</usage_type>
+   <checksum>C4F35230</checksum>
+  </file>
+  <file>
+   <filename>setup_example.png</filename>
+   <filetype>png</filetype>
+   <usage_type>test</usage_type>
+   <checksum>C4F35230</checksum>
+  </file>
+  <file>
+   <version>
+    <software_program>OpenStudio</software_program>
+    <identifier>1.11.0</identifier>
+    <min_compatible>1.8.0</min_compatible>
+   </version>
+   <filename>measure.rb</filename>
+   <filetype>rb</filetype>
+   <usage_type>script</usage_type>
+   <checksum>B4E96F41</checksum>
+  </file>
+ </files>
+</measure>
